@@ -2,7 +2,6 @@
 import React from 'react'
 
 import { homeIcon,homeSelectedIcon,calendarIcon,calendarSelectedIcon,cameraFocusIcon,cameraFocusSelectedIcon,userAvatarIcon,userAvatarSelectedIcon } from '@/constants/icons'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -37,7 +36,7 @@ function Footer() {
   const pathname = usePathname();
   const path = pathname.split("/");
   return (
-    <div className='flex items-center justify-around w-full h-[88px] border-t-[1px] border-[#999999] text-[#B2B2B2]'>
+    <div className='flex items-center justify-around w-full h-[88px] text-[#B2B2B2] shadow-[0px_-10px_20px_rgba(0,0,0,0.3)]'>
       {
         bottomTabs.map((tab,index)=>{
           return(

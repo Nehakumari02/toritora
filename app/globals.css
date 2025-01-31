@@ -2,20 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root{
+  --swiper-pagination-color: #2EC4B6;
+  --swiper-pagination-bullet-inactive-color: #FFFFFF;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-size: 6px;
+  --swiper-pagination-bullet-horizontal-gap: 6px;
 }
 
-@media (prefers-color-scheme: dark) {
+.swiper-pagination-bullet-active {
+  width: 12px !important;
+  border-radius: 10px !important;
+  transition: width 0.3s ease-in-out;
+}
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 35, 100%, 55%;
+    --primary-foreground: 35, 100%, 55%, 0.04;
+    --secondary: 174, 62%, 47%, 1;
+    --secondary-foreground: 35, 100%, 55%;
+    --muted: 174, 62%, 47%, 1;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 174, 62%, 47%, 1;
+    --accent-foreground: 35, 100%, 55%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 35, 100%, 55%, 0.04;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 35, 100%, 55%;
+  }
+
+  .dark:root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 35, 100%, 55%;
+    --primary-foreground: 35, 100%, 55%, 0.04;
+    --secondary: 174, 62%, 47%, 1;
+    --secondary-foreground: 35, 100%, 55%;
+    --muted: 174, 62%, 47%, 1;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 174, 62%, 47%, 1;
+    --accent-foreground: 35, 100%, 55%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 35, 100%, 55%, 0.04;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 35, 100%, 55%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
 }

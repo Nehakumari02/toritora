@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react'
 
 import { backIcon, emailIcon, eyeBlockedIcon, greenTickIcon, lockIcon, redCircleIcon } from '@/constants/icons'
 import { useRouter } from 'next/navigation'
+import OtpInput from '@/components/otpInput';
 
 function Register() {
   const router = useRouter();
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [confirmPassword,setConfirmPassword] = useState("");
+  const [otp,setOtp] = useState("");
+
+  const [timeRemaining,setTimeRemaining] = useState(120);
 
   const [verificationCodeSent,setVerificationCodeSent] = useState(false);
   
@@ -49,9 +53,42 @@ function Register() {
     setVerificationCodeSent(true);
   }
 
+  useEffect(() => {
+    if (verificationCodeSent && timeRemaining > 0) {
+      const timer = setTimeout(() => setTimeRemaining(timeRemaining - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [verificationCodeSent, timeRemaining]);
+
   const handleVerifyCode = async ()=>{
-    setVerificationCodeSent(false);
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({username:"user",password:"password"}),
+    });
+    console.log(otp)
+
+    const data = await res.json();
+
+    if(res.status === 200){
+      router.replace("/registerProfile")
+    }
+
+    console.log(data)
   }
+
+  const resendCode = async ()=>{
+    setTimeRemaining(120);
+  }
+
+  const formatTime = (seconds:number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+  
 
   return (
     <div className='h-[100dvh] flex flex-col'>
@@ -123,13 +160,18 @@ function Register() {
           <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Enter the verification code that we have sent to your registered email ID.</p>
         </div>
 
-        <div>
+        <div className='space-y-4'>
           <span className='text-[20px] leading-[30px] font-semibold text-[#111111]'>Code</span>
-
+          <OtpInput length={6} onChangeOtp={setOtp} />
         </div>
 
         <div className='py-4 w-full flex-col flex items-center justify-center'>
-        <button onClick={handleVerifyCode} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Verify Code</button>
+          <button onClick={handleVerifyCode} className='w-[80%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Verify Code</button>
+        </div>
+
+        <div className='flex flex-row items-center justify-between'>
+          <span className='text-[16px] leading-[24px] font-normal text-[#333333]'>Time Remaining : {formatTime(timeRemaining)}</span>
+          <button disabled={timeRemaining !==  0 } onClick={resendCode} className='text-[16px] leading-[24px] font-normal text-[#BDBCBC] underline'>Resend Code?</button>
         </div>
 
       </div>

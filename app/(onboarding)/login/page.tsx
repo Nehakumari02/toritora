@@ -5,11 +5,20 @@ import { backIcon, eyeBlockedIcon, lockIcon, userIcon } from '@/constants/icons'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import axios from 'axios';
-import { useGoogleLogin } from '@react-oauth/google';
+import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 
 import googleIcon from '@/public/images/onboard/google.png'
 import { useToast } from '@/hooks/use-toast';
+
+type AuthResult = {
+  code: string;
+  state?: string;
+  clientId?: string;
+  error?: string;  // Present in case of an error
+};
+
+type ErrorResponse = Pick<CodeResponse, "error" | "error_description" | "error_uri">;
 
 function Login() {
   const router = useRouter();
@@ -40,37 +49,46 @@ function Login() {
     console.log(data)
   }
 
-  const responseGoogle = async (authResult:any)=>{
+  const responseGoogle = async (authResult: AuthResult | ErrorResponse) => {
     try {
-      console.log(authResult)
-      const code = authResult['code']
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signin?code=${code}`, {}, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        withCredentials: true
-      });
-      if(res.status === 200){
-        router.push("/");
-        toast({
-          title: "Login Success",
-          variant: "success"
-        })
-      }
-      else if(res.status === 204){
+      if ('code' in authResult) {
+        // Handle success case (has 'code')
+        const code = authResult.code;
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}`,
+          {},
+          {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            withCredentials: true,
+          }
+        );
+        if(res.status === 200){
+          router.push("/");
+          toast({
+            title: "Login Success",
+            variant: "success"
+          })
+        }
+        else if(res.status === 204){
+          toast({
+            title: "Error",
+            description: "No user found with this email",
+            variant: "destructive"
+          })
+        }
+      } else {
+        // Handle error case (does not have 'code')
+        console.error("Error during Google login:", authResult.error_description);
         toast({
           title: "Error",
-          description: "No user found with this email",
-          variant: "destructive"
-        })
-      }
-    } catch (error:any) {
-      console.error("Error while signing in: ",error)
-        toast({
-          title: "Server Error",
-          description: "Something went wrong",
-          variant: "destructive"
+          description: authResult.error_description || "An unknown error occurred.",
+          variant: "destructive",
         });
+      }
+    } catch (error) {
+      console.error('Error while signing up: ', error);
     }
-  }
+  };
   
   const googleLogin = useGoogleLogin({
     onSuccess: responseGoogle,

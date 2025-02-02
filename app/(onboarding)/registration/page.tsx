@@ -5,13 +5,21 @@ import { backIcon, emailIcon, eyeBlockedIcon, greenTickIcon, lockIcon, redCircle
 import { useRouter } from 'next/navigation'
 import OtpInput from '@/components/otpInput';
 
-import {useGoogleLogin} from '@react-oauth/google';
+import {CodeResponse, useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 
 import googleIcon from '@/public/images/onboard/google.png'
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-import { Description } from '@radix-ui/react-toast';
+
+type AuthResult = {
+  code: string;
+  state?: string;
+  clientId?: string;
+  error?: string;  // Present in case of an error
+};
+
+type ErrorResponse = Pick<CodeResponse, "error" | "error_description" | "error_uri">;
 
 function Register() {
   const router = useRouter();
@@ -98,34 +106,47 @@ function Register() {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const responseGoogle = async (authResult:any)=>{
+  const responseGoogle = async (authResult: AuthResult | ErrorResponse) => {
     try {
-      console.log(authResult)
-      const code = authResult['code']
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}`, {}, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        withCredentials: true
-      });
-      if(res.status === 204){
-        router.push("/");
+      if ('code' in authResult) {
+        // Handle success case (has 'code')
+        const code = authResult.code;
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}`,
+          {},
+          {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            withCredentials: true,
+          }
+        );
+        if (res.status === 204) {
+          router.push('/');
+          toast({
+            title: 'Login Success',
+            description: 'User already exists, redirecting to homepage',
+            variant: 'success',
+          });
+        } else if (res.status === 200) {
+          router.push('/registerProfile');
+          toast({
+            title: 'Signup Success',
+            description: 'User registered successfully',
+            variant: 'success',
+          });
+        }
+      } else {
+        // Handle error case (does not have 'code')
+        console.error("Error during Google login:", authResult.error_description);
         toast({
-          title: "Login Success",
-          description: "User already exists, redirecting to homepage",
-          variant: "success"
-        })
-      }
-      else if(res.status === 200){
-        router.push("/registerProfile");
-        toast({
-          title: "Signup Success",
-          description: "User registered successfully",
-          variant: "success"
-        })
+          title: "Error",
+          description: authResult.error_description || "An unknown error occurred.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
-      console.error("Error while signing up: ",error)
+      console.error('Error while signing up: ', error);
     }
-  }
+  };
   
   const googleLogin = useGoogleLogin({
     onSuccess: responseGoogle,

@@ -5,8 +5,17 @@ import { backIcon, emailIcon, eyeBlockedIcon, greenTickIcon, lockIcon, redCircle
 import { useRouter } from 'next/navigation'
 import OtpInput from '@/components/otpInput';
 
+import {useGoogleLogin} from '@react-oauth/google';
+import axios from 'axios';
+
+import googleIcon from '@/public/images/onboard/google.png'
+import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
+import { Description } from '@radix-ui/react-toast';
+
 function Register() {
   const router = useRouter();
+  const { toast } = useToast();
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [confirmPassword,setConfirmPassword] = useState("");
@@ -88,7 +97,41 @@ function Register() {
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
+
+  const responseGoogle = async (authResult:any)=>{
+    try {
+      console.log(authResult)
+      const code = authResult['code']
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}`, {}, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        withCredentials: true
+      });
+      if(res.status === 204){
+        router.push("/");
+        toast({
+          title: "Login Success",
+          description: "User already exists, redirecting to homepage",
+          variant: "success"
+        })
+      }
+      else if(res.status === 200){
+        router.push("/registerProfile");
+        toast({
+          title: "Signup Success",
+          description: "User registered successfully",
+          variant: "success"
+        })
+      }
+    } catch (error) {
+      console.error("Error while signing up: ",error)
+    }
+  }
   
+  const googleLogin = useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: responseGoogle,
+    flow: 'auth-code'
+  });
 
   return (
     <div className='h-[100dvh] flex flex-col'>
@@ -146,8 +189,9 @@ function Register() {
 
         </div>
 
-        <div className='flex-1 py-4 w-full flex-col flex items-center justify-center'>
+        <div className='flex-1 py-4 w-full flex-col gap-4 flex items-center justify-center pb-4'>
         <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Submit</button>
+        <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' /> Sign up with Google</button>
         </div>
 
       </div>

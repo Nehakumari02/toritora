@@ -4,9 +4,16 @@ import React, { useState } from 'react'
 import { backIcon, eyeBlockedIcon, lockIcon, userIcon } from '@/constants/icons'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
+import axios from 'axios';
+import { useGoogleLogin } from '@react-oauth/google';
+import Image from 'next/image';
+
+import googleIcon from '@/public/images/onboard/google.png'
+import { useToast } from '@/hooks/use-toast';
 
 function Login() {
   const router = useRouter();
+  const { toast } = useToast();
   const [rememberMe,setRememberMe] = useState(false);
   const [username,setUsername] = useState("");
   const [password,setPassword] = useState("");
@@ -32,6 +39,44 @@ function Login() {
 
     console.log(data)
   }
+
+  const responseGoogle = async (authResult:any)=>{
+    try {
+      console.log(authResult)
+      const code = authResult['code']
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signin?code=${code}`, {}, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        withCredentials: true
+      });
+      if(res.status === 200){
+        router.push("/");
+        toast({
+          title: "Login Success",
+          variant: "success"
+        })
+      }
+      else if(res.status === 204){
+        toast({
+          title: "Error",
+          description: "No user found with this email",
+          variant: "destructive"
+        })
+      }
+    } catch (error:any) {
+      console.error("Error while signing in: ",error)
+        toast({
+          title: "Server Error",
+          description: "Something went wrong",
+          variant: "destructive"
+        });
+    }
+  }
+  
+  const googleLogin = useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: responseGoogle,
+    flow: 'auth-code'
+  });
 
   return (
     <div className='h-[100dvh] flex flex-col'>
@@ -84,8 +129,9 @@ function Login() {
 
         </div>
 
-        <div className='flex-1 w-full flex-col flex items-center justify-center pt-16'>
+        <div className='flex-1 w-full flex-col gap-4 flex items-center justify-center pt-16'>
           <button onClick={handleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>LOGIN</button>
+          <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' />Login with Google</button>
         </div>
 
       </div>

@@ -32,13 +32,17 @@ function Login() {
   }
 
   const handleLogin = async ()=>{
-    const res = await fetch('/api/login', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        
       },
-      body: JSON.stringify({username,password}),
+      credentials:"include",
+      body: JSON.stringify({email:username,password}),
     });
+
+    // if(res.status === )
 
     const data = await res.json();
 
@@ -55,7 +59,7 @@ function Login() {
         // Handle success case (has 'code')
         const code = authResult.code;
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signin?code=${code}`,
           {},
           {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

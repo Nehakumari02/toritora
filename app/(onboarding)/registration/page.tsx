@@ -78,12 +78,13 @@ function Register() {
   }, [verificationCodeSent, timeRemaining]);
 
   const handleVerifyCode = async ()=>{
-    const res = await fetch('/api/login', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({username:"user",password:"password"}),
+      credentials:"include",
+      body: JSON.stringify({email,password}),
     });
     console.log(otp)
 

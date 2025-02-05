@@ -4,6 +4,7 @@ const publicPages = [
   '/onboard',
   '/login',
   '/registration',
+  '/',
 ];
 
 export async function middleware(req: NextRequest) {
@@ -25,6 +26,9 @@ export async function middleware(req: NextRequest) {
   // If the user is logged in (has a token), prevent them from going to public pages
   if (token) {
     // Check if the user is trying to access a public page (login, signup, onboard)
+    if(pathname === '/'){
+      return NextResponse.next();
+    }
     if (publicPathnameRegex.test(pathname)) {
       console.log("User already logged in. Redirecting to /dashboard or another page.");
       return NextResponse.redirect(new URL('/', req.nextUrl.origin)); // Redirect to dashboard (or home)

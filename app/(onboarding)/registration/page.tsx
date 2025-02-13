@@ -92,6 +92,7 @@ function Register() {
 
     if(res.status === 200){
       router.replace("/registerProfile")
+      
     }
 
     console.log(data)

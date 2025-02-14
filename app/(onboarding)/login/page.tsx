@@ -80,6 +80,13 @@ function Login() {
             variant: "destructive"
           })
         }
+        else if(res.status === 203){
+          toast({
+            title: "Error",
+            description: "Kindly login with credentials",
+            variant: "destructive"
+          })
+        }
       } else {
         // Handle error case (does not have 'code')
         console.error("Error during Google login:", authResult.error_description);

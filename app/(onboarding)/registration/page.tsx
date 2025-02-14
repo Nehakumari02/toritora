@@ -67,7 +67,41 @@ function Register() {
   }
 
   const handleSubmit = async ()=>{
-    setVerificationCodeSent(true);
+    console.log("Inside handle submit function")
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/email/verificationCode`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials:"include",
+      body: JSON.stringify({email}),
+    });
+
+    if(res.status === 200){
+      toast({
+        title: "Success",
+        description: `Verification code has been sent to ${email}`,
+        variant: "success"
+      })
+      setVerificationCodeSent(true);
+    }
+
+    else if(res.status === 500){
+      toast({
+        title: "Internal error",
+        description: `Server internal error please try after again`,
+        variant: "destructive"
+      })
+    }
+
+    else if(res.status === 204){
+      toast({
+        title: "Error",
+        description: `${email} is already registered`,
+        variant: "destructive"
+      })
+    }
+    
   }
 
   useEffect(() => {
@@ -84,21 +118,35 @@ function Register() {
         'Content-Type': 'application/json',
       },
       credentials:"include",
-      body: JSON.stringify({email,password}),
+      body: JSON.stringify({email,password,otp}),
     });
     console.log(otp)
 
     const data = await res.json();
 
     if(res.status === 200){
+        toast({
+          title: "Success",
+          description: `Verification successful redirecting to registration page`,
+          variant: "success"
+        })
       router.replace("/registerProfile")
       
+    }
+
+    else if(res.status === 400){
+      toast({
+        title: "Error",
+        description: `Verification code doesn't match`,
+        variant: "destructive"
+      })
     }
 
     console.log(data)
   }
 
   const resendCode = async ()=>{
+    handleSubmit();
     setTimeRemaining(120);
   }
 
@@ -128,7 +176,16 @@ function Register() {
             description: 'User already exists, redirecting to homepage',
             variant: 'success',
           });
-        } else if (res.status === 200) {
+        }
+        else if (res.status === 205) {
+          router.push('/');
+          toast({
+            title: 'Login Error',
+            description: 'User exists, Kindly login with credentials',
+            variant: 'destructive',
+          });
+        } 
+        else if (res.status === 200) {
           router.push('/registerProfile');
           toast({
             title: 'Signup Success',

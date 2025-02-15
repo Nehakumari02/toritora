@@ -1,7 +1,7 @@
 "use client"
 import { backIcon } from '@/constants/icons';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { FaCheckCircle } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import { Upload, XCircle, PlusCircle, Plus, X } from 'lucide-react';
@@ -60,12 +60,12 @@ function RegistrationInfo() {
     setSubPhotos(updatedPhotos);
   };
 
-  const infoStepToWidth: { [key: number]: string } = {
+  const infoStepToWidth: { [key: number]: string } = useMemo(() => ({
     1: "13",
     2: "38",
     3: "63",
     4: "100"
-  }
+  }), []);
 
   const handleGoBack = () => {
     router.back();

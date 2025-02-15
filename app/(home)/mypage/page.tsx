@@ -26,12 +26,12 @@ function MyPage() {
 
   return (
     <div className='flex flex-col h-full'>
-      <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
+      <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
         <span className="text-[16px] leading-[24px] text-center font-semibold">My Page</span>
       </header>
 
       <div className='bg-[#f8fcfd] p-4 py-6 overflow-y-scroll flex-1 no-scrollbar'>
-        <div className='h-[120px] bg-white rounded-lg shadow-md flex items-center justify-between gap-4 px-4'>
+        <div className='h-[120px] bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
           <div className='h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
             <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
           </div>
@@ -40,26 +40,26 @@ function MyPage() {
               <span className='font-semibold text-[16px] leading-[24px] text-[#111111]'>Himari Sakura</span>
               <span className='font-medium text-[10px] leading-[15px] text-[#999999]'>Username here</span>
             </div>
-            <button className='bg-[#FF9F1C] px-8 py-2 rounded-md text-white font-medium text-[10px] leading-[15px]'>
+            <button onClick={()=>handleGoToLink("/profile")} className='bg-[#FF9F1C] px-8 py-2 rounded-md text-white font-medium text-[10px] leading-[15px]'>
               View
             </button>
           </div>
         </div>
 
         <div className='flex flex-row items-center justify-center flex-wrap gap-4 px-2 py-6'>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-md'>
+          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {cameraIcon}
             <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Shooting request list</span>
           </button>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-md'>
+          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {smileIcon}
             <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Toritai Toraretai</span>
           </button>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-md'>
+          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {starIcon}
             <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>My Favourites</span>
           </button>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-md'>
+          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {fileIcon}
             <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Toritora college</span>
           </button>
@@ -67,7 +67,7 @@ function MyPage() {
 
         <div className='space-y-4'>
           <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>Other Settings</span>
-          <div className='flex flex-col items-center justify-center gap-6 p-4 bg-white rounded-lg shadow-md'>
+          <div className='flex flex-col items-center justify-center gap-6 p-4 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {otherSettings.map((item,index)=>{
               return(
                 <button className='w-full h-8 flex items-center justify-between' key={index} onClick={()=>handleGoToLink(item.link)}>
@@ -158,5 +158,10 @@ const otherSettings = [
     name:"Give Feedback",
     link:"/feedback",
     icon:feedbackIcon
+  },
+  {
+    name:"Terms of use",
+    link:"/terms-of-use",
+    icon:fileIcon
   },
 ]

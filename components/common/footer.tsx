@@ -36,7 +36,7 @@ function Footer() {
   const pathname = usePathname();
   const path = pathname.split("/");
   return (
-    <div className='flex items-center justify-around w-full h-[88px] text-[#B2B2B2] shadow-[0px_-10px_20px_rgba(0,0,0,0.3)]'>
+    <div className='flex items-center justify-around w-full h-[88px] text-[#B2B2B2] shadow-[0px_-5px_20px_rgba(0,0,0,0.1)]'>
       {
         bottomTabs.map((tab,index)=>{
           return(

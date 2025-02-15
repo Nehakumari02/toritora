@@ -42,8 +42,6 @@ function Login() {
       body: JSON.stringify({email:username,password}),
     });
 
-    // if(res.status === )
-
     const data = await res.json();
 
     if(res.status === 200){

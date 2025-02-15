@@ -26,8 +26,7 @@ import {
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { useEffect, useState } from 'react'
 import {cn} from '@/lib/utils'
-import { backIcon, locationIcon } from '@/constants/icons'
-import { useRouter } from 'next/navigation'
+import { locationIcon } from '@/constants/icons'
 
 interface MeetingProps {
   id: number;
@@ -86,7 +85,6 @@ const meetings: MeetingProps[] = [
 ]
 
 export default function Calendar() {
-  const router = useRouter();
   let today = startOfToday()
   let [selectedDay, setSelectedDay] = useState(today)
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
@@ -120,22 +118,15 @@ export default function Calendar() {
   <path d="M10.2495 17.75L14.9473 13.3132L10.2495 8.87637" stroke="#2EC4B6" strokeWidth="2.08791" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 
-  const handleGoBack = () => {
-    router.back();
-  }
-
   useEffect(() => {
     const todayMonth = format(today, 'MMM-yyyy');
     const isSameMonth = currentMonth === todayMonth;
     setPreviousMonthDisabled(isSameMonth);
-  }, [currentMonth]);
+  }, [today,currentMonth]);
 
   return (
     <>
     <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white">
-      <button onClick={handleGoBack} className="absolute top-[50%] translate-y-[-50%] left-4">
-        {backIcon}
-      </button>
       <span className="text-[16px] leading-[24px] text-center font-semibold">Calendar</span>
     </header>
     

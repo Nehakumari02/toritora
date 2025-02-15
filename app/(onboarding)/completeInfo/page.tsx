@@ -152,6 +152,13 @@ function RegistrationInfo() {
     website: '',
     selfIntroduction: '',
     photographyExperience: "", // New field for experience
+    twitter: "",
+    instagram: "",
+    height: "",
+    modellingExperiance: "",
+    images: [] as string[] // Changed from File[] to string[] for URLs
+
+
   });
 
 
@@ -165,6 +172,21 @@ function RegistrationInfo() {
       }));
     } else {
       setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+  const handleChangeFeedback = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+
+    if (type === "file") {
+      setFeedback((prevData) => ({
+        ...prevData,
+        [name]: (e.target as HTMLInputElement).files?.[0] || null,
+      }));
+    } else {
+      setFeedback((prevData) => ({
         ...prevData,
         [name]: value,
       }));
@@ -308,8 +330,13 @@ function RegistrationInfo() {
 
 
   useEffect(() => {
-    setProfession("photographer");
-  }, [])
+    const storedProfession = localStorage.getItem('userProfession');
+    if (storedProfession) {
+      setProfession(storedProfession);
+    } else {
+      setProfession("photographer"); // default value if not found in localStorage
+    }
+  }, []);
 
   return (
     <div className='h-[100dvh] flex flex-col'>
@@ -528,7 +555,7 @@ function RegistrationInfo() {
 
         }
 
-        {infoStep === 2 &&
+        {infoStep === 2 && profession === 'photographer' &&
           <div className="flex-1 space-y-4 w-full p-6">
             {/* User ID Field with Icon */}
             <div className="w-full max-w-md mx-auto">
@@ -591,7 +618,7 @@ function RegistrationInfo() {
               <button
                 type="button"
                 onClick={addAchievement}
-                className="absolute top-2 right-2 p-1  text-[#2EC4B6] rounded-full hover:bg-green-600"
+                className="absolute top-2 right-2 p-1  text-[#2EC4B6] rounded-full"
                 aria-label="Add Achievement"
               >
                 <div className='flex text-[12px] gap-1'>
@@ -649,7 +676,7 @@ function RegistrationInfo() {
         }
 
 
-        {infoStep === 2 && profession === 'model' &&
+        {infoStep === 2 && profession === 'modelling' &&
           <div className="flex-1 space-y-4 w-full p-6">
             {/* User ID Field with Icon */}
             <div className="w-full max-w-md mx-auto">
@@ -713,15 +740,15 @@ function RegistrationInfo() {
             <label className="block text-sm">Height (in cms)</label>
             <input
               type="text"
-              name="cameraType"
+              name="height"
               placeholder="Enter Value"
-              value={formData1.cameraType}
+              value={formData1.height}
               onChange={handleChange1}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition"
             />
             {/* New Field for Photography Experience */}
             <label className="block text-sm">Modeling Experience (Years)</label>
-            <input type="number" name="photographyExperience" placeholder="Enter value" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
+            <input type="number" name="modellingExperiance" placeholder="Enter value" value={formData1.modellingExperiance} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
               <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 </h2>
@@ -786,9 +813,9 @@ function RegistrationInfo() {
               <Image src={instagram} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="text"
-                name="username"
+                name="instagram"
                 placeholder="https://www.instagram.com/yourusername"
-                value={formData1.username}
+                value={formData1.instagram}
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px]"
               />
@@ -799,9 +826,9 @@ function RegistrationInfo() {
               <Image src={twitter} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="text"
-                name="username"
+                name="twitter"
                 placeholder="https://twitter.com/yourusername"
-                value={formData1.username}
+                value={formData1.twitter}
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px]"
               />
@@ -940,7 +967,7 @@ function RegistrationInfo() {
             <textarea
               name="importantThing"
               value={feedback.importantThing}
-              onChange={handleChange}
+              onChange={handleChangeFeedback}
               placeholder="Write your answer here..."
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
@@ -951,7 +978,7 @@ function RegistrationInfo() {
             <textarea
               name="stress"
               value={feedback.stress}
-              onChange={handleChange}
+              onChange={handleChangeFeedback}
               placeholder="Write your answer here..."
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
@@ -962,7 +989,7 @@ function RegistrationInfo() {
             <textarea
               name="assistanceWithModels"
               value={feedback.assistanceWithModels}
-              onChange={handleChange}
+              onChange={handleChangeFeedback}
               placeholder="Write your answer here..."
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
@@ -973,7 +1000,7 @@ function RegistrationInfo() {
             <textarea
               name="hobbies"
               value={feedback.hobbies}
-              onChange={handleChange}
+              onChange={handleChangeFeedback}
               placeholder="Write your answer here..."
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}

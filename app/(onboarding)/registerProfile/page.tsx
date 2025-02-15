@@ -30,7 +30,9 @@ function RegistrationInfo() {
     router.back();
   }
 
+
   const handleProceed = async () => {
+    localStorage.setItem('userProfession', profession);
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/registration/userProfession`, {
       method: 'POST',
       headers: {

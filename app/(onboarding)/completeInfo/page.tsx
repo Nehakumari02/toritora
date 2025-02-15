@@ -42,6 +42,8 @@ function RegistrationInfo() {
   const { toast } = useToast();
 
   const [subPhotos, setSubPhotos] = useState<File[]>([]);
+  const [uploadStatus, setUploadStatus] = useState('');
+
 
 
   const handleFileChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,8 +59,6 @@ function RegistrationInfo() {
     const updatedPhotos = subPhotos.filter((_, i) => i !== index);
     setSubPhotos(updatedPhotos);
   };
-
-
 
   const infoStepToWidth: { [key: number]: string } = {
     1: "13",
@@ -84,6 +84,9 @@ function RegistrationInfo() {
   }
 
   const handleSubmit = async () => {
+    if (!validateForms()) return;
+
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/registration/userDetails`, {
       method: 'POST',
       headers: {
@@ -140,7 +143,7 @@ function RegistrationInfo() {
   });
 
   const [formData1, setFormData1] = useState({
-    profilePicture: null,
+    profilePicture: null as File | null,
     userId: '',
     username: '',
     genres: '',
@@ -152,13 +155,11 @@ function RegistrationInfo() {
     website: '',
     selfIntroduction: '',
     photographyExperience: "", // New field for experience
-    twitter: "",
-    instagram: "",
     height: "",
     modellingExperiance: "",
+    instagram: "",
+    twitter: "",
     images: [] as string[] // Changed from File[] to string[] for URLs
-
-
   });
 
 
@@ -222,6 +223,70 @@ function RegistrationInfo() {
   };
 
 
+  const validateForms = () => {
+    const profession1 = localStorage.getItem('userProfession') || 'photographer'; // Default to 'photographer' or handle appropriately
+
+    const excludedFields: Record<string, string[]> = {
+      photographer: ["modellingExperience", "instagram", "twitter"],
+      modelling: [
+        "photographyExperience",
+        "cameraType",
+        "shootingPrice",
+        "transportationFee",
+        "snsUsername",
+        "website",
+        "selfIntroduction"
+      ]
+    };
+
+    // Validate formData fields
+    // Validate formData fields
+    for (const [key, value] of Object.entries(formData)) {
+      if (!value && key !== "age" && key !== "username") {
+        toast({
+          title: "Error",
+          description: `Please fill the ${key} field`,
+          variant: "destructive"
+        });
+        return false;
+      }
+    }
+
+    // Validate formData1 fields
+    for (const [key, value] of Object.entries(formData1)) {
+      if (
+        !value &&
+        key !== "images" &&
+        key !== "achievements" && // Correct exclusion here
+        !excludedFields[profession1]?.includes(key)
+      ) {
+        toast({
+          title: "Error",
+          description: `Please fill the ${key} field`,
+          variant: "destructive"
+        });
+        return false;
+      }
+    }
+
+
+    // Validate formData1 fields
+    const excluded = excludedFields[profession1] || [];
+    for (const [key, value] of Object.entries(formData1)) {
+      if (!value && key !== "images" && !excluded.includes(key)) {
+        toast({
+          title: "Error",
+          description: `Please fill the ${key} field`,
+          variant: "destructive"
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+
 
 
   const [mobile, setMobile] = useState('');
@@ -267,8 +332,23 @@ function RegistrationInfo() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    console.log(uploadStatus)
+
     if (e.target.files && e.target.files.length > 0) {
       setIdProof(e.target.files[0]);
+    }
+
+  };
+
+  const handleFileChangeProfilePicture = () => {
+    const file = fileInputRef.current?.files?.[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+      setFormData1({
+        ...formData1,
+        profilePicture: file,
+      });
     }
   };
 
@@ -280,7 +360,9 @@ function RegistrationInfo() {
     setConsent2(!consent2);
   };
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  //const fileInputRef1 = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState(null);
 
   // const handleFileChange = (event) => {
@@ -324,10 +406,6 @@ function RegistrationInfo() {
     // Logic to verify OTP for mobile number
     setMobileVerified(true);
   };
-
-
-
-
 
   useEffect(() => {
     const storedProfession = localStorage.getItem('userProfession');
@@ -387,13 +465,11 @@ function RegistrationInfo() {
 
         <div className='flex-1 space-y-4'>
 
-
-
         </div>
         {infoStep === 1 &&
           <div className='flex-1 space-y-4 w-full p-6'>
             {/* First Name */}
-            <label className='block text-sm'>First Name</label>
+            <label className='block text-sm'>First Name <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='user' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -407,7 +483,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Last Name */}
-            <label className='block text-sm'>Last Name</label>
+            <label className='block text-sm'>Last Name <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='user' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -421,7 +497,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Date of Birth */}
-            <label className='block text-sm'>Date of Birth</label>
+            <label className='block text-sm'>Date of Birth <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={calendar} alt='calendar' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -448,7 +524,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Gender */}
-            <label className='block text-sm'>Gender</label>
+            <label className='block text-sm'>Gender <span className="text-red-500">*</span></label>
             <div className="flex gap-4">
               <label className="text-sm flex items-center cursor-pointer">
                 <input
@@ -482,7 +558,7 @@ function RegistrationInfo() {
 
 
             {/* Mobile Number */}
-            <label className='block text-sm'>Mobile Number</label>
+            <label className='block text-sm'>Mobile Number <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={phone} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -524,7 +600,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Postal Code */}
-            <label className='block text-sm'>Postal Code</label>
+            <label className='block text-sm'>Postal Code <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -538,7 +614,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Address */}
-            <label className='block text-sm'>Address</label>
+            <label className='block text-sm'>Address <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={location} alt='location' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -559,29 +635,38 @@ function RegistrationInfo() {
           <div className="flex-1 space-y-4 w-full p-6">
             {/* User ID Field with Icon */}
             <div className="w-full max-w-md mx-auto">
-              {/* Label with Drive Icon in Gray Circle */}
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <div className='flex flex-col gap-2'>
-                  <div className='text-[16px] font-500 '>
-                    Profile Picture
-                  </div>
-                  <div className='text-[12px] font-400 ' >
-                    This will be displayed on your profile
-                  </div>
+                <div className="flex flex-col gap-2">
+                  <div className="text-[16px] font-medium">Profile Picture <span className="text-red-500">*</span></div>
+                  <div className="text-[12px] font-normal">This will be displayed on your profile</div>
                 </div>
 
-                <div className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
-                  <Image
-                    src={drive}
-                    alt="Drive Icon"
-                    className="w-5 h-5 object-contain"
-                  />
+                {/* Clickable Circle */}
+                <div
+                  className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center cursor-pointer"
+                  onDragOver={handleDragOver}
+                  onDrop={handleFileDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Image src={drive} alt="Drive Icon" className="w-5 h-5 object-contain" />
                 </div>
+
+                {/* Hidden File Input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  onChange={handleFileChangeProfilePicture}
+                />
+                {formData1.profilePicture && (
+
+                  <p className="text-green-600 text-[10px] text-center mt-2">file uploaded</p>
+                )}
               </label>
             </div>
 
             {/* Username Field with Icon */}
-            <label className="block text-sm">Username</label>
+            <label className="block text-sm">Username <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -594,7 +679,21 @@ function RegistrationInfo() {
               />
             </div>
 
-            <label className="block text-sm">Genres You Are Good At</label>
+            <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="userId"
+                placeholder="UserId"
+                value={formData1.userId}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px]"
+              />
+            </div>
+
+
+            <label className="block text-sm">Genres You Are Good At <span className="text-red-500">*</span></label>
             <select
               name="genres"
               value={formData1.genres}
@@ -641,7 +740,7 @@ function RegistrationInfo() {
                     <button
                       type="button"
                       onClick={() => removeAchievement(index)}
-                      className="p-2 bg-red-500 text-white rounded hover:bg-red-600 text-[12px]"
+                      className="p-2 bg-[#FF9F1C] text-white rounded hover:bg-red-600 text-[12px]"
                       aria-label="Remove Achievement"
                     >
                       <X size={12} />
@@ -654,13 +753,13 @@ function RegistrationInfo() {
             <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">Photography Experience (Years)</label>
+            <label className="block text-sm">Photography Experience (Years) <span className="text-red-500">*</span></label>
             <input type="number" name="photographyExperience" placeholder="Enter years of experience" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Shooting Price Per Hour</label>
+            <label className="block text-sm">Shooting Price Per Hour <span className="text-red-500">*</span></label>
             <input type="number" name="shootingPrice" placeholder="Price per hour" value={formData1.shootingPrice} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Transportation Fee</label>
+            <label className="block text-sm">Transportation Fee <span className="text-red-500">*</span></label>
             <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">SNS Username</label>
@@ -684,7 +783,7 @@ function RegistrationInfo() {
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <div className='flex flex-col gap-2'>
                   <div className='text-[16px] font-500 '>
-                    Profile Picture
+                    Profile Picture <span className="text-red-500">*</span>
                   </div>
                   <div className='text-[12px] font-400 ' >
                     This will be displayed on your profile
@@ -697,14 +796,26 @@ function RegistrationInfo() {
                     alt="Drive Icon"
                     className="w-5 h-5 object-contain"
                   />
+
                 </div>
+                {/* Hidden File Input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  onChange={handleFileChangeProfilePicture}
+                />
+                {formData1.profilePicture && (
+
+                  <p className="text-green-600 text-[10px] text-center mt-2">file uploaded</p>
+                )}
               </label>
             </div>
 
 
 
             {/* Username Field with Icon */}
-            <label className="block text-sm">Username</label>
+            <label className="block text-sm">Username <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -717,12 +828,25 @@ function RegistrationInfo() {
               />
             </div>
 
-            <label className="block text-sm">Genres You Are Good At</label>
+            <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="userId"
+                placeholder="UserId"
+                value={formData1.userId}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px]"
+              />
+            </div>
+
+            <label className="block text-sm">Genres You Are Good At <span className="text-red-500">*</span></label>
             <select
               name="genres"
               value={formData1.genres}
               onChange={handleChange1}
-              className="w-full p-2 border rounded text-[12px]"
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
             >
               <option value="">Preety</option>
               <option value="Portrait">Cute</option>
@@ -733,25 +857,55 @@ function RegistrationInfo() {
               <option value="Event">Dark</option>
               <option value="Product">Others</option>
             </select>
+            <div className="relative border border-gray-300 rounded p-4">
+              <label className="block text-sm mb-4">Achievements</label>
 
-            <label className="block text-sm">Achievements</label>
-            <textarea name="achievements" placeholder="Your achievements" value={formData1.achievements} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition"></textarea>
+              {/* Plus Icon in Top-Right Corner */}
+              <button
+                type="button"
+                onClick={addAchievement}
+                className="absolute top-2 right-2 p-1  text-[#2EC4B6] rounded-full"
+                aria-label="Add Achievement"
+              >
+                <div className='flex text-[12px] gap-1'>
+                  <Plus size={14} />
+                  <div>Add More</div>
+                </div>
+              </button>
 
-            <label className="block text-sm">Height (in cms)</label>
-            <input
-              type="text"
-              name="height"
-              placeholder="Enter Value"
-              value={formData1.height}
-              onChange={handleChange1}
-              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition"
-            />
+              {/* Achievement Inputs */}
+              {achievements.map((achievement, index) => (
+                <div key={index} className="flex items-center gap-2 mb-2">
+                  <input
+                    type="text"
+                    placeholder={`Achievement ${index + 1}`}
+                    value={achievement}
+                    onChange={(e) => handleChangeAch(index, e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+                  />
+                  {achievements.length > 2 && (
+                    <button
+                      type="button"
+                      onClick={() => removeAchievement(index)}
+                      className="p-2 bg-[#FF9F1C] text-white rounded hover:bg-red-600 text-[12px]"
+                      aria-label="Remove Achievement"
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <label className="block text-sm">Height (in cms) <span className="text-red-500">*</span></label>
+            <input type="number" name="height" placeholder="Enter value" value={formData1.height} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
+
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">Modeling Experience (Years)</label>
+            <label className="block text-sm">Modeling Experience (Years) <span className="text-red-500">*</span></label>
             <input type="number" name="modellingExperiance" placeholder="Enter value" value={formData1.modellingExperiance} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
-              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 </h2>
+              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500">*</span> </h2>
               <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
               {/* Add More Button at Top Right */}
               {subPhotos.length < 5 && (
@@ -808,7 +962,7 @@ function RegistrationInfo() {
             </div>
 
 
-            <label className="block text-[14px]">Instagram Username</label>
+            <label className="block text-[14px]">Instagram Username <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={instagram} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -862,10 +1016,8 @@ function RegistrationInfo() {
 
             </div>
 
-
-
             {/* Mobile Number Verification */}
-            <label className="block text-sm">Mobile Number</label>
+            <label className="block text-sm">Mobile Number <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-1">
               <Image src={phone} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -903,13 +1055,13 @@ function RegistrationInfo() {
 
             <div className="w-[332px] h-[162px] max-w-md mx-auto mb-8 mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
-                ID Proof
+                ID Proof <span className="text-red-500">*</span>
               </label>
               <div
                 className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
                 onDragOver={handleDragOver} // Corrected event handler
                 onDrop={handleFileDrop}
-              //onClick={() => fileInputRef.current.click()}
+                onClick={() => fileInputRef.current?.click()}
               >
                 {/* Placeholder image */}
                 <Image
@@ -917,7 +1069,12 @@ function RegistrationInfo() {
                   alt="Upload Icon"
                   className="w-[60px] h-[40px] object-cover mb-3"
                 />
-                <p className="text-gray-500 text-[10px]">It may contains Driver’s license, National id or any ID Proof</p>
+                {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver’s license, National id or any ID Proof</p>
+                )}
+                {idProof && (
+
+                  <p className="text-green-600 text-sm text-center mt-2">file uploaded sucessfully</p>
+                )}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -925,14 +1082,11 @@ function RegistrationInfo() {
                   className="hidden"
                 />
               </div>
-
+              {/* Upload status message */}
 
             </div>
-
-            <div className='text-[12px] mt-2 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
+            <div className='text-[12px] mt-4 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
             </div>
-
-
             {/* Consent Checkboxes */}
             <div className="flex gap-4 mt-4">
               <label className="text-[12px] font-400 flex items-center">

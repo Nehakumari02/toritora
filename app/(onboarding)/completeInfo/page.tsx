@@ -3,6 +3,8 @@ import { backIcon } from '@/constants/icons';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react'
 import { FaCheckCircle } from 'react-icons/fa';
+import { Button } from '@/components/ui/button';
+import { Upload, XCircle, PlusCircle, Plus } from 'lucide-react';
 
 
 import photographerBanner from '@/public/images/registration/infoBannerPhotography.jpeg'
@@ -16,6 +18,9 @@ import phone from '../../../public/images/photographer_reg/mobile.png'
 import user from '../../../public/images/photographer_reg/user.png'
 import gender1 from '../../../public/images/photographer_reg/gender.png'
 import password from '../../../public/images/photographer_reg/lock.png'
+import instagram from '../../../public/images/photographer_reg/instagram.png'
+import twitter from '../../../public/images/photographer_reg/twitter.png'
+import { useToast } from '@/hooks/use-toast';
 
 // import {
 //   Drawer,
@@ -34,6 +39,25 @@ function RegistrationInfo() {
   const router = useRouter();
   const [profession, setProfession] = useState<string>("photographer");
   const [infoStep, setInfoStep] = useState<number>(1);
+  const { toast } = useToast();
+
+  const [subPhotos, setSubPhotos] = useState<File[]>([]);
+
+
+  const handleFileChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    if (subPhotos.length + files.length > 5) {
+      alert('You can only upload up to 5 photos.');
+      return;
+    }
+    setSubPhotos([...subPhotos, ...files]);
+  };
+
+  const removePhoto = (index: number) => {
+    const updatedPhotos = subPhotos.filter((_, i) => i !== index);
+    setSubPhotos(updatedPhotos);
+  };
+
 
 
   const infoStepToWidth: { [key: number]: string } = {
@@ -59,7 +83,39 @@ function RegistrationInfo() {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/registration/userDetails`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        ...formData,
+        ...formData1,
+        ...feedback,
+        idProof,
+
+      }),
+
+    });
+
+    if (res.status === 200) {
+      toast({
+        title: "Success",
+        description: "User Details updated sucessfully",
+        variant: "success"
+      })
+      router.push('/')
+    }
+    else if (res.status === 500) {
+      toast({
+        title: "Internal error",
+        description: `Server internal error please try after again`,
+        variant: "destructive"
+      })
+    }
     console.log("submitting");
   }
 
@@ -76,7 +132,6 @@ function RegistrationInfo() {
     dateOfBirth: "",
     age: "",
     gender: "",
-    email: "",
     mobile: "",
     password: "",
     confirmPassword: "",
@@ -97,20 +152,7 @@ function RegistrationInfo() {
     website: '',
     selfIntroduction: '',
     photographyExperience: "", // New field for experience
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    age: '',
-    gender: '',
-    email: '',
-    mobile: '',
-    password: '',
-    confirmPassword: '',
-    postalCode: '',
-    address: '',
   });
-
-
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -159,7 +201,7 @@ function RegistrationInfo() {
 
 
 
-  const [email, setEmail] = useState('');
+
   const [mobile, setMobile] = useState('');
   const [otpEmail, setOtpEmail] = useState('');
   const [otpMobile, setOtpMobile] = useState('');
@@ -170,9 +212,6 @@ function RegistrationInfo() {
   const [consent1, setConsent1] = useState(false);
   const [consent2, setConsent2] = useState(false);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
 
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMobile(e.target.value);
@@ -317,7 +356,7 @@ function RegistrationInfo() {
                 placeholder='First Name'
                 value={formData.firstName}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -331,7 +370,7 @@ function RegistrationInfo() {
                 placeholder='Last Name'
                 value={formData.lastName}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -344,7 +383,7 @@ function RegistrationInfo() {
                 name='dateOfBirth'
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -358,7 +397,7 @@ function RegistrationInfo() {
                 placeholder='Age'
                 value={formData.age}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -372,7 +411,7 @@ function RegistrationInfo() {
                   value="Male"
                   checked={formData.gender === 'Male'}
                   onChange={handleChange}
-                  className="mr-1"
+                  className="mr-1 "
                 />
                 Male
               </label>
@@ -389,19 +428,6 @@ function RegistrationInfo() {
               </label>
             </div>
 
-            {/* Email */}
-            <label className='block text-sm'>Email</label>
-            <div className="flex items-center border rounded p-2">
-              <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
-              <input
-                type='email'
-                name='email'
-                placeholder='Email'
-                value={formData.email}
-                onChange={handleChange}
-                className='w-full outline-none'
-              />
-            </div>
 
             {/* Mobile Number */}
             <label className='block text-sm'>Mobile Number</label>
@@ -413,7 +439,7 @@ function RegistrationInfo() {
                 placeholder='Mobile Number'
                 value={formData.mobile}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -427,7 +453,7 @@ function RegistrationInfo() {
                 placeholder='Password'
                 value={formData.password}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -441,7 +467,7 @@ function RegistrationInfo() {
                 placeholder='Confirm Password'
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -455,7 +481,7 @@ function RegistrationInfo() {
                 placeholder='Postal Code'
                 value={formData.postalCode}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
 
@@ -469,7 +495,7 @@ function RegistrationInfo() {
                 placeholder='Address'
                 value={formData.address}
                 onChange={handleChange}
-                className='w-full outline-none'
+                className='w-full outline-none text-[12px]'
               />
             </div>
           </div>
@@ -479,35 +505,27 @@ function RegistrationInfo() {
 
         {infoStep === 2 &&
           <div className="flex-1 space-y-4 w-full p-6">
-
-
-
             {/* User ID Field with Icon */}
             <div className="w-full max-w-md mx-auto">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Profile Picture
-              </label>
-              <div
-                className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
-                onDragOver={handleDragOver} // Corrected event handler
-                onDrop={handleFileDrop}
-              //onClick={() => fileInputRef.current.click()}
-              >
-                {/* Placeholder image */}
-                <Image
-                  src={drive}
-                  alt="Upload Icon"
-                  className="w-[60px] h-[40px] object-cover mb-3"
-                />
-                <p className="text-gray-500 text-sm">This will be displayed on your profile</p>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </div>
+              {/* Label with Drive Icon in Gray Circle */}
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                <div className='flex flex-col gap-2'>
+                  <div className='text-[16px] font-500 '>
+                    Profile Picture
+                  </div>
+                  <div className='text-[12px] font-400 ' >
+                    This will be displayed on your profile
+                  </div>
+                </div>
 
+                <div className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
+                  <Image
+                    src={drive}
+                    alt="Drive Icon"
+                    className="w-5 h-5 object-contain"
+                  />
+                </div>
+              </label>
             </div>
 
             {/* Username Field with Icon */}
@@ -520,7 +538,7 @@ function RegistrationInfo() {
                 placeholder="Username"
                 value={formData1.username}
                 onChange={handleChange1}
-                className="w-full outline-none"
+                className="w-full outline-none text-[12px]"
               />
             </div>
 
@@ -529,7 +547,7 @@ function RegistrationInfo() {
               name="genres"
               value={formData1.genres}
               onChange={handleChange1}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
             >
               <option value="">Select Genres</option>
               <option value="Portrait">Portrait</option>
@@ -542,29 +560,192 @@ function RegistrationInfo() {
             </select>
 
             <label className="block text-sm">Achievements</label>
-            <textarea name="achievements" placeholder="Your achievements" value={formData1.achievements} onChange={handleChange1} className="w-full p-2 border rounded"></textarea>
+            <textarea name="achievements" placeholder="Your achievements" value={formData1.achievements} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+            ></textarea>
 
             <label className="block text-sm">Camera Type</label>
-            <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border rounded" />
+            <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
             <label className="block text-sm">Photography Experience (Years)</label>
-            <input type="number" name="photographyExperience" placeholder="Enter years of experience" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border rounded" />
+            <input type="number" name="photographyExperience" placeholder="Enter years of experience" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">Shooting Price Per Hour</label>
-            <input type="number" name="shootingPrice" placeholder="Price per hour" value={formData1.shootingPrice} onChange={handleChange1} className="w-full p-2 border rounded" />
+            <input type="number" name="shootingPrice" placeholder="Price per hour" value={formData1.shootingPrice} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">Transportation Fee</label>
-            <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border rounded" />
+            <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">SNS Username</label>
-            <input type="text" name="snsUsername" placeholder="Instagram, Twitter, etc." value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border rounded" />
+            <input type="text" name="snsUsername" placeholder="Instagram, Twitter, etc." value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">Website</label>
-            <input type="url" name="website" placeholder="Your website URL" value={formData1.website} onChange={handleChange1} className="w-full p-2 border rounded" />
+            <input type="url" name="website" placeholder="Your website URL" value={formData1.website} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">Self Introduction</label>
-            <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border rounded"></textarea>
+            <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"            ></textarea>
+
+          </div>
+        }
+
+
+        {infoStep === 2 && profession === 'model' &&
+          <div className="flex-1 space-y-4 w-full p-6">
+            {/* User ID Field with Icon */}
+            <div className="w-full max-w-md mx-auto">
+              {/* Label with Drive Icon in Gray Circle */}
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                <div className='flex flex-col gap-2'>
+                  <div className='text-[16px] font-500 '>
+                    Profile Picture
+                  </div>
+                  <div className='text-[12px] font-400 ' >
+                    This will be displayed on your profile
+                  </div>
+                </div>
+
+                <div className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
+                  <Image
+                    src={drive}
+                    alt="Drive Icon"
+                    className="w-5 h-5 object-contain"
+                  />
+                </div>
+              </label>
+            </div>
+
+
+
+            {/* Username Field with Icon */}
+            <label className="block text-sm">Username</label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData1.username}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px]"
+              />
+            </div>
+
+            <label className="block text-sm">Genres You Are Good At</label>
+            <select
+              name="genres"
+              value={formData1.genres}
+              onChange={handleChange1}
+              className="w-full p-2 border rounded text-[12px]"
+            >
+              <option value="">Preety</option>
+              <option value="Portrait">Cute</option>
+              <option value="Landscape">Cool</option>
+              <option value="Wedding">Clean</option>
+              <option value="Fashion">Natural</option>
+              <option value="Nature">Art</option>
+              <option value="Event">Dark</option>
+              <option value="Product">Others</option>
+            </select>
+
+            <label className="block text-sm">Achievements</label>
+            <textarea name="achievements" placeholder="Your achievements" value={formData1.achievements} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition"></textarea>
+
+            <label className="block text-sm">Height (in cms)</label>
+            <input
+              type="text"
+              name="cameraType"
+              placeholder="Enter Value"
+              value={formData1.cameraType}
+              onChange={handleChange1}
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition"
+            />
+            {/* New Field for Photography Experience */}
+            <label className="block text-sm">Modeling Experience (Years)</label>
+            <input type="number" name="photographyExperience" placeholder="Enter value" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
+
+            <div className="p-4 border rounded-xl bg-white shadow-lg relative">
+              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 </h2>
+              <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
+              {/* Add More Button at Top Right */}
+              {subPhotos.length < 5 && (
+                <label htmlFor="subphoto-upload" className="absolute top-2 right-3 cursor-pointer flex ">
+                  <Plus size={16} className="text-[#2EC4B6] hover:text-blue-700" />
+                  <div className='text-[12px] text-[#2EC4B6]'>Add More</div>
+
+                </label>
+              )}
+
+              {/* Photo Previews with Add Button */}
+              <div className="flex gap-4 mb-4">
+                {[...Array(3)].map((_, index) => (
+                  <div key={index} className="w-24 h-24 border rounded-xl flex items-center justify-center bg-gray-100 relative w-[105px] h-[105px]">
+                    {subPhotos[index] ? (
+                      <div className="relative w-full h-full">
+                        <img
+                          src={URL.createObjectURL(subPhotos[index])}
+                          alt={`SubPhoto ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          onClick={() => removePhoto(index)}
+                        >
+                          <XCircle size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <label htmlFor="subphoto-upload" className="w-full h-full flex items-center justify-center cursor-pointer flex flex-col gap-2">
+                        <Plus size={16} className="text-[#FF9F1C] hover:text-gray-700" />
+                        <div className='text-[8px]'>Add Image</div>
+                      </label>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* File Input */}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange2}
+                className="hidden"
+                id="subphoto-upload"
+              />
+
+              {/* Info Message */}
+              {subPhotos.length >= 5 && (
+                <p className="text-sm text-red-500 mt-2">Maximum 5 photos reached.</p>
+              )}
+            </div>
+
+
+            <label className="block text-[14px]">Instagram Username</label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={instagram} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="username"
+                placeholder="https://www.instagram.com/yourusername"
+                value={formData1.username}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px]"
+              />
+            </div>
+
+            <label className="block text-[14px]">Twitter Username</label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={twitter} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="username"
+                placeholder="https://twitter.com/yourusername"
+                value={formData1.username}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px]"
+              />
+            </div>
 
           </div>
         }
@@ -576,14 +757,14 @@ function RegistrationInfo() {
           <div className="flex flex-col space-y-4 w-full p-8 gap-2">
             {/* Email Verification */}
             <label className="block text-sm">Email</label>
-            <div className="flex items-center border rounded p-2">
+            <div className="flex items-center border rounded p-1">
               <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="email"
                 placeholder="Enter your email"
-                value={email}
-                onChange={handleEmailChange}
-                className="w-full outline-none"
+                //value={email}
+                //onChange={handleEmailChange}
+                className="w-full outline-none text-[12px]"
               />
               <button
                 className="text-[#2EC458] bg-white px-[2px] py-[2px] rounded ml-2 text-sm w-20 h-9 flex items-center justify-center gap-1"
@@ -598,42 +779,42 @@ function RegistrationInfo() {
 
             {/* Mobile Number Verification */}
             <label className="block text-sm">Mobile Number</label>
-            <div className="flex items-center border rounded p-2">
+            <div className="flex items-center border rounded p-1">
               <Image src={phone} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="tel"
                 placeholder="Enter your mobile number"
                 value={mobile}
                 onChange={handleMobileChange}
-                className="w-full outline-none"
+                className="w-full outline-none text-[12px]"
               />
               <button
                 onClick={sendMobileOtp}
-                className="bg-[#FF9F1C] text-white px-4 py-2 rounded ml-1 w-1/2 h-[40px]"
+                className="bg-[#FF9F1C] text-white px-1 py-1 rounded ml-1 w-1/2 h-[40px] text-[12px]"
               >
                 Send OTP
               </button>
             </div>
 
-            <label className="block text-sm">Enter OTP for Mobile</label>
+            <label className="block text-sm ">Enter OTP for Mobile</label>
             <div className="flex items-center border rounded p-2">
               <input
                 type="text"
                 placeholder="Enter OTP"
                 value={otpMobile}
                 onChange={handleOtpMobileChange}
-                className="w-full outline-none"
+                className="w-full outline-none text-[12px]"
               />
             </div>
             <button
               onClick={verifyMobileOtp}
-              className="mt-2 bg-[#2EC458] text-white px-4 py-2 rounded"
+              className="mt-2 bg-[#2EC458] text-white px-4 py-2 rounded text-[12px]"
             >
               Verify OTP
             </button>
             {mobileVerified && <p className="text-green-500">Mobile Verified Successfully</p>}
 
-            <div className="w-[362px] h-[162px] max-w-md mx-auto mb-8 mt-4">
+            <div className="w-[332px] h-[162px] max-w-md mx-auto mb-8 mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
                 ID Proof
               </label>
@@ -649,7 +830,7 @@ function RegistrationInfo() {
                   alt="Upload Icon"
                   className="w-[60px] h-[40px] object-cover mb-3"
                 />
-                <p className="text-gray-500 text-sm">It may contains Driver’s license, National id or any ID Proof</p>
+                <p className="text-gray-500 text-[10px]">It may contains Driver’s license, National id or any ID Proof</p>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -661,29 +842,29 @@ function RegistrationInfo() {
 
             </div>
 
-            <div className='text-[12px] mt-2 mb-3'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
+            <div className='text-[12px] mt-2 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
             </div>
 
 
             {/* Consent Checkboxes */}
             <div className="flex gap-4 mt-4">
-              <label className="text-sm flex items-center">
+              <label className="text-[12px] font-400 flex items-center">
                 <input
                   type="checkbox"
                   checked={consent1}
                   onChange={handleConsent1Change}
-                  className="mr-2"
+                  className="mr-2 text-[12px]  accent-[#FF9F1C]"
                 />
                 I have confirmed that my personal information is correct.
               </label>
             </div>
-            <div className="flex gap-4 mt-2">
-              <label className="text-sm flex items-center">
+            <div className="flex gap-4 mt-2 text-[12px]">
+              <label className="text-[12px] font-400 accent-orange-500 flex items-center">
                 <input
                   type="checkbox"
                   checked={consent2}
                   onChange={handleConsent2Change}
-                  className="mr-2"
+                  className="mr-2 f accent-[#FF9F1C]"
                 />
                 I would like to receive e-mails about the latest information such as events and model entries.
               </label>
@@ -701,7 +882,7 @@ function RegistrationInfo() {
               value={feedback.importantThing}
               onChange={handleChange}
               placeholder="Write your answer here..."
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
@@ -712,7 +893,7 @@ function RegistrationInfo() {
               value={feedback.stress}
               onChange={handleChange}
               placeholder="Write your answer here..."
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
@@ -723,7 +904,7 @@ function RegistrationInfo() {
               value={feedback.assistanceWithModels}
               onChange={handleChange}
               placeholder="Write your answer here..."
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
@@ -734,7 +915,7 @@ function RegistrationInfo() {
               value={feedback.hobbies}
               onChange={handleChange}
               placeholder="Write your answer here..."
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
@@ -742,8 +923,8 @@ function RegistrationInfo() {
         }
         <div className='py-4 w-[80%] flex items-center justify-center gap-4'>
           <button onClick={handleBack} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center border-[1px] text-secondary flex items-center justify-center rounded-md'>Back</button>
-          {infoStep < 4 && <button onClick={handleNext} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>NEXT</button>}
-          {infoStep == 4 && <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>SUBMIT</button>}
+          {infoStep < 4 && <button onClick={handleNext} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>NEXT</button>}
+          {infoStep == 4 && <button onClick={handleSubmit} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>SUBMIT</button>}
         </div>
 
       </div>

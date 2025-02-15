@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react'
 import { FaCheckCircle } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
-import { Upload, XCircle, PlusCircle, Plus } from 'lucide-react';
+import { Upload, XCircle, PlusCircle, Plus, X } from 'lucide-react';
 
 
 import photographerBanner from '@/public/images/registration/infoBannerPhotography.jpeg'
@@ -212,6 +212,25 @@ function RegistrationInfo() {
   const [consent1, setConsent1] = useState(false);
   const [consent2, setConsent2] = useState(false);
 
+  const [achievements, setAchievements] = useState(['', '']);
+
+  const handleChangeAch = (index: number, value: string): void => {
+    const updatedAchievements: string[] = [...achievements];
+    updatedAchievements[index] = value;
+    setAchievements(updatedAchievements);
+  };
+
+  const addAchievement = (): void => {
+    setAchievements([...achievements, '']);
+  };
+
+  const removeAchievement = (index: number): void => {
+    if (achievements.length > 2) {
+      const updatedAchievements: string[] = achievements.filter((_, i) => i !== index);
+      setAchievements(updatedAchievements);
+    }
+  };
+
 
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMobile(e.target.value);
@@ -404,29 +423,35 @@ function RegistrationInfo() {
             {/* Gender */}
             <label className='block text-sm'>Gender</label>
             <div className="flex gap-4">
-              <label className="text-sm flex items-center">
+              <label className="text-sm flex items-center cursor-pointer">
                 <input
                   type="radio"
                   name="gender"
                   value="Male"
                   checked={formData.gender === 'Male'}
                   onChange={handleChange}
-                  className="mr-1 "
+                  className="hidden"
+                  id="male"
                 />
+                <div className={`w-4 h-4 mr-1 rounded-full border-2 ${formData.gender === 'Male' ? 'bg-[#FF9F1C] border-[#FF9F1C]' : 'border-gray-400'}`}></div>
                 Male
               </label>
-              <label className="text-sm flex items-center">
+
+              <label className="text-sm flex items-center cursor-pointer">
                 <input
                   type="radio"
                   name="gender"
                   value="Female"
                   checked={formData.gender === 'Female'}
                   onChange={handleChange}
-                  className="mr-1"
+                  className="hidden"
+                  id="female"
                 />
+                <div className={`w-4 h-4 mr-1 rounded-full border-2 ${formData.gender === 'Female' ? 'bg-[#FF9F1C] border-[#FF9F1C]' : 'border-gray-400'}`}></div>
                 Female
               </label>
             </div>
+
 
 
             {/* Mobile Number */}
@@ -559,10 +584,45 @@ function RegistrationInfo() {
               <option value="Product">Product</option>
             </select>
 
-            <label className="block text-sm">Achievements</label>
-            <textarea name="achievements" placeholder="Your achievements" value={formData1.achievements} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
-            ></textarea>
+            <div className="relative border border-gray-300 rounded p-4">
+              <label className="block text-sm mb-4">Achievements</label>
 
+              {/* Plus Icon in Top-Right Corner */}
+              <button
+                type="button"
+                onClick={addAchievement}
+                className="absolute top-2 right-2 p-1  text-[#2EC4B6] rounded-full hover:bg-green-600"
+                aria-label="Add Achievement"
+              >
+                <div className='flex text-[12px] gap-1'>
+                  <Plus size={14} />
+                  <div>Add More</div>
+                </div>
+              </button>
+
+              {/* Achievement Inputs */}
+              {achievements.map((achievement, index) => (
+                <div key={index} className="flex items-center gap-2 mb-2">
+                  <input
+                    type="text"
+                    placeholder={`Achievement ${index + 1}`}
+                    value={achievement}
+                    onChange={(e) => handleChangeAch(index, e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+                  />
+                  {achievements.length > 2 && (
+                    <button
+                      type="button"
+                      onClick={() => removeAchievement(index)}
+                      className="p-2 bg-red-500 text-white rounded hover:bg-red-600 text-[12px]"
+                      aria-label="Remove Achievement"
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
             <label className="block text-sm">Camera Type</label>
             <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
@@ -808,7 +868,7 @@ function RegistrationInfo() {
             </div>
             <button
               onClick={verifyMobileOtp}
-              className="mt-2 bg-[#2EC458] text-white px-4 py-2 rounded text-[12px]"
+              className="mt-2 bg-[#2EC4B6] text-white px-4 py-2 rounded text-[12px]"
             >
               Verify OTP
             </button>

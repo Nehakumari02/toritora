@@ -67,7 +67,7 @@ function MyPage() {
 
         <div className='space-y-4'>
           <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>Other Settings</span>
-          <div className='flex flex-col items-center justify-center gap-6 p-4 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+          <div className='flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {otherSettings.map((item,index)=>{
               return(
                 <button className='w-full h-8 flex items-center justify-between' key={index} onClick={()=>handleGoToLink(item.link)}>
@@ -158,10 +158,5 @@ const otherSettings = [
     name:"Give Feedback",
     link:"/feedback",
     icon:feedbackIcon
-  },
-  {
-    name:"Terms of use",
-    link:"/terms-of-use",
-    icon:fileIcon
-  },
+  }
 ]

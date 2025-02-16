@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import userAvatar from "@/public/images/mypage/user.png"
 import Image from 'next/image';
 
-function editProfile() {
+function EditProfile() {
   const router = useRouter();
   const [editProfileSection,setEditProfileSection] = useState(1);
   
@@ -55,7 +55,7 @@ function editProfile() {
   )
 }
 
-export default editProfile
+export default EditProfile
 
 const editIcon = <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="15.293" cy="15" r="14" fill="#2EC4B6" stroke="#F9FCFD" strokeWidth="2"/>

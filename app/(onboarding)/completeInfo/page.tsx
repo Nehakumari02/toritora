@@ -479,22 +479,28 @@ function RegistrationInfo() {
                 placeholder='Last Name'
                 value={formData.lastName}
                 onChange={handleChange}
-                className='w-full outline-none text-[12px]autofill:bg-white'
+                className='w-full outline-none text-[12px] autofill:bg-white'
               />
             </div>
 
             {/* Date of Birth */}
             <label className='block text-sm'>Date of Birth <span className="text-red-500">*</span></label>
-            <div className="flex items-center border rounded p-2 bg-white">
-              <Image src={calendar} alt='calendar' width={20} height={20} className="mr-2" />
+            <div className="flex items-center border rounded p-2 bg-white relative">
+              <Image src={calendar} alt="calendar" width={20} height={20} className="mr-2" />
               <input
-                type='date'
-                name='dateOfBirth'
+                type="date"
+                name="dateOfBirth"
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className='w-full outline-none text-[12px]'
+                className="w-full outline-none text-[12px] bg-white"
               />
+              {/* {!formData.dateOfBirth && (
+                <span className="absolute left-10 text-gray-400 text-[12px] pointer-events-none">
+                  dd/mm/yyyy
+                </span>
+              )} */}
             </div>
+
 
             {/* Age */}
             <label className='block text-sm'>Age</label>
@@ -976,7 +982,7 @@ function RegistrationInfo() {
 
 
         {infoStep === 3 &&
-          <div className="flex flex-col space-y-4 p-8">
+          <div className="flex-1  space-y-4 w-full p-6">
             {/* Email Verification */}
             <label className="block text-sm">Email</label>
             <div className="flex items-center border rounded p-1">
@@ -1038,32 +1044,34 @@ function RegistrationInfo() {
               <label className="block text-sm font-medium text-gray-700 mb-2 text-center mt-12">
                 ID Proof <span className="text-red-500">*</span>
               </label>
-              <div
-                className="w-[332px] h-[162px] text-center flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
-                onDragOver={handleDragOver} // Corrected event handler
-                onDrop={handleFileDrop}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                {/* Placeholder image */}
-                <Image
-                  src={drive}
-                  alt="Upload Icon"
-                  className="w-[60px] h-[40px] object-cover mb-3"
-                />
-                {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver's license, National id or any ID Proof</p>
-                )}
-                {idProof && (
+              <div className='w-full flex flex-center item-center w-full'>
+                <div
+                  className="w-[332px] h-[162px] text-center flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
+                  onDragOver={handleDragOver} // Corrected event handler
+                  onDrop={handleFileDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {/* Placeholder image */}
+                  <Image
+                    src={drive}
+                    alt="Upload Icon"
+                    className="w-[60px] h-[40px] object-cover mb-3"
+                  />
+                  {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver's license, National id or any ID Proof</p>
+                  )}
+                  {idProof && (
 
-                  <p className="text-green-600 text-sm text-center mt-2">file uploaded sucessfully</p>
-                )}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
+                    <p className="text-green-600 text-sm text-center mt-2">file uploaded sucessfully</p>
+                  )}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+                {/* Upload status message */}
               </div>
-              {/* Upload status message */}
 
             </div>
             <div className='text-[12px] mt-4 pt-2 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB

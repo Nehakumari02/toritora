@@ -485,8 +485,8 @@ function RegistrationInfo() {
 
             {/* Date of Birth */}
             <label className='block text-sm'>Date of Birth <span className="text-red-500">*</span></label>
-            <div className="flex items-center border rounded p-2">
-              <Image src={calendar} alt='calendar' width={20} height={20} className="text-gray-500 mr-2" />
+            <div className="flex items-center border rounded p-2 bg-white">
+              <Image src={calendar} alt='calendar' width={20} height={20} className="mr-2" />
               <input
                 type='date'
                 name='dateOfBirth'
@@ -513,34 +513,25 @@ function RegistrationInfo() {
             {/* Gender */}
             <label className='block text-sm'>Gender <span className="text-red-500">*</span></label>
             <div className="flex gap-4">
-              <label className="text-sm flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Male"
-                  checked={formData.gender === 'Male'}
-                  onChange={handleChange}
-                  className="hidden"
-                  id="male"
-                />
-                <div className={`w-4 h-4 mr-1 rounded-full border-2 ${formData.gender === 'Male' ? 'bg-[#FF9F1C] border-[#FF9F1C]' : 'border-gray-400'}`}></div>
-                Male
-              </label>
-
-              <label className="text-sm flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Female"
-                  checked={formData.gender === 'Female'}
-                  onChange={handleChange}
-                  className="hidden"
-                  id="female"
-                />
-                <div className={`w-4 h-4 mr-1 rounded-full border-2 ${formData.gender === 'Female' ? 'bg-[#FF9F1C] border-[#FF9F1C]' : 'border-gray-400'}`}></div>
-                Female
-              </label>
+              {['Male', 'Female'].map((gender) => (
+                <label key={gender} className="text-sm flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value={gender}
+                    checked={formData.gender === gender}
+                    onChange={handleChange}
+                    className="hidden peer"
+                  />
+                  <div className="w-4 h-4 mr-1 rounded-full border-2 border-black-600 relative">
+                    {/* Inner dot for selected state */}
+                    <div className={`w-2 h-2 bg-[#FF9F1C] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formData.gender === gender ? 'block' : 'hidden'}`}></div>
+                  </div>
+                  {gender}
+                </label>
+              ))}
             </div>
+
 
 
 
@@ -657,7 +648,7 @@ function RegistrationInfo() {
 
             {/* Username Field with Icon */}
             <label className="block text-sm">Username <span className="text-red-500">*</span></label>
-            <div className="flex items-center border rounded p-2">
+            <div className="flex items-center border rounded p-2 bg-white">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="text"
@@ -665,7 +656,7 @@ function RegistrationInfo() {
                 placeholder="Username"
                 value={formData1.username}
                 onChange={handleChange1}
-                className="w-full outline-none text-[12px]"
+                className="w-full outline-none text-[12px] bg-white autofill:bg-white"
               />
             </div>
 
@@ -678,7 +669,7 @@ function RegistrationInfo() {
                 placeholder="UserId"
                 value={formData1.userId}
                 onChange={handleChange1}
-                className="w-full outline-none text-[12px]"
+                className="w-full outline-none text-[12px] bg-white autofill:bg-white"
               />
             </div>
 
@@ -965,7 +956,7 @@ function RegistrationInfo() {
               />
             </div>
 
-            <label className="block text-[14px]">Twitter Username</label>
+            <label className="block text-[14px]">Twitter Username <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={twitter} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -985,7 +976,7 @@ function RegistrationInfo() {
 
 
         {infoStep === 3 &&
-          <div className="flex flex-col space-y-4 w-full p-8 gap-2">
+          <div className="flex flex-col space-y-4 p-8">
             {/* Email Verification */}
             <label className="block text-sm">Email</label>
             <div className="flex items-center border rounded p-1">
@@ -1019,7 +1010,7 @@ function RegistrationInfo() {
               />
               <button
                 onClick={sendMobileOtp}
-                className="bg-[#FF9F1C] text-white px-1 py-1 rounded ml-1 w-1/2 h-[40px] text-[12px]"
+                className=" font-600 text-[#FF9F1C] bg-white px-1 py-1 rounded ml-1 w-1/2 h-[40px] text-[12px]"
               >
                 Send OTP
               </button>
@@ -1043,12 +1034,12 @@ function RegistrationInfo() {
             </button>
             {mobileVerified && <p className="text-green-500">Mobile Verified Successfully</p>}
 
-            <div className="w-[332px] h-[162px] max-w-md mx-auto mb-8 mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+            <div className="max-w-md mx-auto mb-8 mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2 text-center mt-12">
                 ID Proof <span className="text-red-500">*</span>
               </label>
               <div
-                className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
+                className="w-[332px] h-[162px] text-center flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
                 onDragOver={handleDragOver} // Corrected event handler
                 onDrop={handleFileDrop}
                 onClick={() => fileInputRef.current?.click()}
@@ -1059,7 +1050,7 @@ function RegistrationInfo() {
                   alt="Upload Icon"
                   className="w-[60px] h-[40px] object-cover mb-3"
                 />
-                {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver’s license, National id or any ID Proof</p>
+                {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver's license, National id or any ID Proof</p>
                 )}
                 {idProof && (
 
@@ -1075,10 +1066,10 @@ function RegistrationInfo() {
               {/* Upload status message */}
 
             </div>
-            <div className='text-[12px] mt-4 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
+            <div className='text-[12px] mt-4 pt-2 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
             </div>
             {/* Consent Checkboxes */}
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 mt-4 pt-6">
               <label className="text-[12px] font-400 flex items-center">
                 <input
                   type="checkbox"

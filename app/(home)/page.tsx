@@ -10,6 +10,7 @@ import { Pagination,EffectFade,Autoplay } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
+import { useRouter } from 'next/navigation'
 
 const modelCarouselList = [
   {
@@ -231,6 +232,11 @@ function Home() {
   const [notificationCount, setNotificationCount] = useState(5);
   const [messageCount, setMessageCount] = useState(7);
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+  
+    const handleGoToLink = (route:string)=>{
+      router.push(route)
+    }
 
   useEffect(()=>{
     setNotificationCount(7);
@@ -243,17 +249,17 @@ function Home() {
       <header className='flex items-center justify-between p-8'>
         <span className='text-[14px] font-bold tracking-[8px]'>TORITORA</span>
         <div className='flex items-center justify-center gap-4'>
-          <Link href={"/"} className='relative'>
+          <button onClick={()=>{handleGoToLink("/favourites")}} className='relative'>
           {starIcon}
-          </Link>
-          <Link href={"/"} className='relative'>
+          </button>
+          <button onClick={()=>{handleGoToLink("/notifications")}} className='relative'>
           {bellIcon}
           <span className='text-center text-white p-0 text-[10px] bg-primary h-4 w-4 absolute -top-2 -right-1 rounded-full'>{notificationCount}</span>
-          </Link>
-          <Link href={"/"} className='relative'>
+          </button>
+          <button onClick={()=>{handleGoToLink("/chats")}} className='relative'>
           {chatIcon}
           <span className='text-center text-white p-0 text-[10px] bg-primary h-4 w-4 absolute -top-2 -right-1 rounded-full'>{messageCount}</span>
-          </Link>
+          </button>
         </div>
       </header>
 

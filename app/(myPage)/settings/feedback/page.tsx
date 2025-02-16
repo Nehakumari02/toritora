@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import greenTick from '@/public/images/common/greenTick.png';
 import feedbackHeroImage from '@/public/images/common/feedbackHeroImage.png';
 import Image from 'next/image';
-import { Smile, Frown, Meh, SmilePlus, Laugh } from "lucide-react";
 
 
 function Feedback() {

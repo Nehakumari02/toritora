@@ -145,7 +145,7 @@ const accountSettings = [
 const otherSettings = [
   {
     name:"About Toritora",
-    link:"/about",
+    link:"/settings/about-us",
     icon:infoIcon
   },
   {

@@ -143,7 +143,7 @@ function RegistrationInfo() {
   });
 
   const [formData1, setFormData1] = useState({
-    profilePicture: null as File | null,
+    profilePicture: '',
     userId: '',
     username: '',
     genres: '',
@@ -224,10 +224,10 @@ function RegistrationInfo() {
 
 
   const validateForms = () => {
-    const profession1 = localStorage.getItem('userProfession') || 'photographer'; // Default to 'photographer' or handle appropriately
+    const profession1 = localStorage.getItem('userProfession') || 'photographer';
 
     const excludedFields: Record<string, string[]> = {
-      photographer: ["modellingExperience", "instagram", "twitter"],
+      photographer: ["instagram", "twitter", "height", "modellingExperiance", "achievements"],
       modelling: [
         "photographyExperience",
         "cameraType",
@@ -235,11 +235,11 @@ function RegistrationInfo() {
         "transportationFee",
         "snsUsername",
         "website",
-        "selfIntroduction"
+        "selfIntroduction",
+        "achievements",
       ]
     };
 
-    // Validate formData fields
     // Validate formData fields
     for (const [key, value] of Object.entries(formData)) {
       if (!value && key !== "age" && key !== "username") {
@@ -252,28 +252,15 @@ function RegistrationInfo() {
       }
     }
 
-    // Validate formData1 fields
+    // Validate formData1 fields in one loop
+    const excluded = excludedFields[profession1] || [];
     for (const [key, value] of Object.entries(formData1)) {
       if (
         !value &&
         key !== "images" &&
-        key !== "achievements" && // Correct exclusion here
-        !excludedFields[profession1]?.includes(key)
+        key !== "profilePicture" && // Properly exclude profilePicture
+        !excluded.includes(key)
       ) {
-        toast({
-          title: "Error",
-          description: `Please fill the ${key} field`,
-          variant: "destructive"
-        });
-        return false;
-      }
-    }
-
-
-    // Validate formData1 fields
-    const excluded = excludedFields[profession1] || [];
-    for (const [key, value] of Object.entries(formData1)) {
-      if (!value && key !== "images" && !excluded.includes(key)) {
         toast({
           title: "Error",
           description: `Please fill the ${key} field`,
@@ -294,7 +281,7 @@ function RegistrationInfo() {
   const [otpMobile, setOtpMobile] = useState('');
   const [emailVerified, setEmailVerified] = useState(false);
   const [mobileVerified, setMobileVerified] = useState(false);
-  const [idProof, setIdProof] = useState<File | null>(null);
+  const [idProof, setIdProof] = '';
 
   const [consent1, setConsent1] = useState(false);
   const [consent2, setConsent2] = useState(false);
@@ -336,7 +323,7 @@ function RegistrationInfo() {
     console.log(uploadStatus)
 
     if (e.target.files && e.target.files.length > 0) {
-      setIdProof(e.target.files[0]);
+      //setIdProof(e.target.files[0]);
     }
 
   };
@@ -345,10 +332,10 @@ function RegistrationInfo() {
     const file = fileInputRef.current?.files?.[0];
     if (file) {
       console.log('Selected file:', file.name);
-      setFormData1({
-        ...formData1,
-        profilePicture: file,
-      });
+      // setFormData1({
+      //   ...formData1,
+      //   //profilePicture: file,
+      // });
     }
   };
 
@@ -478,7 +465,7 @@ function RegistrationInfo() {
                 placeholder='First Name'
                 value={formData.firstName}
                 onChange={handleChange}
-                className='w-full outline-none text-[12px]'
+                className='w-full outline-none text-[12px] '
               />
             </div>
 
@@ -492,7 +479,7 @@ function RegistrationInfo() {
                 placeholder='Last Name'
                 value={formData.lastName}
                 onChange={handleChange}
-                className='w-full outline-none text-[12px]'
+                className='w-full outline-none text-[12px]autofill:bg-white'
               />
             </div>
 
@@ -635,22 +622,25 @@ function RegistrationInfo() {
           <div className="flex-1 space-y-4 w-full p-6">
             {/* User ID Field with Icon */}
             <div className="w-full max-w-md mx-auto">
+              {/* Label with Drive Icon in Gray Circle */}
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <div className="flex flex-col gap-2">
-                  <div className="text-[16px] font-medium">Profile Picture <span className="text-red-500">*</span></div>
-                  <div className="text-[12px] font-normal">This will be displayed on your profile</div>
+                <div className='flex flex-col gap-2'>
+                  <div className='text-[16px] font-500 '>
+                    Profile Picture <span className="text-red-500">*</span>
+                  </div>
+                  <div className='text-[12px] font-400 ' >
+                    This will be displayed on your profile
+                  </div>
                 </div>
 
-                {/* Clickable Circle */}
-                <div
-                  className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center cursor-pointer"
-                  onDragOver={handleDragOver}
-                  onDrop={handleFileDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <Image src={drive} alt="Drive Icon" className="w-5 h-5 object-contain" />
-                </div>
+                <div className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
+                  <Image
+                    src={drive}
+                    alt="Drive Icon"
+                    className="w-5 h-5 object-contain"
+                  />
 
+                </div>
                 {/* Hidden File Input */}
                 <input
                   type="file"

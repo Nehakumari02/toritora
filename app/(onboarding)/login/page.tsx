@@ -7,6 +7,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
+import { Loader2} from 'lucide-react';
 
 import googleIcon from '@/public/images/onboard/google.png'
 import { useToast } from '@/hooks/use-toast';
@@ -26,12 +27,39 @@ function Login() {
   const [rememberMe,setRememberMe] = useState(false);
   const [username,setUsername] = useState("");
   const [password,setPassword] = useState("");
+  const [loading,setLoading] = useState(false);
 
   const handleGoBack = ()=>{
     router.back();
   }
 
   const handleLogin = async ()=>{
+    if((!username || username === "")  && (!password || password === "")){
+      toast({
+        title: "Error",
+        description: "Please enter your email and password",
+        variant: "destructive"
+      })
+      return;
+    }
+    else if(!username || username === ""){
+      toast({
+        title: "Error",
+        description: "Please enter your email",
+        variant: "destructive"
+      })
+      return;
+    }
+    else if(!password || password === ""){
+      toast({
+        title: "Error",
+        description: "Please enter your password",
+        variant: "destructive"
+      })
+      return;
+    }
+    setLoading(true);
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`, {
       method: 'POST',
       headers: {
@@ -47,8 +75,16 @@ function Login() {
     if(res.status === 200){
       router.replace('/')
     }
+    else{
+      toast({
+        title: "Error",
+        description: "Something went wrong, please try again",
+        variant: "destructive"
+      })
+    }
 
     console.log(data)
+    setLoading(false);
   }
 
   const responseGoogle = async (authResult: AuthResult | ErrorResponse) => {
@@ -157,7 +193,7 @@ function Login() {
         </div>
 
         <div className='flex-1 w-full flex-col gap-4 flex items-center justify-center pt-16'>
-          <button onClick={handleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>LOGIN</button>
+          <button onClick={handleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loading?<Loader2 className='animate-spin'/>:"LOGIN"}</button>
           <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' />Login with Google</button>
         </div>
 

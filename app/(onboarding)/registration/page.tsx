@@ -11,6 +11,7 @@ import axios from 'axios';
 import googleIcon from '@/public/images/onboard/google.png'
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
 
 type AuthResult = {
   code: string;
@@ -41,6 +42,8 @@ function Register() {
   const [numberError, setNumberError] = useState(false);
   const [specialCharError, setSpecialCharError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [loadingCode,setLoadingCode] = useState(false);
+  const [loadingValidateCode,setLoadingValidateCode] = useState(false);
 
   useEffect(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -67,7 +70,32 @@ function Register() {
   }
 
   const handleSubmit = async ()=>{
-    console.log("Inside handle submit function")
+    if(!email || email === ""){
+      toast({
+        title: "Error",
+        description: `Please enter your email`,
+        variant: "destructive"
+      })
+      return;
+    }
+    else if(!password || password === "" || lengthError || uppercaseError || lowercaseError || numberError || specialCharError){
+      toast({
+        title: "Error",
+        description: `Please enter valid password`,
+        variant: "destructive"
+      })
+      return;
+    }
+    else if(password !== confirmPassword){
+      toast({
+        title: "Error",
+        description: `Password and confirm password does not match`,
+        variant: "destructive"
+      })
+      return;
+    }
+
+    setLoadingCode(true);
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/email/verificationCode`, {
       method: 'POST',
       headers: {
@@ -88,7 +116,7 @@ function Register() {
 
     else if(res.status === 500){
       toast({
-        title: "Internal error",
+        title: "Internal server error",
         description: `Server internal error please try after again`,
         variant: "destructive"
       })
@@ -101,7 +129,7 @@ function Register() {
         variant: "destructive"
       })
     }
-    
+    setLoadingCode(false);
   }
 
   useEffect(() => {
@@ -112,6 +140,16 @@ function Register() {
   }, [verificationCodeSent, timeRemaining]);
 
   const handleVerifyCode = async ()=>{
+    if(!otp || otp.length !== 6){
+      toast({
+        title:"Error",
+        description:"Please enter your verification code",
+        variant:"destructive"
+      })
+      return
+    }
+
+    setLoadingValidateCode(true);
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, {
       method: 'POST',
       headers: {
@@ -143,6 +181,7 @@ function Register() {
     }
 
     console.log(data)
+    setLoadingValidateCode(false);
   }
 
   const resendCode = async ()=>{
@@ -270,7 +309,7 @@ function Register() {
         </div>
 
         <div className='flex-1 py-4 w-full flex-col gap-4 flex items-center justify-center pb-4'>
-        <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Submit</button>
+        <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingCode?<Loader2 className='animate-spin'/>:"Submit"}</button>
         <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' /> Sign up with Google</button>
         </div>
 
@@ -290,7 +329,7 @@ function Register() {
         </div>
 
         <div className='py-4 w-full flex-col flex items-center justify-center'>
-          <button onClick={handleVerifyCode} className='w-[80%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Verify Code</button>
+          <button onClick={handleVerifyCode} className='w-[80%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingValidateCode?<Loader2 className='animate-spin'/>:"Verify Code"}</button>
         </div>
 
         <div className='flex flex-row items-center justify-between'>

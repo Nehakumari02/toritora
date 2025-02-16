@@ -29,7 +29,7 @@ function NotFound() {
         </div>
         <div className='text-center flex flex-col'>
           <span className='font-semibold text-[12px] leading-[18px] text-gray-500'>OOPS: Something Went Wrong</span>
-          <span className='font-semibold text-[12px] leading-[18px] text-gray-500'>WE CAN'T FIND THE PAGE YOU ARE LOOKING FOR</span>
+          <span className='font-semibold text-[12px] leading-[18px] text-gray-500'>WE CAN&apos;T FIND THE PAGE YOU ARE LOOKING FOR</span>
         </div>
 
         <button onClick={()=>handleGoToLink('/')} className='w-[90%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Back Home</button>

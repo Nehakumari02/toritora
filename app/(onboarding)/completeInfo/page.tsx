@@ -985,17 +985,17 @@ function RegistrationInfo() {
           <div className="flex-1  space-y-4 w-full p-6">
             {/* Email Verification */}
             <label className="block text-sm">Email</label>
-            <div className="flex items-center border rounded p-1">
+            <div className="flex items-center border border-gray-400 rounded solid p-1 bg-[#D9D9D9] ">
               <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Your Email Id"
                 //value={email}
                 //onChange={handleEmailChange}
-                className="w-full outline-none text-[12px]"
+                className="w-full outline-none text-[12px] bg-[#D9D9D9] pointer-events-none cursor-not-allowed"
               />
               <button
-                className="text-[#2EC458] bg-white px-[2px] py-[2px] rounded ml-2 text-sm w-20 h-9 flex items-center justify-center gap-1"
+                className="text-[#2EC458] bg-[#D9D9D9] px-[2px] rounded ml-2 text-sm w-20 h-9 flex items-center justify-center gap-1"
               >
                 <FaCheckCircle />
                 Verified
@@ -1009,7 +1009,7 @@ function RegistrationInfo() {
               <Image src={phone} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="tel"
-                placeholder="Enter your mobile number"
+                placeholder="Your Mobile Number"
                 value={mobile}
                 onChange={handleMobileChange}
                 className="w-full outline-none text-[12px]"
@@ -1023,7 +1023,7 @@ function RegistrationInfo() {
             </div>
 
             <label className="block text-sm ">Enter OTP for Mobile</label>
-            <div className="flex items-center border rounded p-2">
+            <div className="flex items-center border rounded p-3">
               <input
                 type="text"
                 placeholder="Enter OTP"

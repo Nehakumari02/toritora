@@ -1,11 +1,17 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import React from 'react'
-import userAvatar from "@/public/images/mypage/user.png"
+import React, { useEffect, useState } from 'react'
+import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 function MyPage() {
   const router = useRouter();
+  const { toast } = useToast();
+  const [name,setName] = useState("")
+  const [userName,setUserName] = useState("")
+  const [loading,setLoading] = useState(true)
+  const [profileImage,setProfileImage] = useState("");
 
   const logout = async() => {
     const res = await fetch('/api/logout', {
@@ -24,6 +30,38 @@ function MyPage() {
     router.push(route)
   }
 
+  useEffect( ()=>{
+    try {
+      const fetchUser = async ()=>{
+        setLoading(true);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials:"include",
+        });
+
+        const data = await res.json();
+        setName(`${data.user.firstName} ${data.user.lastName}`)
+        setUserName(data.user.username)
+        setProfileImage(data.user.profilePicture)
+      }
+
+      fetchUser();
+
+      
+    } catch (error) {
+      toast({
+        title:"Server internal error",
+        description:`Error : ${error}`,
+        variant:"destructive"
+      })
+    } finally{
+      setLoading(false)
+    }
+  },[])
+
   return (
     <div className='flex flex-col h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
@@ -33,12 +71,24 @@ function MyPage() {
       <div className='bg-[#f8fcfd] p-4 py-6 overflow-y-scroll flex-1 no-scrollbar'>
         <div className='h-[120px] bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
           <div className='h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
+            {profileImage === "" ?
             <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
+            :
+            <Image src={profileImage} alt="User" objectFit="contain" objectPosition="center" height={88} width={88} className='h-full w-full rounded-full p-[2px]'/>
+            }
           </div>
           <div className='flex-1 flex items-center justify-between'>
             <div className='flex flex-col items-start justify-center gap-1'>
-              <span className='font-semibold text-[16px] leading-[24px] text-[#111111]'>Himari Sakura</span>
-              <span className='font-medium text-[10px] leading-[15px] text-[#999999]'>Username here</span>
+              {loading ?
+              <>
+              <div className='h-4 w-32 bg-gray-200 animate-pulse rounded-md'></div>
+              <div className='h-4 w-24 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='font-semibold text-[16px] leading-[24px] text-[#111111]'>{name}</span>
+              <span className='font-medium text-[10px] leading-[15px] text-[#999999]'>{userName}</span>
+              </>              
+              }
             </div>
             <button onClick={()=>handleGoToLink("/profile")} className='bg-[#FF9F1C] px-8 py-2 rounded-md text-white font-medium text-[10px] leading-[15px]'>
               View
@@ -46,7 +96,7 @@ function MyPage() {
           </div>
         </div>
 
-        <div className='flex flex-row items-center justify-center flex-wrap gap-4 px-2 py-6'>
+        <div className='flex flex-row items-center justify-center gap-4 flex-wrap py-6'>
           <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {cameraIcon}
             <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Shooting request list</span>

@@ -21,7 +21,7 @@ function Help() {
         <span className="text-[16px] leading-[24px] text-center font-semibold">Terms of uses</span>
       </header>
 
-      <div className='mx-8 py-8 space-y-8'>
+      <div className='mx-8 py-8 space-y-8 md:max-w-[800px] md:mx-auto'>
         {termsOfUseList.map((feature,index)=>{
           return(
             <div className='space-y-4' key={index}>

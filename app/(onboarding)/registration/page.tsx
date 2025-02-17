@@ -12,6 +12,7 @@ import googleIcon from '@/public/images/onboard/google.png'
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import LoginImage from '@/public/images/onboard/login.svg'
 
 type AuthResult = {
   code: string;
@@ -260,59 +261,73 @@ function Register() {
       </header>
 
       {!verificationCodeSent &&
-      <div className='flex flex-col flex-1 mx-5 py-4 space-y-4 overflow-y-scroll no-scrollbar'>
 
-        <div className='flex flex-col gap-2'>
-          <span className='text-[22px] leading-[50px] font-semibold'>Register your account</span>
-          <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Please register to continue</p>
-        </div>
-        
-        <div className='space-y-4'>
-          <div className='space-y-2'>
-            <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Email Id</span>
-            <div className={`relative h-[48px] border-[1px] ${emailError ? "border-[#E10101]" : ""} rounded-md`}>
-              <span className='absolute top-[50%] translate-y-[-50%] left-2'>{emailIcon}</span>
-              <input value={email} onChange={(e)=>setEmail(e.target.value)} type="text" placeholder='Enter your username' className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]'/>
-            </div>
-          </div>
+      <div className='md:grid md:grid-cols-2 flex-1 gap-16 md:max-w-[1200px] md:mx-auto'>
 
-          <div className='space-y-2'>
-            <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Password</span>
-            <div className={`relative h-[48px] border-[1px] ${lengthError || uppercaseError || lowercaseError || numberError || specialCharError ? "border-[#E10101]" : ""} rounded-md`}>
-              <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
-              <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]'/>
-              <span className='absolute top-[50%] translate-y-[-50%] right-2'>{eyeBlockedIcon}</span>
-            </div>
-          </div>
-
-          <div className='space-y-2'>
-            <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Re-enter Password</span>
-            <div className={`relative h-[48px] border-[1px] ${confirmPasswordError? "border-[#E10101]":""} rounded-md`}>
-              <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
-              <input value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password" placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]'/>
-              <span className='absolute top-[50%] translate-y-[-50%] right-2'>{eyeBlockedIcon}</span>
-            </div>
-            {confirmPasswordError &&  <span className="text-[#E10101] text-[12px] leading-[18px] font-medium">Password doesn&apos;t match</span> }
-          </div>
-
-          <div className='space-y-4'>
-            <span className='text-[14px] leading-[26px] font-semibold'>Password Conditions</span>
-            <div className='space-y-2'>
-              <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lengthError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lengthError ? "E10101": "text-[#333333]"}`}>Must be at least 8 characters long</span></div>
-              <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{uppercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${uppercaseError ? "E10101": "text-[#333333]"}`}>Must include at least 1 upper case character</span></div>
-              <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lowercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lowercaseError ? "E10101": "text-[#333333]"}`}>Must include at least 1 lower case character</span></div>
-              <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{numberError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${numberError ? "E10101": "text-[#333333]"}`}>Must include at least 1 numeric character</span></div>
-              <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{specialCharError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${specialCharError ? "E10101": "text-[#333333]"}`}>Must include at least 1 special character (Ex. @ # $ % ! & *)</span></div>
-            </div>
-          </div>
-
+        <div className='hidden md:flex flex-1 items-center justify-center'>
+          <Image src={LoginImage} alt='Login' height={380} width={380} className='h-[380px] aspect-square cover' />
         </div>
 
-        <div className='flex-1 py-4 w-full flex-col gap-4 flex items-center justify-center pb-4'>
-        <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingCode?<Loader2 className='animate-spin'/>:"Submit"}</button>
-        <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' /> Sign up with Google</button>
-        </div>
+        <div className='flex-1 flex flex-col space-y-8'>
+        <div className='flex flex-col flex-1 space-y-4'>
 
+          <div className='flex flex-col flex-1 mx-5 py-4 space-y-4 overflow-y-scroll no-scrollbar'>
+
+            <div className='flex flex-col gap-2'>
+              <span className='text-[22px] leading-[50px] font-semibold'>Register your account</span>
+              <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Please register to continue</p>
+            </div>
+
+            <div className='space-y-4'>
+              <div className='space-y-2'>
+                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Email Id</span>
+                <div className={`relative h-[48px] border-[1px] ${emailError ? "border-[#E10101]" : ""} rounded-md`}>
+                  <span className='absolute top-[50%] translate-y-[-50%] left-2'>{emailIcon}</span>
+                  <input value={email} onChange={(e)=>setEmail(e.target.value)} type="text" placeholder='Enter your username' className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]'/>
+                </div>
+              </div>
+
+              <div className='space-y-2'>
+                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Password</span>
+                <div className={`relative h-[48px] border-[1px] ${lengthError || uppercaseError || lowercaseError || numberError || specialCharError ? "border-[#E10101]" : ""} rounded-md`}>
+                  <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
+                  <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]'/>
+                  <span className='absolute top-[50%] translate-y-[-50%] right-2'>{eyeBlockedIcon}</span>
+                </div>
+              </div>
+
+              <div className='space-y-2'>
+                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Re-enter Password</span>
+                <div className={`relative h-[48px] border-[1px] ${confirmPasswordError? "border-[#E10101]":""} rounded-md`}>
+                  <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
+                  <input value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password" placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]'/>
+                  <span className='absolute top-[50%] translate-y-[-50%] right-2'>{eyeBlockedIcon}</span>
+                </div>
+                {confirmPasswordError &&  <span className="text-[#E10101] text-[12px] leading-[18px] font-medium">Password doesn&apos;t match</span> }
+              </div>
+
+              <div className='space-y-4'>
+                <span className='text-[14px] leading-[26px] font-semibold'>Password Conditions</span>
+                <div className='space-y-2'>
+                  <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lengthError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lengthError ? "E10101": "text-[#333333]"}`}>Must be at least 8 characters long</span></div>
+                  <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{uppercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${uppercaseError ? "E10101": "text-[#333333]"}`}>Must include at least 1 upper case character</span></div>
+                  <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lowercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lowercaseError ? "E10101": "text-[#333333]"}`}>Must include at least 1 lower case character</span></div>
+                  <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{numberError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${numberError ? "E10101": "text-[#333333]"}`}>Must include at least 1 numeric character</span></div>
+                  <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{specialCharError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${specialCharError ? "E10101": "text-[#333333]"}`}>Must include at least 1 special character (Ex. @ # $ % ! & *)</span></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div className='flex-1 py-4 w-full flex-col gap-4 flex items-center justify-center pb-4'>
+            <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingCode?<Loader2 className='animate-spin'/>:"Submit"}</button>
+            <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' /> Sign up with Google</button>
+            </div>
+
+          </div>
+
+        </div>
+        </div>
       </div>
       }
 

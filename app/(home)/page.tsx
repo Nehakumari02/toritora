@@ -244,7 +244,7 @@ function Home() {
   },[])
 
   return (
-    <div>
+    <div className='flex flex-col h-full'>
       {/* Header */}
       <header className='flex items-center justify-between p-8'>
         <span className='text-[14px] font-bold tracking-[8px]'>TORITORA</span>
@@ -264,13 +264,15 @@ function Home() {
       </header>
 
       {/* Tab selector */}
-      <div className='h-[52px] w-full flex items-center justify-center gap-[8px] bg-primary-foreground transition-all duration-300'>
-        <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Model</button>
-        <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Kikaku / Satueikai</button>
+      <div className='bg-primary-foreground'>
+        <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
+          <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Model</button>
+          <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Kikaku / Satueikai</button>
+        </div>
       </div>
 
       {/* Search Bar */}
-      <div className='relative h-[42px] w-full px-[24px] my-[12px]'>
+      <div className='max-w-[800px] mx-auto relative h-[42px] w-full px-[24px] my-[12px]'>
         <input 
         type="text" 
         className='bg-[#EEF2F5] h-[42px] w-full pl-[20px] pr-[40px] rounded-md outline-none focus:outline-none'
@@ -283,9 +285,11 @@ function Home() {
         </div>
       </div>
 
+      <div className='flex-1 overflow-y-scroll no-scrollbar'>
+        
       {/* Carousel Container for models */}
       {selectedMode === 0 &&
-      <div className='px-[24px] mt-[24px] flex items-center justify-center w-full'>
+      <div className='max-w-[800px] mx-auto px-[24px] mt-[24px] flex items-center justify-center w-full'>
       <Swiper
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: true }}
@@ -322,7 +326,7 @@ function Home() {
 
       {/* New Models section */}
       {selectedMode === 0 &&
-      <div className='px-[24px] space-y-2 pt-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>New Models</span>
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
@@ -353,7 +357,7 @@ function Home() {
 
       {/* Availabel Models section */}
       {selectedMode === 0 &&
-      <div className='px-[24px] space-y-2 my-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Available this week</span>
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
@@ -384,7 +388,7 @@ function Home() {
 
       {/* Carousel Container for events */}
       {selectedMode === 1 &&
-      <div className='px-[24px] mt-[24px] flex items-center justify-center w-full'>
+      <div className='max-w-[800px] mx-auto px-[24px] mt-[24px] flex items-center justify-center w-full'>
       <Swiper
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: true }}
@@ -421,7 +425,7 @@ function Home() {
 
       {/* New Events section */}
       {selectedMode === 1 &&
-      <div className='px-[24px] space-y-2 pt-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>New Models</span>
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
@@ -452,7 +456,7 @@ function Home() {
 
       {/* Availabel Events section */}
       {selectedMode === 1 &&
-      <div className='px-[24px] space-y-2 my-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Available this week</span>
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
@@ -480,6 +484,8 @@ function Home() {
         
       </div>
       }
+
+    </div>
 
     </div>
   )

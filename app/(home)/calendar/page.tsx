@@ -82,6 +82,54 @@ const meetings: MeetingProps[] = [
     startDatetime: '2025-02-15T14:00',
     endDatetime: '2025-02-15T14:30',
   },
+  {
+    id: 6,
+    name: 'ABC Kikaku Event',
+    imageUrl:
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2025-02-17T17:00',
+    endDatetime: '2025-02-17T18:30',
+  },
+  {
+    id: 7,
+    name: 'CDF Satueikai Event',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2025-02-17T13:00',
+    endDatetime: '2025-02-17T14:30',
+  },
+  {
+    id: 8,
+    name: 'ABC Kikaku Event',
+    imageUrl:
+      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2025-02-15T14:00',
+    endDatetime: '2025-02-15T14:30',
+  },
+  {
+    id: 9,
+    name: 'ABC Kikaku Event',
+    imageUrl:
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2025-02-17T17:00',
+    endDatetime: '2025-02-17T18:30',
+  },
+  {
+    id: 10,
+    name: 'CDF Satueikai Event',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2025-02-17T13:00',
+    endDatetime: '2025-02-17T14:30',
+  },
+  {
+    id: 11,
+    name: 'ABC Kikaku Event',
+    imageUrl:
+      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2025-02-15T14:00',
+    endDatetime: '2025-02-15T14:30',
+  },
 ]
 
 export default function Calendar() {
@@ -126,11 +174,11 @@ export default function Calendar() {
 
   return (
     <>
-    <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white">
+    <header className="sticky top-0 z-10 w-full h-[72px] flex items-center justify-center bg-white">
       <span className="text-[16px] leading-[24px] text-center font-semibold">Calendar</span>
     </header>
     
-    <div className="shadow-md">
+    <div className="">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
@@ -219,37 +267,38 @@ export default function Calendar() {
                 </div>
               ))}
             </div>
+
+            <div className='flex items-center justify-center pb-4 md:hidden'>
+              <div className='h-1 w-8 rounded-full bg-[#E8E8E8]'></div>
+            </div>
+          </div>
+
+          <div className=''>
+            <section className="mt-6 md:mt-0 pl-4">
+              <h2 className="font-semibold text-gray-900 pl-4">
+                Schedule for{' '}
+                <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
+                  {format(selectedDay, 'MMM dd, yyy')}
+                </time>
+              </h2>
+              <ol className="mt-4 space-y-3 text-sm leading-6 text-gray-500 md:overflow-y-scroll md:h-[40vh] md:no-scrollbar">
+                {selectedDayMeetings.length > 0 ? (
+                  selectedDayMeetings.map((meeting,index) => (
+                    <Meeting meeting={meeting} index={index} key={meeting.id} />
+                  ))
+                ) : (
+                  <p>No schedule for today.</p>
+                )}
+              </ol>
+            </section>
           </div>
         </div>
       </div>
-      <div className='flex items-center justify-center pb-4'>
-        <div className='h-1 w-8 rounded-full bg-[#E8E8E8]'></div>
-      </div>
-    </div>
-
-    <div className='min-h-[400px]'>
-      <section className="mt-6 md:mt-0 pl-4">
-        <h2 className="font-semibold text-gray-900">
-          Schedule for{' '}
-          <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-            {format(selectedDay, 'MMM dd, yyy')}
-          </time>
-        </h2>
-        <ol className="mt-4 space-y-3 text-sm leading-6 text-gray-500">
-          {selectedDayMeetings.length > 0 ? (
-            selectedDayMeetings.map((meeting,index) => (
-              <Meeting meeting={meeting} index={index} key={meeting.id} />
-            ))
-          ) : (
-            <p>No schedule for today.</p>
-          )}
-        </ol>
-      </section>
     </div>
 
     <div className='sticky bottom-0 pb-4 bg-white pt-4 z-10'>
       <Drawer>
-        <DrawerTrigger className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Add your available time</DrawerTrigger>
+        <DrawerTrigger className='w-[90%] md:w-[800px] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Add your available time</DrawerTrigger>
         <DrawerContent>
           <DrawerHeader className='flex items-center justify-between'>
             <DialogTitle className='hidden'></DialogTitle>
@@ -309,12 +358,12 @@ function Meeting({ meeting, index }:Props) {
         </div>
         
         <div className="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
-          <div className="relative z-10 size-7 flex justify-center items-center">
+          <div className="relative size-7 flex justify-center items-center">
             <div className="size-2 rounded-full bg-gray-400 dark:bg-neutral-600"></div>
           </div>
         </div>
 
-        <div className={`grow pt-0.5 pb-4 mb-8 px-2 rounded-l-md border-l-8 ${border} ${textColor} ${bgColor}`}>
+        <div className={`grow pt-0.5 pb-4 mb-8 px-2 rounded-md border-l-8 ${border} ${textColor} ${bgColor}`}>
           <h3 className="flex gap-x-1.5 font-semibold dark:text-white">
             
           </h3>

@@ -1,14 +1,25 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import React, { useMemo, useState } from 'react'
-import userAvatar from "@/public/images/mypage/user.png"
+import React, { useEffect, useMemo, useState } from 'react'
+import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import Image from 'next/image';
 import { backIcon } from '@/constants/icons';
 import Link from 'next/link';
+import { toast } from '@/hooks/use-toast';
 
 function MyPage() {
   const router = useRouter();
   const [progressBarStep, setProgressBarStep] = useState(2);
+  const [name,setName] = useState("")
+  const [userName,setUserName] = useState("")
+  const [userId,setUserId] = useState("")
+  const [intro,setIntro] = useState("")
+  const [location,setLocation] = useState("")
+  const [genre,setGenre] = useState("")
+  const [achievements,setAchievements] = useState("")
+  const [shootingPrice,setShootingPrice] = useState("")
+  const [loading,setLoading] = useState(true)
+  const [profileImage,setProfileImage] = useState("");
 
   const progressBarWidth: { [key: number]: string } = useMemo(() => ({
     1: "0",
@@ -24,6 +35,46 @@ function MyPage() {
     router.push(route)
   }
 
+  useEffect( ()=>{
+      setProgressBarStep(2)
+      try {
+        const fetchUser = async ()=>{
+          setLoading(true);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials:"include",
+          });
+  
+          const data = await res.json();
+          setName(`${data.user.firstName} ${data.user.lastName}`)
+          setUserName(data.user.username)
+          setProfileImage(data.user.profilePicture)
+          setUserId(data.user.userId)
+          setIntro(data.user.selfIntroduction)
+          setLocation(data.user.address)
+          setGenre(data.user.genres)
+          setAchievements(data.user.achievements)
+          setShootingPrice(data.user.shootingPrice)
+        }
+  
+        fetchUser();
+  
+        
+      } catch (error) {
+        toast({
+          title:"Server internal error",
+          description:`Error : ${error}`,
+          variant:"destructive"
+        })
+        console.error("error",error)
+      } finally{
+        setLoading(false)
+      }
+    },[])
+
   return (
     <div className='flex flex-col h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
@@ -33,14 +84,26 @@ function MyPage() {
       </header>
 
       <div className='bg-[#f8fcfd] p-4 py-6 overflow-y-scroll flex-1 no-scrollbar'>
-        <div className='h-[120px] bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
+        <div className='min-h-[120px] max-w-[800px] mx-auto bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
           <div className='h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
+            {profileImage === "" ?
             <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
+            :
+            <Image src={profileImage} alt="User" objectFit="contain" objectPosition="center" height={88} width={88} className='h-full w-full rounded-full p-[2px]'/>
+            }
           </div>
-          <div className='flex-1 flex items-center justify-between'>
+          <div className='flex-1 flex items-center justify-between flex-wrap space-y-2'>
             <div className='flex flex-col items-start justify-center gap-1'>
-              <span className='font-semibold text-[16px] leading-[24px] text-[#111111]'>Himari Sakura</span>
-              <span className='font-medium text-[10px] leading-[15px] text-[#999999]'>Username here</span>
+              {loading ?
+              <>
+              <div className='h-4 w-32 bg-gray-200 animate-pulse rounded-md'></div>
+              <div className='h-4 w-24 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='font-semibold text-[16px] leading-[24px] text-[#111111]'>{name}</span>
+              <span className='font-medium text-[10px] leading-[15px] text-[#999999]'>{userName}</span>
+              </>              
+              }
               <Link className='font-medium text-[10px] leading-[15px] text-[#E10101] flex items-center justify-center ' href={'/points-history'}>POINTS HISTORY {rightArrowIcon}</Link>
             </div>
             <div className='flex flex-col items-center justify-center text-[10px] leading-[15px] font-normal text-[#111111]'>
@@ -50,7 +113,7 @@ function MyPage() {
           </div>
         </div>
 
-        <div className='w-[80%] mx-auto mt-8 mb-4'>
+        <div className='max-w-[600px] mx-auto mt-8 mb-4 px-4'>
           <div
             className="h-[5px] w-full rounded-full bg-gradient-to-r mt-5 flex items-center justify-between"
             style={{
@@ -70,7 +133,7 @@ function MyPage() {
 
         </div>
 
-        <div className='flex flex-row items-center justify-center flex-wrap gap-4 px-2 py-6'>
+        <div className='flex flex-row items-center justify-center flex-wrap gap-4 py-6'>
           <div className='flex flex-col items-center justify-center gap-2'>
             <div className='h-[98px] w-[108px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
               {bronzeBadgeIcon}
@@ -94,42 +157,93 @@ function MyPage() {
           </div>
         </div>
 
-        <span className='text-[14px] leading-[20px] font-semibold text-[#111111] m-4'>Professional Information</span>
+        <div className='max-w-[800px] mx-auto'>
+          <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>Professional Information</span>
+        </div>
 
-        <div className='mx-4 mt-4 bg-white p-4 space-y-4 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>User Name</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>Himari Sakura</span>
+        <div className='max-w-[800px] mx-auto mt-4 bg-white p-4 space-y-4 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Name</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{userName}</span>
+              </>              
+              }
           </div>
 
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>User Id</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>himarisakura7826</span>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Id</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{userId}</span>
+              </>              
+              }
           </div>
 
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>Self Introduction</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>Freelance model in Tokyo</span>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Self Introduction</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{intro}</span>
+              </>              
+              }
           </div>
 
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>Main area</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>Tokyo, Chiba</span>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Main area</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{location}</span>
+              </>              
+              }
           </div>
 
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>Genre of expertise</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>Art</span>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Genre of expertise</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{genre}</span>
+              </>              
+              }
           </div>
 
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>Achievements</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>Psya style awards</span>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Achievements</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{achievements}</span>
+              </>              
+              }
           </div>
 
-          <div className='flex flex-row items-center justify-between'>
-            <span className='w-[40%] font-medium text-[14px] leading-[25px] text-[#111111]'>Shooting price per hours</span>
-            <span className='w-[55%] font-normal text-[12px] leading-[18px] text-[#777777]'>$300</span>
+          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Shooting price per hours</span>
+              {loading ?
+              <>
+              <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
+              </>:
+              <>
+              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{shootingPrice}</span>
+              </>              
+              }
           </div>
         </div>
       </div>

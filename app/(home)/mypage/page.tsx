@@ -68,7 +68,8 @@ function MyPage() {
         <span className="text-[16px] leading-[24px] text-center font-semibold">My Page</span>
       </header>
 
-      <div className='bg-[#f8fcfd] p-4 py-6 overflow-y-scroll flex-1 no-scrollbar'>
+      <div className='bg-[#f8fcfd] overflow-y-scroll flex-1 no-scrollbar'>
+      <div className='max-w-[800px] mx-auto p-4 py-6'>
         <div className='h-[120px] bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
           <div className='h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
             {profileImage === "" ?
@@ -133,6 +134,7 @@ function MyPage() {
         <div className='mt-4'>
           <button onClick={logout} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Logout</button>
         </div>
+      </div>
       </div>
 
     </div>

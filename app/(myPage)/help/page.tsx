@@ -21,7 +21,7 @@ function Help() {
         <span className="text-[16px] leading-[24px] text-center font-semibold">Help / How to use Toritora</span>
       </header>
 
-      <div className='flex flex-col items-center justify-center gap-6 p-4 mx-4 mt-4 bg-white rounded-lg shadow-md'>
+      <div className='flex flex-col items-center justify-center gap-6 p-4 mx-4 mt-4 bg-white rounded-lg shadow-md md:max-w-[800px] md:mx-auto'>
             {helpMenuList.map((item,index)=>{
               return(
                 <button className='w-full h-8 flex items-center justify-between' key={index} onClick={()=>handleGoToLink(item.link)}>

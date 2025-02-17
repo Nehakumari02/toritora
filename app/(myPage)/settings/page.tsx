@@ -34,6 +34,7 @@ function Settings() {
         <span className="text-[16px] leading-[24px] text-center font-semibold">My Settings</span>
       </header>
 
+      <div className='md:grid md:grid-cols-2 md:max-w-[800px] mx-auto'>
         <div className='space-y-4 mx-4 mt-8'>
           <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>ACCOUNT</span>
           <div className='flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
@@ -68,6 +69,7 @@ function Settings() {
             </button>
           </div>
         </div>
+      </div>
     </div>
   )
 }

@@ -37,6 +37,7 @@ function Footer() {
   const path = pathname.split("/");
   return (
     <div className='flex items-center justify-around w-full h-[88px] text-[#B2B2B2] shadow-[0px_-5px_20px_rgba(0,0,0,0.1)]'>
+      <div className='max-w-[800px] mx-auto flex items-center justify-around w-full'>
       {
         bottomTabs.map((tab,index)=>{
           return(
@@ -49,6 +50,7 @@ function Footer() {
           )
         })
       }
+      </div>
     </div>
   )
 }

@@ -51,7 +51,7 @@ function Feedback() {
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
         <span className="text-[16px] leading-[24px] text-center font-semibold">Give Feedback</span>
       </header>
-      <div className='mx-4 my-8 space-y-8'>
+      <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] my-8 space-y-8'>
         <div className='space-y-2 flex flex-col'>
           <span className='font-semibold text-[16px] leading-[24px] text-[#333333]'>Give Feedback</span>
           <span className='font-normal text-[14px] leading-[20px] text-[#333333]'>Your thoughts are valuable in helping improving our product.</span>

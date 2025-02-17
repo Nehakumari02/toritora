@@ -66,7 +66,7 @@ function Feedback() {
       <div className='flex items-center justify-center mt-8'>
         <Image src={feedbackHeroImage} alt='Success' className='w-[220px] aspect-square'/>
       </div>
-      <div className='mx-4 my-8 space-y-8'>
+      <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] my-8 space-y-8'>
         <div className='space-y-6 flex flex-col'>
           <span className='font-semibold text-[16px] leading-[24px] text-[#333333]'>Please rate your experience</span>
           <div className="flex items-center justify-between mx-4">

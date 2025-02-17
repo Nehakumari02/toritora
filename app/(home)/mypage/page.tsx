@@ -14,14 +14,23 @@ function MyPage() {
   const [profileImage,setProfileImage] = useState("");
 
   const logout = async() => {
-    const res = await fetch('/api/logout', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials:"include"
     });
 
-    if(res.status === 204){
+    if(res.status === 200){
+      router.replace('/onboard')
+    }
+    else{
+      toast({
+        title:"Unauthorized request",
+        description:"Invalid token is found logging out",
+        variant:"destructive"
+      })
       router.replace('/onboard')
     }
   }
@@ -42,21 +51,27 @@ function MyPage() {
           credentials:"include",
         });
 
-        const data = await res.json();
-        setName(`${data.user.firstName} ${data.user.lastName}`)
-        setUserName(data.user.username)
-        setProfileImage(data.user.profilePicture)
+        if(res.status===200){
+          const data = await res.json();
+          setName(`${data.user.firstName} ${data.user.lastName}`)
+          setUserName(data.user.username)
+          setProfileImage(data.user.profilePicture)
+        }
+        else{
+          toast({
+            title:"Error",
+            description:"Unauthorized request",
+            variant:"destructive"
+          })
+        }
+        
       }
 
       fetchUser();
 
       
     } catch (error) {
-      toast({
-        title:"Server internal error",
-        description:`Error : ${error}`,
-        variant:"destructive"
-      })
+      console.log("Error",error)
     } finally{
       setLoading(false)
     }

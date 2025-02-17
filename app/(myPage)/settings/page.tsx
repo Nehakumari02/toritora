@@ -1,5 +1,6 @@
 "use client"
 import { backIcon } from '@/constants/icons';
+import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
@@ -7,14 +8,22 @@ function Settings() {
   const router = useRouter();
 
   const logout = async() => {
-    const res = await fetch('/api/logout', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    if(res.status === 204){
+    if(res.status === 200){
+      router.replace('/onboard')
+    }
+    else{
+      toast({
+        title:"Unauthorized request",
+        description:"Invalid token is found logging out",
+        variant:"destructive"
+      })
       router.replace('/onboard')
     }
   }

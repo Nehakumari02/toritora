@@ -1059,7 +1059,7 @@ function RegistrationInfo() {
                     alt="Upload Icon"
                     className="w-[60px] h-[40px] object-cover mb-3"
                   />
-                  {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver's license, National id or any ID Proof</p>
+                  {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver&apos;s license, National id or any ID Proof</p>
                   )}
                   {idProof && (
 

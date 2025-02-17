@@ -72,15 +72,18 @@ function EditProfile() {
     try {
       setSavingStatus(true);
       
-      const changes = Object.keys(formValues)
-      .filter(
-        (key) =>
-          formValues[key as keyof FormValues] !==
-          initialValues[key as keyof FormValues]
-      )
-      .map((key) => ({
-        [key]: formValues[key as keyof FormValues],
-      }));
+      const changes = Object.keys(formValues).reduce(
+        (acc, key) => {
+          if (
+            formValues[key as keyof FormValues] !==
+            initialValues[key as keyof FormValues]
+          ) {
+            acc[key as keyof FormValues] = formValues[key as keyof FormValues];
+          }
+          return acc;
+        },
+        {} as Partial<FormValues>
+      );
 
       console.log(changes)
 
@@ -128,23 +131,33 @@ function EditProfile() {
           headers: { 'Content-Type': 'application/json' },
           credentials: "include",
         });
+
+        if(res.status===200){
+          const data = await res.json();
+          const userData = {
+            firstName: data.user.firstName,
+            lastName: data.user.lastName,
+            dob: data.user.dateOfBirth,
+            age: data.user.age,
+            questionOne: "",
+            questionTwo: "",
+            questionThree: "",
+            userName: data.user.username,
+            userId: data.user.userId,
+            profileImage: data.user.profilePicture,
+          };
+
+          setFormValues(userData);
+          setInitialValues(userData);
+        }
+        else{
+          toast({
+            title:"Error",
+            description:"Unauthorized request",
+            variant:"destructive"
+          })
+        }
   
-        const data = await res.json();
-        const userData = {
-          firstName: data.user.firstName,
-          lastName: data.user.lastName,
-          dob: data.user.dateOfBirth,
-          age: data.user.age,
-          questionOne: "",
-          questionTwo: "",
-          questionThree: "",
-          userName: data.user.username,
-          userId: data.user.userId,
-          profileImage: data.user.profilePicture,
-        };
-  
-        setFormValues(userData);
-        setInitialValues(userData);
       } catch (error) {
         toast({
           title: "Server internal error",

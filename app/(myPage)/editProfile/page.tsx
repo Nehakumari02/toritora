@@ -1,29 +1,55 @@
 "use client"
 import { backIcon } from '@/constants/icons';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
-import userAvatar from "@/public/images/mypage/user.png"
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
+import { toast } from '@/hooks/use-toast';
+import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
+import { Loader2 } from 'lucide-react';
+
+type FormValues = {
+  firstName: string;
+  lastName: string;
+  dob: string;
+  age: string;
+  questionOne: string;
+  questionTwo: string;
+  questionThree: string;
+  userName: string;
+  userId: string;
+  profileImage: string;
+};
 
 function EditProfile() {
   const router = useRouter();
   const [editProfileSection,setEditProfileSection] = useState(1);
 
-  const [firstName,setFirstName] = useState("")
-  const [lastName,setLastName] = useState("")
-  const [dob,setDob] = useState("")
-  const [age,setAge] = useState("")
-  const [questionOne,setQuestionOne] = useState("")
-  const [questionTwo,setQuestionTwo] = useState("")
-  const [questionThree,setQuestionThree] = useState("")
-  const [userName,setUserName] = useState("")
-  const [userId,setUserId] = useState("")
-  const [profileImage,setProfileImage] = useState("");
+  const [formValues, setFormValues] = useState<FormValues>({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    age: "",
+    questionOne: "",
+    questionTwo: "",
+    questionThree: "",
+    userName: "",
+    userId: "",
+    profileImage: "",
+  });
+  
+  const [initialValues, setInitialValues] = useState<FormValues>({} as FormValues);
+  const [isChanged, setIsChanged] = useState(false);
 
   const [loading,setLoading] = useState(true);
   const [savingStatus,setSavingStatus] = useState(false);
   
   const [isFocused, setIsFocused] = useState("");
+
+  const handleInputChange = (field:string, value:string) => {
+    const updatedFormValues = { ...formValues, [field]: value };
+    setFormValues(updatedFormValues);
+    setIsChanged(JSON.stringify(updatedFormValues) !== JSON.stringify(initialValues));
+  };
 
   const handleGoBack = ()=>{
     router.back();
@@ -32,6 +58,106 @@ function EditProfile() {
   const handleGoToLink = (route:string)=>{
     router.push(route)
   }
+
+  const handleSave = async()=>{
+    if(!isChanged){
+      toast({
+        title:"Error",
+        description:"No changes detected",
+        variant:"destructive"
+      })
+      return;
+    }
+
+    try {
+      setSavingStatus(true);
+      
+      const changes = Object.keys(formValues)
+      .filter(
+        (key) =>
+          formValues[key as keyof FormValues] !==
+          initialValues[key as keyof FormValues]
+      )
+      .map((key) => ({
+        [key]: formValues[key as keyof FormValues],
+      }));
+
+      console.log(changes)
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
+        body: JSON.stringify(changes),
+      });
+
+      if(res.status === 200){
+        toast({
+          title:"Success",
+          description:"Changes saved successfully",
+          variant:"success"
+        })
+        setInitialValues(formValues);
+        setIsChanged(false);
+      }
+      else{
+        toast({
+          title:"Error",
+          description:"Something went wrong",
+          variant:"destructive"
+        })
+      }
+      
+    } catch (error) {
+      toast({
+        title:"Error",
+        description:`Internal server error : ${error}`,
+        variant:"destructive"
+      })
+    } finally {
+      setSavingStatus(false);
+    }
+  }
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: "include",
+        });
+  
+        const data = await res.json();
+        const userData = {
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          dob: data.user.dateOfBirth,
+          age: data.user.age,
+          questionOne: "",
+          questionTwo: "",
+          questionThree: "",
+          userName: data.user.username,
+          userId: data.user.userId,
+          profileImage: data.user.profilePicture,
+        };
+  
+        setFormValues(userData);
+        setInitialValues(userData);
+      } catch (error) {
+        toast({
+          title: "Server internal error",
+          description: `Error : ${error}`,
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchUser();
+  }, []);
 
   return (
     <div className='flex flex-col h-full'>
@@ -42,7 +168,11 @@ function EditProfile() {
 
       <div className='mt-8 mb-4 gap-8 flex flex-col items-center justify-center'>
         <div className='relative h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
+          {formValues.profileImage === "" ?
           <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
+          :
+          <Image src={formValues.profileImage} alt="User" objectFit="contain" objectPosition="center" height={88} width={88} className='h-full w-full rounded-full p-[2px]'/>
+          }
           <span className='absolute -bottom-2 -right-2'>{editIcon}</span>
         </div>
         <div className='flex flex-row flex-wrap gap-2 items-center justify-center md:max-w-[800px] md:w-full'>
@@ -74,8 +204,6 @@ function EditProfile() {
                 {uploadIcon}
                 <input
                   type="file"
-                  value={profileImage}
-                  onChange={(e)=>{setLastName(e.target.value)}}
                   className="outline-none w-full hidden"
                 />
               </div>
@@ -92,8 +220,8 @@ function EditProfile() {
                 <input
                   type="text"
                   disabled={true}
-                  value={userName}
-                  onChange={(e)=>{setFirstName(e.target.value)}}
+                  value={formValues.userName}
+                  onChange={(e)=>{handleInputChange("userName", e.target.value)}}
                   onFocus={() => setIsFocused("userName")}
                   onBlur={() => setIsFocused("")}
                   className="outline-none w-full"
@@ -114,8 +242,8 @@ function EditProfile() {
                 <input
                   type="text"
                   disabled={true}
-                  value={userId}
-                  onChange={(e)=>{setDob(e.target.value)}}
+                  value={formValues.userId}
+                  onChange={(e)=>{handleInputChange("userId", e.target.value)}}
                   onFocus={() => setIsFocused("userId")}
                   onBlur={() => setIsFocused("")}
                   className="outline-none w-full"
@@ -139,8 +267,8 @@ function EditProfile() {
                 <input
                   type="text"
                   disabled={savingStatus || loading}
-                  value={lastName}
-                  onChange={(e)=>{setLastName(e.target.value)}}
+                  value={formValues.lastName}
+                  onChange={(e)=>{handleInputChange("lastName", e.target.value)}}
                   onFocus={() => setIsFocused("lastName")}
                   onBlur={() => setIsFocused("")}
                   className="outline-none w-full"
@@ -160,8 +288,8 @@ function EditProfile() {
                 <input
                   type="text"
                   disabled={savingStatus || loading}
-                  value={firstName}
-                  onChange={(e)=>{setFirstName(e.target.value)}}
+                  value={formValues.firstName}
+                  onChange={(e)=>{handleInputChange("firstName", e.target.value)}}
                   onFocus={() => setIsFocused("firstName")}
                   onBlur={() => setIsFocused("")}
                   className="outline-none w-full"
@@ -181,8 +309,8 @@ function EditProfile() {
                 <input
                   type="text"
                   disabled={savingStatus || loading}
-                  value={dob}
-                  onChange={(e)=>{setDob(e.target.value)}}
+                  value={formValues.dob}
+                  onChange={(e)=>{handleInputChange("dob", e.target.value)}}
                   onFocus={() => setIsFocused("dob")}
                   onBlur={() => setIsFocused("")}
                   className="outline-none w-full"
@@ -202,8 +330,8 @@ function EditProfile() {
                 <input
                   type="text"
                   disabled={savingStatus || loading}
-                  value={age}
-                  onChange={(e)=>{setAge(e.target.value)}}
+                  value={formValues.age}
+                  onChange={(e)=>{handleInputChange("age", e.target.value)}}
                   onFocus={() => setIsFocused("age")}
                   onBlur={() => setIsFocused("")}
                   className="outline-none w-full"
@@ -225,8 +353,8 @@ function EditProfile() {
               >
                 <textarea
                   disabled={savingStatus || loading}
-                  value={questionOne}
-                  onChange={(e) => setQuestionOne(e.target.value)}
+                  value={formValues.questionOne}
+                  onChange={(e) => handleInputChange("questionOne", e.target.value)}
                   className="outline-none w-full h-[90px] resize-none"
                   placeholder="Enter your characters here"
                 />
@@ -242,8 +370,8 @@ function EditProfile() {
               >
                 <textarea
                   disabled={savingStatus || loading}
-                  value={questionTwo}
-                  onChange={(e) => setQuestionTwo(e.target.value)}
+                  value={formValues.questionTwo}
+                  onChange={(e) => handleInputChange("questionTwo", e.target.value)}
                   className="outline-none w-full h-[90px] resize-none"
                   placeholder="Enter your characters here"
                 />
@@ -259,8 +387,8 @@ function EditProfile() {
               >
                 <textarea
                   disabled={savingStatus || loading}
-                  value={questionThree}
-                  onChange={(e) => setQuestionThree(e.target.value)}
+                  value={formValues.questionThree}
+                  onChange={(e) => handleInputChange("questionThree", e.target.value)}
                   className="outline-none w-full h-[90px] resize-none"
                   placeholder="Enter your characters here"
                 />
@@ -271,7 +399,7 @@ function EditProfile() {
       </div>
 
       <div className='px-4 py-4 flex items-center justify-center'>
-        <button className='w-[calc(min(100%,800px))] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>SAVE</button>
+        <button onClick={handleSave} className='w-[calc(min(100%,800px))] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{savingStatus?<Loader2 className='animate-spin'/>:"SAVE"}</button>
       </div>
 
     </div>

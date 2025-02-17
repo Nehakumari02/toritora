@@ -115,3 +115,8 @@
     filter: invert(0);
   }
 }
+
+.customPlaceholderText input::placeholder {
+  color: #333333;
+
+}

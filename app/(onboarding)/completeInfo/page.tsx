@@ -136,8 +136,6 @@ function RegistrationInfo() {
     age: "",
     gender: "",
     mobile: "",
-    password: "",
-    confirmPassword: "",
     postalCode: "",
     address: "",
   });
@@ -556,7 +554,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Password */}
-            <label className='block text-sm'>Password</label>
+            {/* <label className='block text-sm'>Password</label>
             <div className="flex items-center border rounded p-2">
               <Image src={password} alt='gender' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -567,10 +565,10 @@ function RegistrationInfo() {
                 onChange={handleChange}
                 className='w-full outline-none text-[12px]'
               />
-            </div>
+            </div> */}
 
             {/* Confirm Password */}
-            <label className='block text-sm'>Confirm Password</label>
+            {/* <label className='block text-sm'>Confirm Password</label>
             <div className="flex items-center border rounded p-2">
               <Image src={password} alt='gender' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -581,7 +579,7 @@ function RegistrationInfo() {
                 onChange={handleChange}
                 className='w-full outline-none text-[12px]'
               />
-            </div>
+            </div> */}
 
             {/* Postal Code */}
             <label className='block text-sm'>Postal Code <span className="text-red-500">*</span></label>
@@ -982,30 +980,34 @@ function RegistrationInfo() {
 
 
         {infoStep === 3 &&
-          <div className="flex-1  space-y-4 w-full p-6">
+          <div className="flex-1  space-y-4 w-full p-6 ">
             {/* Email Verification */}
             <label className="block text-sm">Email</label>
-            <div className="flex items-center border border-gray-400 rounded solid p-1 bg-[#D9D9D9] ">
-              <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
-              <input
-                type="email"
-                placeholder="Your Email Id"
-                //value={email}
-                //onChange={handleEmailChange}
-                className="w-full outline-none text-[12px] bg-[#D9D9D9] pointer-events-none cursor-not-allowed"
-              />
+            <div className='flex item-center justify-center customPlaceholderText '>
+              <div className="pl-4 w-[70%] flex items-center border-t-[1px] border-l-[1px] border-b-[1px] rounded-tl-md rounded-bl-md bg-[#D9D9D9]  pl-1 h-[48px]">
+
+                <Image src={mail} alt='email' width={20} height={20} className=" mr-2" />
+                <input
+                  type="email"
+                  placeholder="Your Email Id"
+                  //value={email}
+                  //onChange={handleEmailChange}
+                  className="w-full outline-none text-[12px]  pointer-events-none cursor-not-allowed bg-transparent text-[#333333]"
+                />
+
+
+              </div>
               <button
-                className="text-[#2EC458] bg-[#D9D9D9] px-[2px] rounded ml-2 text-sm w-20 h-9 flex items-center justify-center gap-1"
+                className=" h-[48px] text-[#2EC458]  px-[2px] rounded  text-sm w-[30%] flex items-center justify-center gap-1 bg-white border-t-[1px] border-r-[1px] border-b-[1px] rounded-tr-md rounded-br-md "
               >
                 <FaCheckCircle />
                 Verified
               </button>
-
             </div>
 
             {/* Mobile Number Verification */}
             <label className="block text-sm">Mobile Number <span className="text-red-500">*</span></label>
-            <div className="flex items-center border rounded p-1">
+            <div className="flex items-center border rounded p-1 pl-3">
               <Image src={phone} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="tel"
@@ -1083,8 +1085,9 @@ function RegistrationInfo() {
                   type="checkbox"
                   checked={consent1}
                   onChange={handleConsent1Change}
-                  className="mr-2 text-[12px]  accent-[#FF9F1C]"
+                  className="flex-shrink-0 h-[16px] w-[16px] mr-2 text-[12px]  accent-[#FF9F1C]"
                 />
+
                 I have confirmed that my personal information is correct.
               </label>
             </div>
@@ -1094,7 +1097,7 @@ function RegistrationInfo() {
                   type="checkbox"
                   checked={consent2}
                   onChange={handleConsent2Change}
-                  className="mr-2 f accent-[#FF9F1C]"
+                  className="flex-shrink-0 h-[16px] w-[16px] text-[12px] mr-2 accent-[#FF9F1C]"
                 />
                 I would like to receive e-mails about the latest information such as events and model entries.
               </label>
@@ -1102,7 +1105,7 @@ function RegistrationInfo() {
           </div>
         }
 
-        {infoStep === 4 &&
+        {infoStep === 4 && profession === 'photographer' &&
           <div className="flex-1 space-y-4 w-full p-6">
 
             {/* Question 1 */}
@@ -1129,6 +1132,55 @@ function RegistrationInfo() {
 
             {/* Question 3 */}
             <label className="block text-sm">3. Do you have any assistance with models? What is it?</label>
+            <textarea
+              name="assistanceWithModels"
+              value={feedback.assistanceWithModels}
+              onChange={handleChangeFeedback}
+              placeholder="Write your answer here..."
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+              rows={4}
+            ></textarea>
+
+            {/* Question 4 */}
+            <label className="block text-sm">4. Please tell me your hobbies.</label>
+            <textarea
+              name="hobbies"
+              value={feedback.hobbies}
+              onChange={handleChangeFeedback}
+              placeholder="Write your answer here..."
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+              rows={4}
+            ></textarea>
+
+          </div>
+        }
+        {infoStep === 4 && profession === 'modelling' &&
+          <div className="flex-1 space-y-4 w-full p-6">
+
+            {/* Question 1 */}
+            <label className="block text-sm">1. Why did you become models?</label>
+            <textarea
+              name="importantThing"
+              value={feedback.importantThing}
+              onChange={handleChangeFeedback}
+              placeholder="Write your answer here..."
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+              rows={4}
+            ></textarea>
+
+            {/* Question 2 */}
+            <label className="block text-sm">2. What is the most important thing for you in a photo session?</label>
+            <textarea
+              name="stress"
+              value={feedback.stress}
+              onChange={handleChangeFeedback}
+              placeholder="Write your answer here..."
+              className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
+              rows={4}
+            ></textarea>
+
+            {/* Question 3 */}
+            <label className="block text-sm">3. What do you think photographers have to do in a photo session? Do you need any assistance</label>
             <textarea
               name="assistanceWithModels"
               value={feedback.assistanceWithModels}

@@ -53,25 +53,19 @@ async function deleteFileS3(
   filePathInS3: string,
 ): Promise<string> {
   try {
-    const fileName = "asdf";
-    const fileType = "asdf";
-    const folderPath = filePathInS3;
 
-    const { data } = await axios.post<UploadResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/image/uploadUrl`, {
-      fileName,
-      fileType,
-      folderPath
-    },
-    {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      withCredentials: true,
-    }
-    );
+    const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/image/`, {
+      data: { fileUrl:filePathInS3 },
+      headers: {
+        'Content-Type': 'application/json', // Optional, depending on server config
+      },
+      withCredentials: true, // If you need credentials like cookies
+    });
 
-    const { uploadUrl, viewUrl } = data;
-
-
-    return viewUrl;
+    if(res.status === 200)
+      return 'success';
+    
+    return "fail"
   } catch (error) {
     console.error('Error uploading file:', error);
     throw error;

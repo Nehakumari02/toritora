@@ -4,12 +4,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import feedbackHeroImage from '@/public/images/common/feedbackHeroImage.png';
-import { uploadFileToS3 } from '@/lib/fileUpload';
+import { uploadFileToS3, deleteFileS3 } from '@/lib/fileUpload';
+import { toast } from '@/hooks/use-toast';
 
 function Favourites() {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [per,setPer] = useState(0);
+  const [fileUrl,setFileUrl] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -22,12 +24,29 @@ function Favourites() {
     if (selectedFile) {
       const res = await uploadFileToS3(selectedFile, "profile/images");
       console.log("res from handle uplaod",res)
+      setFileUrl(res)
     } else {
       console.error("No file selected");
     }
     
   }
 
+  const handleDelete = async()=>{
+    const res = await deleteFileS3(fileUrl)
+    if(res==="success"){
+      toast({
+        title:"Success",
+        variant:"success"
+      })
+      setFileUrl("")
+    }
+    else{
+      toast({
+        title:"Error",
+        variant:"destructive"
+      })
+    }
+  }
   const handleGoBack = ()=>{
     router.back();
   }
@@ -70,6 +89,14 @@ function Favourites() {
         {per}
 
         <button className='m-4 px-8 py-4 bg-primary border rounded-md' onClick={handleUpload}>Upload</button>
+
+        <div>
+          {fileUrl && <span>file url : {fileUrl}</span>}
+        </div>
+
+        <div>
+          {fileUrl&& <button className='m-4 px-8 py-4 bg-primary border rounded-md' onClick={handleDelete}>Delete Uploaded File</button>}
+        </div>
     </div>
   )
 }

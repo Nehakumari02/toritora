@@ -135,16 +135,16 @@ function EditProfile() {
         if(res.status===200){
           const data = await res.json();
           const userData = {
-            firstName: data.user.firstName,
-            lastName: data.user.lastName,
-            dob: data.user.dateOfBirth,
-            age: data.user.age,
+            firstName: data.user?.firstName ?? '',
+            lastName: data.user?.lastName ?? '',
+            dob: data.user?.dateOfBirth ?? '',
+            age: data.user?.age ?? '',
             questionOne: "",
             questionTwo: "",
             questionThree: "",
-            userName: data.user.username,
-            userId: data.user.userId,
-            profileImage: data.user.profilePicture,
+            userName: data.user?.username ?? '',
+            userId: data.user?.userId ?? '',
+            profileImage: data.user?.profilePicture ?? '',
           };
 
           setFormValues(userData);
@@ -206,7 +206,7 @@ function EditProfile() {
           <div className='px-4 space-y-8 max-w-[800px] mx-auto'>
             <div className='space-y-2 flex flex-wrap items-center justify-between'>
               <div className='flex flex-col items-start gap-4'>
-                <span className='font-medium text-[14px] leading-[21px] text-[#333333]'>Last Name <span className='text-[#FF0000]'>*</span></span>
+                <span className='font-medium text-[14px] leading-[21px] text-[#333333]'>Profile Picture <span className='text-[#FF0000]'>*</span></span>
                 <span className='font-normal text-[10px] leading-[15px] text-[#999999]'>This will be displayed on your profile</span>
               </div>
               <div

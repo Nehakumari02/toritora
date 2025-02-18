@@ -53,9 +53,9 @@ function MyPage() {
 
         if(res.status===200){
           const data = await res.json();
-          setName(`${data.user.firstName} ${data.user.lastName}`)
-          setUserName(data.user.username)
-          setProfileImage(data.user.profilePicture)
+          setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
+          setUserName(data.user?.username ?? 'Anonymous');
+          setProfileImage(data.user?.profilePicture ?? '');
         }
         else{
           toast({

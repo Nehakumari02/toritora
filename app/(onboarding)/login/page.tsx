@@ -77,6 +77,14 @@ function Login() {
     if (res.status === 200) {
       router.replace('/')
     }
+    else if (res.status === 202) {
+      router.push("/registerProfile");
+      toast({
+        title: "Success",
+        description: "Profile pending redirecting...",
+        variant: "success"
+      })
+    }
     else {
       toast({
         title: "Error",
@@ -106,6 +114,14 @@ function Login() {
           router.push("/");
           toast({
             title: "Login Success",
+            variant: "success"
+          })
+        }
+        else if (res.status === 202) {
+          router.push("/registerProfile");
+          toast({
+            title: "Success",
+            description: "Profile pending redirecting...",
             variant: "success"
           })
         }

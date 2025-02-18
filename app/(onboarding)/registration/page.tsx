@@ -236,6 +236,14 @@ function Register() {
             variant: 'success',
           });
         }
+        else if (res.status === 202) {
+          router.push("/registerProfile");
+          toast({
+            title: "Success",
+            description: "Profile pending redirecting...",
+            variant: "success"
+          })
+        }
       } else {
         // Handle error case (does not have 'code')
         console.error("Error during Google login:", authResult.error_description);

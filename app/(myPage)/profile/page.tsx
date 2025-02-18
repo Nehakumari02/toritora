@@ -50,15 +50,15 @@ function MyPage() {
 
           if(res.status===200){
             const data = await res.json();
-            setName(`${data.user.firstName} ${data.user.lastName}`)
-            setUserName(data.user.username)
-            setProfileImage(data.user.profilePicture)
-            setUserId(data.user.userId)
-            setIntro(data.user.selfIntroduction)
-            setLocation(data.user.address)
-            setGenre(data.user.genres)
-            setAchievements(data.user.achievements)
-            setShootingPrice(data.user.shootingPrice)
+            setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
+            setUserName(data.user?.username ?? 'Anonymous');
+            setProfileImage(data.user?.profilePicture ?? '');
+            setUserId(data.user?.userId ?? '');
+            setIntro(data.user?.selfIntroduction ?? 'No introduction provided');
+            setLocation(data.user?.address ?? 'Location not available');
+            setGenre(data.user?.genres ?? '');
+            setAchievements(data.user?.achievements ?? 'NA');
+            setShootingPrice(data.user?.shootingPrice ?? 'Price not set');            
           }
           else{
             toast({

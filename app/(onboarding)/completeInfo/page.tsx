@@ -87,23 +87,32 @@ function RegistrationInfo() {
     if (!validateForms()) return;
 
     const uploadPromises = [];
+
     // Handle subPhotos uploads
-    if (subPhotos && subPhotos.length > 0) {
-      subPhotos.forEach(photo => {
-        uploadPromises.push(uploadFileToS3(photo, "modelPics/images"));
-      });
-    } else {
-      console.error("No subPhoto selected");
-    }
+    const subPhotoUrls = subPhotos.map(photo => uploadFileToS3(photo, "modelPics/images"));
+    uploadPromises.push(...subPhotoUrls);
+
     // Handle idProof upload
+    let idProofUrl = '';
     if (idProof) {
-      uploadPromises.push(uploadFileToS3(idProof, "idProof/images"));
+      const idProofPromise = uploadFileToS3(idProof, "idProof/images").then(url => {
+        idProofUrl = url;
+        return url;
+      });
+      uploadPromises.push(idProofPromise);
     } else {
       console.error("No file selected for ID Proof");
     }
+
     // Handle selectedProfilePic upload
+    let profilePicUrl = '';
     if (selectedFileProfilePic) {
-      uploadPromises.push(uploadFileToS3(selectedFileProfilePic, "profilepic/images"));
+      const profilePicPromise = uploadFileToS3(selectedFileProfilePic, "profilepic/images").then(url => {
+        profilePicUrl = url;
+        console.log("profilepic url", profilePicUrl)
+        return url;
+      });
+      uploadPromises.push(profilePicPromise);
     } else {
       console.error("No file selected for Profile Picture");
     }
@@ -111,9 +120,7 @@ function RegistrationInfo() {
     try {
       // Run all uploads in parallel
       const uploadResults = await Promise.all(uploadPromises);
-      uploadResults.forEach(res => {
-        console.log("res from handle upload", res);
-      });
+      console.log("Uploaded file URLs:", uploadResults);
 
       // Now send the form data to the backend
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/registration/userDetails`, {
@@ -126,7 +133,9 @@ function RegistrationInfo() {
           ...formData,
           ...formData1,
           ...feedback,
-          idProof,
+          profilePicture: profilePicUrl,
+          idProof: idProofUrl,
+          images: uploadResults.slice(0, subPhotos.length),
         }),
       });
 
@@ -141,7 +150,7 @@ function RegistrationInfo() {
       } else if (res.status === 500) {
         toast({
           title: "Internal error",
-          description: `Server internal error, please try again later`,
+          description: "Server internal error, please try again later",
           variant: "destructive",
         });
       }
@@ -156,6 +165,7 @@ function RegistrationInfo() {
 
     console.log("Submitting");
   };
+
 
   const [feedback, setFeedback] = useState({
     importantThing: '',
@@ -192,7 +202,8 @@ function RegistrationInfo() {
     modellingExperiance: "",
     instagram: "",
     twitter: "",
-    images: [] as string[] // Changed from File[] to string[] for URLs
+    images: [] as string[], // Changed from File[] to string[] for URLs
+    idProof: '',
   });
 
 
@@ -282,7 +293,7 @@ function RegistrationInfo() {
     for (const [key, value] of Object.entries(formData1)) {
       if (
         !value &&
-        key !== "images" && key !== "profilePicture" &&
+        key !== "images" && key !== "profilePicture" && key !== "idProof" &&
         !excluded.includes(key)
       ) {
         toast({

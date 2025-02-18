@@ -5,6 +5,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { FaCheckCircle } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import { Upload, XCircle, PlusCircle, Plus, X } from 'lucide-react';
+import { uploadFileToS3 } from '@/lib/fileUpload';
 
 
 import photographerBanner from '@/public/images/registration/infoBannerPhotography.jpeg'
@@ -42,9 +43,8 @@ function RegistrationInfo() {
   const { toast } = useToast();
 
   const [subPhotos, setSubPhotos] = useState<File[]>([]);
-  const [uploadStatus, setUploadStatus] = useState('');
-
-
+  const [selectedFileProfilePic, setSelectedFileProfilePic] = useState<File | null>(null);
+  const [idProof, setIdProof] = useState<File | null>(null);
 
   const handleFileChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
@@ -86,41 +86,76 @@ function RegistrationInfo() {
   const handleSubmit = async () => {
     if (!validateForms()) return;
 
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/registration/userDetails`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        ...formData,
-        ...formData1,
-        ...feedback,
-        idProof,
-
-      }),
-
-    });
-
-    if (res.status === 200) {
-      toast({
-        title: "Success",
-        description: "User Details updated sucessfully",
-        variant: "success"
-      })
-      router.push('/')
+    const uploadPromises = [];
+    // Handle subPhotos uploads
+    if (subPhotos && subPhotos.length > 0) {
+      subPhotos.forEach(photo => {
+        uploadPromises.push(uploadFileToS3(photo, "modelPics/images"));
+      });
+    } else {
+      console.error("No subPhoto selected");
     }
-    else if (res.status === 500) {
-      toast({
-        title: "Internal error",
-        description: `Server internal error please try after again`,
-        variant: "destructive"
-      })
+    // Handle idProof upload
+    if (idProof) {
+      uploadPromises.push(uploadFileToS3(idProof, "idProof/images"));
+    } else {
+      console.error("No file selected for ID Proof");
     }
-    console.log("submitting");
-  }
+    // Handle selectedProfilePic upload
+    if (selectedFileProfilePic) {
+      uploadPromises.push(uploadFileToS3(selectedFileProfilePic, "profilepic/images"));
+    } else {
+      console.error("No file selected for Profile Picture");
+    }
+
+    try {
+      // Run all uploads in parallel
+      const uploadResults = await Promise.all(uploadPromises);
+      uploadResults.forEach(res => {
+        console.log("res from handle upload", res);
+      });
+
+      // Now send the form data to the backend
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/registration/userDetails`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          ...formData,
+          ...formData1,
+          ...feedback,
+          idProof,
+        }),
+      });
+
+      // Handle the response from the server
+      if (res.status === 200) {
+        toast({
+          title: "Success",
+          description: "User details updated successfully",
+          variant: "success",
+        });
+        router.push('/');
+      } else if (res.status === 500) {
+        toast({
+          title: "Internal error",
+          description: `Server internal error, please try again later`,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error during file upload or submission:", error);
+      toast({
+        title: "Error",
+        description: "An error occurred during the upload or submission process",
+        variant: "destructive",
+      });
+    }
+
+    console.log("Submitting");
+  };
 
   const [feedback, setFeedback] = useState({
     importantThing: '',
@@ -192,13 +227,6 @@ function RegistrationInfo() {
     }
   };
 
-  const toggleGender = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      gender: prevData.gender === "Male" ? "Female" : "Male",
-    }));
-  };
-
   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -219,7 +247,6 @@ function RegistrationInfo() {
       }));
     }
   };
-
 
   const validateForms = () => {
     const profession1 = localStorage.getItem('userProfession') || 'photographer';
@@ -255,8 +282,7 @@ function RegistrationInfo() {
     for (const [key, value] of Object.entries(formData1)) {
       if (
         !value &&
-        key !== "images" &&
-        key !== "profilePicture" && // Properly exclude profilePicture
+        key !== "images" && key !== "profilePicture" &&
         !excluded.includes(key)
       ) {
         toast({
@@ -268,22 +294,42 @@ function RegistrationInfo() {
       }
     }
 
+    // Validate subPhotos, selectedFileProfilePic, and idProof
+
+    if (!selectedFileProfilePic) {
+      toast({
+        title: "Error",
+        description: "Please upload a profile picture",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (subPhotos.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please upload at least one photo",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+
+
+    if (!idProof) {
+      toast({
+        title: "Error",
+        description: "Please upload an ID proof",
+        variant: "destructive"
+      });
+      return false;
+    }
     return true;
   };
 
-
-
-
   const [mobile, setMobile] = useState('');
-  const [otpEmail, setOtpEmail] = useState('');
-  const [otpMobile, setOtpMobile] = useState('');
-  const [emailVerified, setEmailVerified] = useState(false);
-  const [mobileVerified, setMobileVerified] = useState(false);
-  const [idProof, setIdProof] = '';
-
   const [consent1, setConsent1] = useState(false);
   const [consent2, setConsent2] = useState(false);
-
   const [achievements, setAchievements] = useState(['', '']);
 
   const handleChangeAch = (index: number, value: string): void => {
@@ -303,37 +349,16 @@ function RegistrationInfo() {
     }
   };
 
-
-  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMobile(e.target.value);
-  };
-
-  const handleOtpEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOtpEmail(e.target.value);
-  };
-
-  const handleOtpMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOtpMobile(e.target.value);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChangeProfilePic = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(uploadStatus)
-
-    if (e.target.files && e.target.files.length > 0) {
-      //setIdProof(e.target.files[0]);
-    }
-
-  };
-
-  const handleFileChangeProfilePicture = () => {
-    const file = fileInputRef.current?.files?.[0];
     if (file) {
-      console.log('Selected file:', file.name);
-      // setFormData1({
-      //   ...formData1,
-      //   //profilePicture: file,
-      // });
+      setSelectedFileProfilePic(file);
+    }
+  };
+  const handleFileChangeIdProof = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setIdProof(file);
     }
   };
 
@@ -346,16 +371,6 @@ function RegistrationInfo() {
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  //const fileInputRef1 = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState(null);
-
-  // const handleFileChange = (event) => {
-  //   const selectedFile = event.target.files[0];
-  //   if (selectedFile) {
-  //     setFile(selectedFile);
-  //   }
-  // };
 
   // Handle file drop
   const handleFileDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -370,26 +385,6 @@ function RegistrationInfo() {
   // Prevent default behavior for drag events
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-  };
-
-  const sendEmailOtp = () => {
-    // Logic to send OTP to email
-    alert('OTP sent to email');
-  };
-
-  const sendMobileOtp = () => {
-    // Logic to send OTP to mobile number
-    alert('OTP sent to mobile');
-  };
-
-  const verifyEmailOtp = () => {
-    // Logic to verify OTP for email
-    setEmailVerified(true);
-  };
-
-  const verifyMobileOtp = () => {
-    // Logic to verify OTP for mobile number
-    setMobileVerified(true);
   };
 
   useEffect(() => {
@@ -407,9 +402,7 @@ function RegistrationInfo() {
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
         <span className='text-[16px] leading-[24px] text-center font-semibold'>Info</span>
       </header>
-
       <div className='flex flex-col flex-1 items-center space-y-4 overflow-y-scroll no-scrollbar'>
-
         <div className='h-[102px] overflow-hidden relative'>
           <Image src={profession === "photographer" ? photographerBanner : modelBanner} alt='Banner' />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-[22px] leading-[32px] font-semibold text-white">
@@ -445,7 +438,6 @@ function RegistrationInfo() {
               <span className={`${infoStep >= 4 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>Questionaries</span>
             </div>
           </div>
-
         </div>
 
         <div className='flex-1 space-y-4'>
@@ -641,17 +633,22 @@ function RegistrationInfo() {
                   type="file"
                   ref={fileInputRef}
                   className="hidden"
-                  onChange={handleFileChangeProfilePicture}
+                  onChange={handleFileChangeProfilePic}
                 />
-                {formData1.profilePicture && (
+                {selectedFileProfilePic && (
+                  <p className="text-green-600 text-[10px] text-center mt-2">
+                    {selectedFileProfilePic.name}
+                  </p>
+                )}
+                {/* {formData1.profilePicture && (
 
                   <p className="text-green-600 text-[10px] text-center mt-2">file uploaded</p>
-                )}
+                )} */}
               </label>
             </div>
 
             {/* Username Field with Icon */}
-            <label className="block text-sm">Username <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Username </label>
             <div className="flex items-center border rounded p-2 bg-white">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -759,7 +756,6 @@ function RegistrationInfo() {
           </div>
         }
 
-
         {infoStep === 2 && profession === 'modelling' &&
           <div className="flex-1 space-y-4 w-full p-6">
             {/* User ID Field with Icon */}
@@ -788,16 +784,19 @@ function RegistrationInfo() {
                   type="file"
                   ref={fileInputRef}
                   className="hidden"
-                  onChange={handleFileChangeProfilePicture}
+                  onChange={handleFileChangeProfilePic}
                 />
-                {formData1.profilePicture && (
+                {selectedFileProfilePic && (
+                  <p className="text-green-600 text-[10px] text-center mt-2">
+                    {selectedFileProfilePic.name}
+                  </p>
+                )}
+                {/* {formData1.profilePicture && (
 
                   <p className="text-green-600 text-[10px] text-center mt-2">file uploaded</p>
-                )}
+                )} */}
               </label>
             </div>
-
-
 
             {/* Username Field with Icon */}
             <label className="block text-sm">Username <span className="text-red-500">*</span></label>
@@ -1061,14 +1060,20 @@ function RegistrationInfo() {
                   />
                   {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver&apos;s license, National id or any ID Proof</p>
                   )}
-                  {idProof && (
+                  {/* {idProof && (
 
                     <p className="text-green-600 text-sm text-center mt-2">file uploaded sucessfully</p>
+                  )} */}
+
+                  {idProof && (
+                    <p className="text-green-600 text-[10px] text-center mt-2">
+                      {idProof.name}
+                    </p>
                   )}
                   <input
                     ref={fileInputRef}
                     type="file"
-                    onChange={handleFileChange}
+                    onChange={handleFileChangeIdProof}
                     className="hidden"
                   />
                 </div>

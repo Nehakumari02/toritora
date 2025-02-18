@@ -1006,7 +1006,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Mobile Number Verification */}
-            <label className="block text-sm">Mobile Number <span className="text-red-500">*</span></label>
+            {/* <label className="block text-sm">Mobile Number <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-1 pl-3">
               <Image src={phone} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -1040,7 +1040,7 @@ function RegistrationInfo() {
             >
               Verify OTP
             </button>
-            {mobileVerified && <p className="text-green-500">Mobile Verified Successfully</p>}
+            {mobileVerified && <p className="text-green-500">Mobile Verified Successfully</p>} */}
 
             <div className="max-w-md mx-auto mb-8 mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2 text-center mt-12">
@@ -1048,7 +1048,7 @@ function RegistrationInfo() {
               </label>
               <div className='w-full flex flex-center item-center w-full'>
                 <div
-                  className="w-[332px] h-[162px] text-center flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
+                  className="w-full h-[162px] text-center flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-gray-500 transition"
                   onDragOver={handleDragOver} // Corrected event handler
                   onDrop={handleFileDrop}
                   onClick={() => fileInputRef.current?.click()}

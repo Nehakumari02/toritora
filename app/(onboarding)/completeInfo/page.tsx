@@ -133,6 +133,7 @@ function RegistrationInfo() {
           ...formData,
           ...formData1,
           ...feedback,
+          isProfileCompleted: true,
           profilePicture: profilePicUrl,
           idProof: idProofUrl,
           images: uploadResults.slice(0, subPhotos.length),

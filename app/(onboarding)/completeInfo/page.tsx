@@ -501,7 +501,7 @@ function RegistrationInfo() {
 
 
             {/* Age */}
-            <label className='block text-sm'>Age</label>
+            <label className='block text-sm'>Age (optional)</label>
             <div className="flex items-center border rounded p-2">
               <Image src={calendar} alt='calendar' width={20} height={20} className="text-gray-500 mr-2" />
               <input

@@ -120,3 +120,83 @@
   color: #333333;
 
 }
+
+/* Slider Track */
+.slider {
+  -webkit-appearance: none;
+  /* Remove default styling */
+  appearance: none;
+}
+
+.slider::-webkit-slider-runnable-track {
+  background: #FFA500;
+  /* Orange color for the track */
+  height: 4px;
+  border-radius: 4px;
+  border: none;
+  /* Remove border from the track */
+}
+
+.slider::-moz-range-track {
+  background: #FFA500;
+  /* Orange color for the track */
+  height: 4px;
+  border-radius: 4px;
+  border: none;
+  /* Remove border from the track */
+}
+
+/* Slider Thumb */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  /* Remove default styling */
+  appearance: none;
+  background: #ffffff;
+  /* White color for the thumb */
+  border-radius: 50%;
+  /* Round thumb */
+  width: 20px;
+  /* Thumb width */
+  height: 20px;
+  /* Thumb height */
+  cursor: pointer;
+  /* Pointer cursor when hovering over the thumb */
+  border: 2px solid #FFA500;
+  /* Optional: Add orange border around the white thumb */
+  margin-top: -8px;
+  /* Align the thumb correctly */
+}
+
+.slider::-moz-range-thumb {
+  background: #ffffff;
+  /* White color for the thumb */
+  border-radius: 50%;
+  /* Round thumb */
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: 2px solid #FFA500;
+  /* Optional: Add orange border around the white thumb */
+}
+
+/* For Internet Explorer */
+.slider::-ms-track {
+  background: #FFA500;
+  /* Orange color for the track */
+  height: 4px;
+  border-radius: 4px;
+  border: none;
+  /* Remove border from the track */
+}
+
+.slider::-ms-thumb {
+  background: #ffffff;
+  /* White color for the thumb */
+  border-radius: 50%;
+  /* Round thumb */
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: 2px solid #FFA500;
+  /* Optional: Add orange border around the white thumb */
+}

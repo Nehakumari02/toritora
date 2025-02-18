@@ -145,7 +145,11 @@ function Favourites() {
             <option value="cool">Cool</option>
             <option value="pretty">Pretty</option>
             <option value="dark">Dark</option>
-            <option value="nature">Nature</option>
+            <option value="nature">Natural</option>
+            <option value="cool">Art</option>
+            <option value="pretty">Clean</option>
+            <option value="dark">Cute</option>
+            <option value="nature">Others</option>
           </select>
         </div>
 

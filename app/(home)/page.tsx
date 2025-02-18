@@ -279,6 +279,7 @@ function Home() {
         placeholder='Find your favourite Model'
         value={searchTerm}
         onChange={(e)=>setSearchTerm(e.target.value)}
+        onFocus={()=>{handleGoToLink("/search")}}
         />
         <div className='absolute top-[50%] translate-y-[-50%] right-[34px]'>
           {searchIcon}

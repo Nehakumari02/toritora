@@ -7,24 +7,28 @@ interface UploadResponse {
 
 async function uploadFileToS3(
   file: File, 
+  filePathInS3: string,
   setUploadPercentage?: (percentage: number) => void
 ): Promise<string> {
   try {
     const fileName = file.name;
     const fileType = file.type;
+    const folderPath = filePathInS3;
 
-    const { data } = await axios.post<UploadResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/image/getUploadUrl`, {
+    const { data } = await axios.post<UploadResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/image/uploadUrl`, {
       fileName,
       fileType,
+      folderPath
     },
-    { withCredentials: true }
+    {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }
     );
 
     const { uploadUrl, viewUrl } = data;
 
-    console.log(uploadUrl,viewUrl)
-
-    await axios.put(uploadUrl, file, {
+    const res = await axios.put(uploadUrl, file, {
       headers: {
         'Content-Type': fileType,
       },
@@ -45,4 +49,34 @@ async function uploadFileToS3(
   }
 }
 
-export default uploadFileToS3;
+async function deleteFileS3(
+  filePathInS3: string,
+): Promise<string> {
+  try {
+    const fileName = "asdf";
+    const fileType = "asdf";
+    const folderPath = filePathInS3;
+
+    const { data } = await axios.post<UploadResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/image/uploadUrl`, {
+      fileName,
+      fileType,
+      folderPath
+    },
+    {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }
+    );
+
+    const { uploadUrl, viewUrl } = data;
+
+
+    return viewUrl;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw error;
+  }
+}
+
+export { uploadFileToS3, deleteFileS3 };
+

@@ -266,7 +266,7 @@ function Register() {
 
   return (
     <div className='h-[100dvh] flex flex-col'>
-      <header className='relative w-full h-[72px] flex items-center justify-center shadow-lg'>
+      <header className='w-full h-[72px] flex-shrink-0 z-10 sticky top-0 bg-white flex items-center justify-center shadow-lg'>
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
         <span className='text-[16px] leading-[24px] text-center font-semibold'>{verificationCodeSent ? "Verification" : "Register"}</span>
       </header>

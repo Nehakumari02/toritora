@@ -15,7 +15,7 @@ import 'swiper/css/effect-fade';
 
 function Onboard() {
   return (
-    <div className='flex flex-col h-[100dvh] justify-center gap-12 md:max-w-[800px] md:mx-auto'>
+    <div className='flex flex-col min-h-full flex-1 justify-center gap-12 md:max-w-[800px] md:mx-auto'>
         <div className='onboard-swiper' >
         <Swiper
         pagination={{ clickable: true }}

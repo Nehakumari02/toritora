@@ -137,6 +137,7 @@ function RegistrationInfo() {
           profilePicture: profilePicUrl,
           idProof: idProofUrl,
           images: uploadResults.slice(0, subPhotos.length),
+          achievements: achievements,
         }),
       });
 
@@ -191,7 +192,7 @@ function RegistrationInfo() {
     userId: '',
     username: '',
     genres: '',
-    achievements: '',
+    achievements: [] as string[],
     cameraType: '',
     shootingPrice: '',
     transportationFee: '',
@@ -317,7 +318,7 @@ function RegistrationInfo() {
       return false;
     }
 
-    if (subPhotos.length === 0) {
+    if (profession1 !== 'photographer' && subPhotos.length === 0) {
       toast({
         title: "Error",
         description: "Please upload at least one photo",
@@ -336,30 +337,36 @@ function RegistrationInfo() {
       });
       return false;
     }
+
+    if (!consent1 || !consent2) {
+      toast({
+        title: "Error",
+        description: "You must agree to all consents before proceeding",
+        variant: "destructive"
+      });
+      return false;
+    }
     return true;
   };
 
   const [mobile, setMobile] = useState('');
   const [consent1, setConsent1] = useState(false);
   const [consent2, setConsent2] = useState(false);
-  const [achievements, setAchievements] = useState(['', '']);
+
+  const [achievements, setAchievements] = useState<string[]>(['', '']);
 
   const handleChangeAch = (index: number, value: string): void => {
-    const updatedAchievements: string[] = [...achievements];
-    updatedAchievements[index] = value;
-    setAchievements(updatedAchievements);
+    setAchievements(prev => prev.map((ach, i) => (i === index ? value : ach)));
   };
 
   const addAchievement = (): void => {
-    setAchievements([...achievements, '']);
+    setAchievements(prev => [...prev, '']);
   };
 
   const removeAchievement = (index: number): void => {
-    if (achievements.length > 2) {
-      const updatedAchievements: string[] = achievements.filter((_, i) => i !== index);
-      setAchievements(updatedAchievements);
-    }
+    setAchievements(prev => (prev.length > 2 ? prev.filter((_, i) => i !== index) : prev));
   };
+
 
   const handleFileChangeProfilePic = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -659,20 +666,6 @@ function RegistrationInfo() {
               </label>
             </div>
 
-            {/* Username Field with Icon */}
-            <label className="block text-sm">Username </label>
-            <div className="flex items-center border rounded p-2 bg-white">
-              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData1.username}
-                onChange={handleChange1}
-                className="w-full outline-none text-[12px] bg-white autofill:bg-white"
-              />
-            </div>
-
             <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
@@ -681,6 +674,20 @@ function RegistrationInfo() {
                 name="userId"
                 placeholder="UserId"
                 value={formData1.userId}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px] bg-white autofill:bg-white"
+              />
+            </div>
+
+            {/* Username Field with Icon */}
+            <label className="block text-sm">Username <span className="text-red-500">*</span></label>
+            <div className="flex items-center border rounded p-2 bg-white">
+              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData1.username}
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px] bg-white autofill:bg-white"
               />
@@ -743,7 +750,7 @@ function RegistrationInfo() {
                 </div>
               ))}
             </div>
-            <label className="block text-sm">Camera Type</label>
+            <label className="block text-sm">Camera Type <span className="text-red-500">*</span></label>
             <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
@@ -756,13 +763,13 @@ function RegistrationInfo() {
             <label className="block text-sm">Transportation Fee <span className="text-red-500">*</span></label>
             <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">SNS Username</label>
+            <label className="block text-sm">SNS Username <span className="text-red-500">*</span></label>
             <input type="text" name="snsUsername" placeholder="Instagram, Twitter, etc." value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Website</label>
+            <label className="block text-sm">Website <span className="text-red-500">*</span></label>
             <input type="url" name="website" placeholder="Your website URL" value={formData1.website} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Self Introduction</label>
+            <label className="block text-sm">Self Introduction <span className="text-red-500">*</span></label>
             <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"            ></textarea>
 
           </div>
@@ -789,7 +796,6 @@ function RegistrationInfo() {
                     alt="Drive Icon"
                     className="w-5 h-5 object-contain"
                   />
-
                 </div>
                 {/* Hidden File Input */}
                 <input
@@ -803,11 +809,20 @@ function RegistrationInfo() {
                     {selectedFileProfilePic.name}
                   </p>
                 )}
-                {/* {formData1.profilePicture && (
-
-                  <p className="text-green-600 text-[10px] text-center mt-2">file uploaded</p>
-                )} */}
               </label>
+            </div>
+
+            <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                name="userId"
+                placeholder="UserId"
+                value={formData1.userId}
+                onChange={handleChange1}
+                className="w-full outline-none text-[12px]"
+              />
             </div>
 
             {/* Username Field with Icon */}
@@ -824,18 +839,7 @@ function RegistrationInfo() {
               />
             </div>
 
-            <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
-            <div className="flex items-center border rounded p-2">
-              <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                name="userId"
-                placeholder="UserId"
-                value={formData1.userId}
-                onChange={handleChange1}
-                className="w-full outline-none text-[12px]"
-              />
-            </div>
+
 
             <label className="block text-sm">Genres You Are Good At <span className="text-red-500">*</span></label>
             <select

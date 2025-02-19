@@ -318,7 +318,7 @@ function RegistrationInfo() {
       return false;
     }
 
-    if (profession1 !== 'photographer' && subPhotos.length === 0) {
+    if (subPhotos.length === 0) {
       toast({
         title: "Error",
         description: "Please upload at least one photo",
@@ -540,7 +540,7 @@ function RegistrationInfo() {
                   />
                   <div className="w-4 h-4 mr-1 rounded-full border-2 border-black-600 relative">
                     {/* Inner dot for selected state */}
-                    <div className={`w-2 h-2 bg-[#FF9F1C] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formData.gender === gender ? 'block' : 'hidden'}`}></div>
+                    <div className={`w-2 h-2 bg-[#2EC4B6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formData.gender === gender ? 'block' : 'hidden'}`}></div>
                   </div>
                   {gender}
                 </label>
@@ -639,7 +639,7 @@ function RegistrationInfo() {
                   </div>
                 </div>
 
-                <div className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
+                <div className="mx-auto mr-3 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
                   <Image
                     src={drive}
                     alt="Drive Icon"
@@ -656,7 +656,9 @@ function RegistrationInfo() {
                 />
                 {selectedFileProfilePic && (
                   <p className="text-green-600 text-[10px] text-center mt-2">
-                    {selectedFileProfilePic.name}
+                    {selectedFileProfilePic.name.length > 7
+                      ? `${selectedFileProfilePic.name.slice(0, 3)}...${selectedFileProfilePic.name.slice(-4)}`
+                      : selectedFileProfilePic.name}
                   </p>
                 )}
                 {/* {formData1.profilePicture && (
@@ -770,7 +772,64 @@ function RegistrationInfo() {
             <input type="url" name="website" placeholder="Your website URL" value={formData1.website} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">Self Introduction <span className="text-red-500">*</span></label>
-            <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"            ></textarea>
+            <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" ></textarea>
+
+            <div className="p-4 border rounded-xl bg-white shadow-lg relative">
+              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500">*</span> </h2>
+              <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
+              {/* Add More Button at Top Right */}
+              {subPhotos.length < 5 && (
+                <label htmlFor="subphoto-upload" className="absolute top-2 right-3 cursor-pointer flex ">
+                  <Plus size={16} className="text-[#2EC4B6] hover:text-blue-700" />
+                  <div className='text-[12px] text-[#2EC4B6]'>Add More</div>
+
+                </label>
+              )}
+
+              {/* Photo Previews with Add Button */}
+              <div className="flex gap-4 mb-4">
+                {[...Array(3)].map((_, index) => (
+                  <div key={index} className="w-24 h-24 border rounded-xl flex items-center justify-center bg-gray-100 relative w-[105px] h-[105px]">
+                    {subPhotos[index] ? (
+                      <div className="relative w-full h-full">
+                        <img
+                          src={URL.createObjectURL(subPhotos[index])}
+                          alt={`SubPhoto ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          onClick={() => removePhoto(index)}
+                        >
+                          <XCircle size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <label htmlFor="subphoto-upload" className="w-full h-full flex items-center justify-center cursor-pointer flex flex-col gap-2">
+                        <Plus size={16} className="text-[#FF9F1C] hover:text-gray-700" />
+                        <div className='text-[8px]'>Add Image</div>
+                      </label>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* File Input */}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange2}
+                className="hidden"
+                id="subphoto-upload"
+              />
+
+              {/* Info Message */}
+              {subPhotos.length >= 5 && (
+                <p className="text-sm text-red-500 mt-2">Maximum 5 photos reached.</p>
+              )}
+            </div>
 
           </div>
         }
@@ -790,7 +849,7 @@ function RegistrationInfo() {
                   </div>
                 </div>
 
-                <div className="ml-8 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
+                <div className="mx-auto mr-3 w-[80px] h-[80px] bg-gray-300 rounded-full flex items-center justify-center">
                   <Image
                     src={drive}
                     alt="Drive Icon"
@@ -806,7 +865,9 @@ function RegistrationInfo() {
                 />
                 {selectedFileProfilePic && (
                   <p className="text-green-600 text-[10px] text-center mt-2">
-                    {selectedFileProfilePic.name}
+                    {selectedFileProfilePic.name.length > 7
+                      ? `${selectedFileProfilePic.name.slice(0, 3)}...${selectedFileProfilePic.name.slice(-4)}`
+                      : selectedFileProfilePic.name}
                   </p>
                 )}
               </label>

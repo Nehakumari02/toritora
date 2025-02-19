@@ -90,7 +90,7 @@ function MyPage() {
             {profileImage === "" ?
             <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
             :
-            <Image src={profileImage} alt="User" objectFit="contain" objectPosition="center" height={88} width={88} className='h-full w-full rounded-full p-[2px]'/>
+            <Image src={profileImage} alt="User" height={88} width={88} className='h-full w-full object-cover object-center rounded-full p-[2px]'/>
             }
           </div>
           <div className='flex-1 flex items-center justify-between'>

@@ -12,9 +12,10 @@ type FormValues = {
   lastName: string;
   dob: string;
   age: string;
-  questionOne: string;
-  questionTwo: string;
-  questionThree: string;
+  importantThing: string;
+  stress: string;
+  assistanceWithModels: string;
+  hobbies: string;
   userName: string;
   userId: string;
   profileImage: string;
@@ -23,15 +24,17 @@ type FormValues = {
 function EditProfile() {
   const router = useRouter();
   const [editProfileSection,setEditProfileSection] = useState(1);
+  const [profession,setProfession] = useState("modelling");
 
   const [formValues, setFormValues] = useState<FormValues>({
     firstName: "",
     lastName: "",
     dob: "",
     age: "",
-    questionOne: "",
-    questionTwo: "",
-    questionThree: "",
+    importantThing: "",
+    stress: "",
+    assistanceWithModels: "",
+    hobbies: "",
     userName: "",
     userId: "",
     profileImage: "",
@@ -134,14 +137,16 @@ function EditProfile() {
 
         if(res.status===200){
           const data = await res.json();
+          setProfession(data.user?.profession ?? '');
           const userData = {
             firstName: data.user?.firstName ?? '',
             lastName: data.user?.lastName ?? '',
             dob: data.user?.dateOfBirth ?? '',
             age: data.user?.age ?? '',
-            questionOne: "",
-            questionTwo: "",
-            questionThree: "",
+            importantThing: data.user?.importantThing ?? '',
+            stress: data.user?.stress ?? '',
+            assistanceWithModels: data.user?.assistanceWithModels ?? '',
+            hobbies: data.user?.hobbies ?? '',
             userName: data.user?.username ?? '',
             userId: data.user?.userId ?? '',
             profileImage: data.user?.profilePicture ?? '',
@@ -184,7 +189,7 @@ function EditProfile() {
           {formValues.profileImage === "" ?
           <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
           :
-          <Image src={formValues.profileImage} alt="User" objectFit="contain" objectPosition="center" height={88} width={88} className='h-full w-full rounded-full p-[2px]'/>
+          <Image src={formValues.profileImage} alt="User" height={88} width={88} className='h-full w-full object-cover object-center rounded-full p-[2px]'/>
           }
           <span className='absolute -bottom-2 -right-2'>{editIcon}</span>
         </div>
@@ -358,16 +363,16 @@ function EditProfile() {
         {editProfileSection === 3 && 
           <div className='px-4 space-y-8 max-w-[800px] mx-auto'>
             <div className='space-y-2'>
-              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'>1. Why did you become models?</span>
+              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'>1. {profession === "modelling" ? "Why did you become models?" : "What is the most important thing for you at Photorage Photography?"}</span>
               <div
                 className={`flex items-center gap-2 px-3 py-2 border rounded-lg transition-all duration-300 ${
-                  isFocused === "questionOne" ? 'border-[#FF9F1C]' : 'border-[#999999]'
+                  isFocused === "importantThing" ? 'border-[#FF9F1C]' : 'border-[#999999]'
                 }`}
               >
                 <textarea
                   disabled={savingStatus || loading}
-                  value={formValues.questionOne}
-                  onChange={(e) => handleInputChange("questionOne", e.target.value)}
+                  value={formValues.importantThing}
+                  onChange={(e) => handleInputChange("importantThing", e.target.value)}
                   className="outline-none w-full h-[90px] resize-none"
                   placeholder="Enter your characters here"
                 />
@@ -375,16 +380,16 @@ function EditProfile() {
             </div>
 
             <div className='space-y-2'>
-              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'> 2. What is the most important thing for you in a photo session?</span>
+              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'> 2. {profession === "modelling" ? "What is the most important thing for you in a photo session?" : "Do you have any stress at Photorage Photography? What is it?"}</span>
               <div
                 className={`flex items-center gap-2 px-3 py-2 border rounded-lg transition-all duration-300 ${
-                  isFocused === "questionTwo" ? 'border-[#FF9F1C]' : 'border-[#999999]'
+                  isFocused === "stress" ? 'border-[#FF9F1C]' : 'border-[#999999]'
                 }`}
               >
                 <textarea
                   disabled={savingStatus || loading}
-                  value={formValues.questionTwo}
-                  onChange={(e) => handleInputChange("questionTwo", e.target.value)}
+                  value={formValues.stress}
+                  onChange={(e) => handleInputChange("stress", e.target.value)}
                   className="outline-none w-full h-[90px] resize-none"
                   placeholder="Enter your characters here"
                 />
@@ -392,16 +397,33 @@ function EditProfile() {
             </div>
 
             <div className='space-y-2'>
-              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'> 3. What do you think photographers have to do in a photo session? Do you need any assistance?</span>
+              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'> 3. {profession === "modelling" ? "What do you think photographers have to do in a photo session? Do you need any assistance?" : "Do you have any assistance with models? What is it?"}</span>
               <div
                 className={`flex items-center gap-2 px-3 py-2 border rounded-lg transition-all duration-300 ${
-                  isFocused === "questionThree" ? 'border-[#FF9F1C]' : 'border-[#999999]'
+                  isFocused === "assistanceWithModels" ? 'border-[#FF9F1C]' : 'border-[#999999]'
                 }`}
               >
                 <textarea
                   disabled={savingStatus || loading}
-                  value={formValues.questionThree}
-                  onChange={(e) => handleInputChange("questionThree", e.target.value)}
+                  value={formValues.assistanceWithModels}
+                  onChange={(e) => handleInputChange("assistanceWithModels", e.target.value)}
+                  className="outline-none w-full h-[90px] resize-none"
+                  placeholder="Enter your characters here"
+                />
+              </div>
+            </div>
+
+            <div className='space-y-2'>
+              <span className='font-medium text-[14px] leading-[21px] text-[#333333]'> 4. Please tell me your hobbies.</span>
+              <div
+                className={`flex items-center gap-2 px-3 py-2 border rounded-lg transition-all duration-300 ${
+                  isFocused === "hobbies" ? 'border-[#FF9F1C]' : 'border-[#999999]'
+                }`}
+              >
+                <textarea
+                  disabled={savingStatus || loading}
+                  value={formValues.hobbies}
+                  onChange={(e) => handleInputChange("hobbies", e.target.value)}
                   className="outline-none w-full h-[90px] resize-none"
                   placeholder="Enter your characters here"
                 />

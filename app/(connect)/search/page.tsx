@@ -190,7 +190,7 @@ function Favourites() {
 
         {/* Search Results */}
         {showResults && (
-          <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
+          <div className='max-w-[800px] mx-auto px-[10px] space-y-2 my-[24px]'>
             <div className='flex items-center justify-between'>
               <span className='text-[16px] font-medium leading-[24px]'>Search results</span>
               <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
@@ -199,9 +199,9 @@ function Favourites() {
             {filteredModels.length === 0 ? (
               <div className='text-center text-[14px] text-[#999999] py-4'>No search results found.</div>
             ) : (
-              <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] flex-wrap py-2 px-2 rounded-md'>
+              <div className='bg-[#F0F0F1] flex flex-row items-center justify-around md:justify-start gap-[10px] md:gap-[20px] flex-wrap py-2 px-2 rounded-md'>
                 {filteredModels.map((item, index) => (
-                  <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
+                  <div key={index} className='bg-white border h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
 
                     <div className='relative'>
                       <Image src={item.profilePic} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover'></Image>

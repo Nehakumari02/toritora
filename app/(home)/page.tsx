@@ -301,13 +301,15 @@ function Home() {
       >
         {modelCarouselList.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="h-[180px] w-full relative">
+            <div className="h-[180px] md:h-[380px] w-full relative">
               <Image
                 src={item.image}
                 alt="Carousel List Image"
                 height={180}
                 width={380}
-                className="w-full aspect-[380/180] rounded-md object-cover"
+                objectFit="cover"
+                objectPosition='center'
+                className="w-full bg-center rounded-md"
               />
               <div className="absolute inset-0 bg-black/40 rounded-md"></div>
               <div className="absolute bottom-5 left-5 text-white flex flex-col items-start">
@@ -333,7 +335,7 @@ function Home() {
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
         </div>
 
-        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll py-2 no-scrollbar px-2 rounded-md'>
+        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
           {newModelList.map((item,index)=>(
             <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
 
@@ -364,7 +366,7 @@ function Home() {
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
         </div>
 
-        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll py-2 no-scrollbar px-2 rounded-md'>
+        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
           {availableModelList.map((item,index)=>(
             <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
 
@@ -400,13 +402,15 @@ function Home() {
       >
         {eventCarouselList.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="h-[180px] w-full relative">
+            <div className="h-[180px] md:h-[380px] w-full relative">
               <Image
                 src={item.image}
                 alt="Carousel List Image"
                 height={180}
                 width={380}
-                className="w-full aspect-[380/180] rounded-md object-cover"
+                objectFit="cover"
+                objectPosition='center'
+                className="w-full bg-center rounded-md"
               />
               <div className="absolute inset-0 bg-black/40 rounded-md"></div>
               <div className="absolute bottom-5 left-5 text-white flex flex-col items-start">
@@ -432,7 +436,7 @@ function Home() {
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
         </div>
 
-        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll py-2 no-scrollbar px-2 rounded-md'>
+        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
           {popularEventList.map((item,index)=>(
             <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
 
@@ -463,7 +467,7 @@ function Home() {
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
         </div>
 
-        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll py-2 no-scrollbar px-2 rounded-md'>
+        <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
           {miniSessionsList.map((item,index)=>(
             <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
 

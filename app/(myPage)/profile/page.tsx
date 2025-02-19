@@ -16,7 +16,7 @@ function MyPage() {
   const [intro,setIntro] = useState("")
   const [location,setLocation] = useState("")
   const [genre,setGenre] = useState("")
-  const [achievements,setAchievements] = useState("")
+  const [achievements,setAchievements] = useState<string[]>([])
   const [shootingPrice,setShootingPrice] = useState("")
   const [loading,setLoading] = useState(true)
   const [profileImage,setProfileImage] = useState("");
@@ -57,7 +57,7 @@ function MyPage() {
             setIntro(data.user?.selfIntroduction ?? 'No introduction provided');
             setLocation(data.user?.address ?? 'Location not available');
             setGenre(data.user?.genres ?? '');
-            setAchievements(data.user?.achievements ?? 'NA');
+            setAchievements(data.user?.achievements ?? []);
             setShootingPrice(data.user?.shootingPrice ?? 'Price not set');            
           }
           else{
@@ -94,11 +94,11 @@ function MyPage() {
 
       <div className='bg-[#f8fcfd] p-4 py-6 overflow-y-scroll flex-1 no-scrollbar'>
         <div className='min-h-[120px] max-w-[800px] mx-auto bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
-          <div className='h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
+          <div className='h-[88px] w-[88px] flex items-center justify-center rounded-full border-[3px] border-secondary overflow-hidden'>
             {profileImage === "" ?
             <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]'/>
             :
-            <Image src={profileImage} alt="User" objectFit="contain" objectPosition="center" height={88} width={88} className='h-full w-full rounded-full p-[2px]'/>
+            <Image src={profileImage} alt="User" height={88} width={88} className='h-full w-full object-cover object-center rounded-full p-[2px]'/>
             }
           </div>
           <div className='flex-1 flex items-center justify-between flex-wrap space-y-2'>
@@ -231,14 +231,22 @@ function MyPage() {
               }
           </div>
 
-          <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
+          <div className='flex flex-row gap-4 flex-wrap items-start justify-between'>
             <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Achievements</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
               </>:
               <>
-              <span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{achievements}</span>
+              <div className='flex-1 min-w-[180px]'>
+                {
+                  achievements.map((achievement,index)=>{
+                    return(
+                      <span key={index}><span className='flex-1 min-w-[180px] font-normal text-[12px] leading-[18px] text-[#777777]'>{achievement}</span><br></br></span>
+                    )
+                  })
+                }
+              </div>
               </>              
               }
           </div>

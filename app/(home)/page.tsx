@@ -11,6 +11,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import { useRouter } from 'next/navigation'
+import { EventTile, UserTile } from '@/components/common/tile'
+import { useToast } from '@/hooks/use-toast'
+import TileSkeleton from '@/components/common/tileSkeleton'
 
 const modelCarouselList = [
   {
@@ -40,37 +43,43 @@ const newModelList = [
     name:"Satomi Ishihara",
     location:"Tokyo",
     profilePic:"/images/home/model1.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Momoka",
     location:"Tokyo",
     profilePic:"/images/home/model2.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Arisa",
     location:"Tokyo",
     profilePic:"/images/home/model3.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Satomi Ishihara",
     location:"Tokyo",
     profilePic:"/images/home/model1.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Momoka",
     location:"Tokyo",
     profilePic:"/images/home/model2.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Arisa",
     location:"Tokyo",
     profilePic:"/images/home/model3.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
 ]
 
@@ -79,37 +88,43 @@ const availableModelList = [
     name:"Satomi Ishihara",
     location:"Tokyo",
     profilePic:"/images/home/model4.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Momoka",
     location:"Tokyo",
     profilePic:"/images/home/model3.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Arisa",
     location:"Tokyo",
     profilePic:"/images/home/model1.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Satomi Ishihara",
     location:"Tokyo",
     profilePic:"/images/home/model4.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Momoka",
     location:"Tokyo",
     profilePic:"/images/home/model2.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
   {
     name:"Arisa",
     location:"Tokyo",
     profilePic:"/images/home/model3.png",
-    username:"",
+    userId:"harish32380",
+    dateOfJoining: new Date(new Date().setDate(new Date().getDate() - 10))
   },
 ]
 
@@ -233,6 +248,9 @@ function Home() {
   const [messageCount, setMessageCount] = useState(7);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+  const [loading,setLoading] = useState(true);
+  const {toast} = useToast();
+  const [modelsNew,setModelsNew] = useState([]);
   
     const handleGoToLink = (route:string)=>{
       router.push(route)
@@ -242,6 +260,57 @@ function Home() {
     setNotificationCount(7);
     setMessageCount(5);
   },[])
+
+  useEffect(()=>{
+      try {
+        const fetchUser = async ()=>{
+          setLoading(true);
+          const pageNo = 1;
+          const pageSize = 10;
+          const isNew = true;
+          const queryParams = new URLSearchParams({
+            pageNo: pageNo.toString(),
+            pageSize: pageSize.toString(),
+            new: isNew.toString(),
+          }).toString();
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/data/models?${queryParams}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials:"include",
+          });
+  
+          if(res.status===200){
+            const data = await res.json();
+            const transformedModels = data.models.map((user:any) => ({
+              name: `${user.firstName} ${user.lastName}`.trim(),
+              location: user.address,
+              profilePic: user.profilePicture,
+              userId: user.userId,
+              dateOfJoining: new Date(user.createdAt) // Convert to Date object
+            }));
+            setModelsNew(transformedModels)
+          }
+          else{
+            toast({
+              title:"Error",
+              description:"Unauthorized request",
+              variant:"destructive"
+            })
+          }
+          
+        }
+  
+        fetchUser();
+  
+        
+      } catch (error) {
+        console.log("Error",error)
+      } finally{
+        setLoading(false)
+      }
+    },[])
 
   return (
     <div className='flex flex-col h-full'>
@@ -336,23 +405,12 @@ function Home() {
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
-          {newModelList.map((item,index)=>(
-            <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
-
-              <div className='relative'>
-                <Image src={item.profilePic} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover'></Image>
-                <span className='absolute top-0 left-0 bg-secondary w-[64px] h-[18px] text-center text-white text-[10px] leading-[15px] font-medium rounded-tl-md rounded-br-md'>New</span>
-              </div>
-
-              <div className='flex flex-col items-start justify-center w-full'>
-                <span className='text-[14px] leading-[21px] font-medium'>{item.name}</span>
-                <div className='flex items-center justify-between w-full'>
-                  <span className='flex flex-row items-center justify-center gap-2 text-[10px] leading-[15px] font-normal text-[#999999]'>{locationIcon}{item.location}</span>
-                  <Link href={`/userDetails?username=${item.username}`} className='text-primary text-[12px] font-medium leading-[18px]'>View</Link>
-                </div>
-              </div>
-            </div>
+          {loading ? <TileSkeleton/> : modelsNew.map((item,index)=>(
+            <UserTile key={index} user={item} />
           ))}
+          {
+            !loading && !modelsNew.length && <span className='text-sm font-semibold text-[#999999]'>No new models</span>
+          }
         </div>
         
       </div>
@@ -367,22 +425,8 @@ function Home() {
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
-          {availableModelList.map((item,index)=>(
-            <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
-
-              <div className='relative'>
-                <Image src={item.profilePic} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover'></Image>
-                <span className='absolute top-0 left-0 bg-secondary w-[64px] h-[18px] text-center text-white text-[10px] leading-[15px] font-medium rounded-tl-md rounded-br-md'>New</span>
-              </div>
-
-              <div className='flex flex-col items-start justify-center w-full'>
-                <span className='text-[14px] leading-[21px] font-medium'>{item.name}</span>
-                <div className='flex items-center justify-between w-full'>
-                  <span className='flex flex-row items-center justify-center gap-2 text-[10px] leading-[15px] font-normal text-[#999999]'>{locationIcon}{item.location}</span>
-                  <Link href={`/userDetails?username=${item.username}`} className='text-primary text-[12px] font-medium leading-[18px]'>View</Link>
-                </div>
-              </div>
-            </div>
+          {loading ? <TileSkeleton/> : availableModelList.map((item,index)=>(
+            <UserTile key={index} user={item} />
           ))}
         </div>
         
@@ -432,27 +476,13 @@ function Home() {
       {selectedMode === 1 &&
       <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
-          <span className='text-[16px] font-medium leading-[24px]'>New Models</span>
+          <span className='text-[16px] font-medium leading-[24px]'>Popular Events</span>
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
-          {popularEventList.map((item,index)=>(
-            <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
-
-              <div className='relative'>
-                <Image src={item.eventPic} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover'></Image>
-                <span className='absolute top-0 left-0 bg-secondary w-[64px] h-[18px] text-center text-white text-[10px] leading-[15px] font-medium rounded-tl-md rounded-br-md'>{item.date}</span>
-              </div>
-
-              <div className='flex flex-col items-start justify-center w-full'>
-                <span className='text-[14px] leading-[21px] font-medium'>{item.name}</span>
-                <div className='flex items-center justify-between w-full'>
-                  <span className='flex flex-row items-center justify-center gap-2 text-[10px] leading-[15px] font-normal text-[#999999]'>{locationIcon}{item.location}</span>
-                  <Link href={`/eventDetails?eventId=${item.eventId}`} className='text-primary text-[12px] font-medium leading-[18px]'>View</Link>
-                </div>
-              </div>
-            </div>
+          {loading ? <TileSkeleton/> : popularEventList.map((item,index)=>(
+            <EventTile key={index} event={item} />
           ))}
         </div>
         
@@ -463,27 +493,13 @@ function Home() {
       {selectedMode === 1 &&
       <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
-          <span className='text-[16px] font-medium leading-[24px]'>Available this week</span>
+          <span className='text-[16px] font-medium leading-[24px]'>Mini Sessions</span>
           <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
-          {miniSessionsList.map((item,index)=>(
-            <div key={index} className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center justify-between px-[12px] py-[14px]'>
-
-              <div className='relative'>
-                <Image src={item.eventPic} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover'></Image>
-                <span className='absolute top-0 left-0 bg-secondary w-[64px] h-[18px] text-center text-white text-[10px] leading-[15px] font-medium rounded-tl-md rounded-br-md'>{item.date}</span>
-              </div>
-
-              <div className='flex flex-col items-start justify-center w-full'>
-                <span className='text-[14px] leading-[21px] font-medium'>{item.name}</span>
-                <div className='flex items-center justify-between w-full'>
-                  <span className='flex flex-row items-center justify-center gap-2 text-[10px] leading-[15px] font-normal text-[#999999]'>{locationIcon}{item.location}</span>
-                  <Link href={`/eventDetails?eventId=${item.eventId}`} className='text-primary text-[12px] font-medium leading-[18px]'>View</Link>
-                </div>
-              </div>
-            </div>
+          {loading ? <TileSkeleton/> : miniSessionsList.map((item,index)=>(
+            <EventTile key={index} event={item} />
           ))}
         </div>
         

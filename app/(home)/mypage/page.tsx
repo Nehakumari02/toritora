@@ -58,11 +58,11 @@ function MyPage() {
           setProfileImage(data.user?.profilePicture ?? '');
         }
         else{
-          toast({
-            title:"Error",
-            description:"Unauthorized request",
-            variant:"destructive"
-          })
+          // toast({
+          //   title:"Error",
+          //   description:"Unauthorized request",
+          //   variant:"destructive"
+          // })
         }
         
       }

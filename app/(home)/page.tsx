@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { EventTile, UserTile } from '@/components/common/tile'
 import { useToast } from '@/hooks/use-toast'
 import TileSkeleton from '@/components/common/tileSkeleton'
+import { preloadFont } from 'next/dist/server/app-render/entry-base'
 
 const modelCarouselList = [
   {
@@ -250,6 +251,7 @@ function Home() {
   const router = useRouter();
   const [loading,setLoading] = useState(true);
   const {toast} = useToast();
+  const [profession,setProfession] = useState("");
   const [modelsNew,setModelsNew] = useState([]);
   
     const handleGoToLink = (route:string)=>{
@@ -265,11 +267,12 @@ function Home() {
       try {
         const fetchUser = async ()=>{
           setLoading(true);
-          const profession = localStorage.getItem('userProfession') || '';
+          const professionFromLS = localStorage.getItem('userProfession') || '';
+          setProfession(professionFromLS);
           const pageNo = 1;
           const pageSize = 10;
           const isNew = true;
-          const type = profession;
+          const type = professionFromLS;
           const queryParams = new URLSearchParams({
             pageNo: pageNo.toString(),
             pageSize: pageSize.toString(),
@@ -403,8 +406,8 @@ function Home() {
       {selectedMode === 0 &&
       <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
-          <span className='text-[16px] font-medium leading-[24px]'>New Models</span>
-          <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
+          <span className='text-[16px] font-medium leading-[24px]'>New {profession === "modelling"? "Photographers" : profession === "photographer" ? "Models" : "Users" }</span>
+          <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
@@ -424,7 +427,7 @@ function Home() {
       <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Available this week</span>
-          <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
+          <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
@@ -480,7 +483,7 @@ function Home() {
       <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Popular Events</span>
-          <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
+          <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
@@ -497,7 +500,7 @@ function Home() {
       <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Mini Sessions</span>
-          <Link href={"/"} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</Link>
+          <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>

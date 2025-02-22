@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${DMSans.variable} antialiased h-[100dvh]`}
+        className={`${DMSans.variable} font-DM-Sans antialiased h-[100dvh]`}
       >
         {children}
         <Toaster />

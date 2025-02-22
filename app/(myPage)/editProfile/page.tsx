@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { toast } from '@/hooks/use-toast';
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import { Loader2 } from 'lucide-react';
+import { useLogout } from '@/lib/logout';
 
 type FormValues = {
   firstName: string;
@@ -25,6 +26,7 @@ function EditProfile() {
   const router = useRouter();
   const [editProfileSection,setEditProfileSection] = useState(1);
   const [profession,setProfession] = useState("modelling");
+  const logout = useLogout();
 
   const [formValues, setFormValues] = useState<FormValues>({
     firstName: "",
@@ -88,7 +90,6 @@ function EditProfile() {
         {} as Partial<FormValues>
       );
 
-      console.log(changes)
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
         method: 'POST',
@@ -96,6 +97,8 @@ function EditProfile() {
         credentials: "include",
         body: JSON.stringify(changes),
       });
+
+      const data = await res.json();
 
       if(res.status === 200){
         toast({
@@ -106,10 +109,18 @@ function EditProfile() {
         setInitialValues(formValues);
         setIsChanged(false);
       }
-      else{
+      else if(res.status === 401){
         toast({
           title:"Error",
-          description:"Something went wrong",
+          description:"Unauthorized request",
+          variant:"destructive"
+        })
+        logout();
+      }
+      else {
+        toast({
+          title:"Internal server error",
+          description:`Error: ${data.message}`,
           variant:"destructive"
         })
       }
@@ -135,8 +146,9 @@ function EditProfile() {
           credentials: "include",
         });
 
+        const data = await res.json();
+
         if(res.status===200){
-          const data = await res.json();
           setProfession(data.user?.profession ?? '');
           const userData = {
             firstName: data.user?.firstName ?? '',
@@ -155,10 +167,18 @@ function EditProfile() {
           setFormValues(userData);
           setInitialValues(userData);
         }
-        else{
+        else if(res.status === 401){
           toast({
             title:"Error",
             description:"Unauthorized request",
+            variant:"destructive"
+          })
+          logout();
+        }
+        else {
+          toast({
+            title:"Internal server error",
+            description:`Error: ${data.message}`,
             variant:"destructive"
           })
         }

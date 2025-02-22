@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
+import { useLogout } from '@/lib/logout';
 
 function MyPage() {
   const router = useRouter();
@@ -12,29 +13,7 @@ function MyPage() {
   const [userName,setUserName] = useState("")
   const [loading,setLoading] = useState(true)
   const [profileImage,setProfileImage] = useState("");
-
-  const logout = async() => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials:"include"
-    });
-
-    if(res.status === 200){
-      localStorage.removeItem("userProfession");
-      router.replace('/onboard')
-    }
-    else{
-      toast({
-        title:"Unauthorized request",
-        description:"Invalid token is found logging out",
-        variant:"destructive"
-      })
-      router.replace('/onboard')
-    }
-  }
+  const logout = useLogout();
 
   const handleGoToLink = (route:string)=>{
     router.push(route)
@@ -52,18 +31,27 @@ function MyPage() {
           credentials:"include",
         });
 
+        const data = await res.json();
+
         if(res.status===200){
-          const data = await res.json();
           setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
           setUserName(data.user?.username ?? 'Anonymous');
           setProfileImage(data.user?.profilePicture ?? '');
         }
-        else{
-          // toast({
-          //   title:"Error",
-          //   description:"Unauthorized request",
-          //   variant:"destructive"
-          // })
+        else if(res.status === 401){
+          toast({
+            title:"Error",
+            description:"Unauthorized request",
+            variant:"destructive"
+          })
+          logout();
+        }
+        else {
+          toast({
+            title:"Internal server error",
+            description:`Error: ${data.message}`,
+            variant:"destructive"
+          })
         }
         
       }

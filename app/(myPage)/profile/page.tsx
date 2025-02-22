@@ -6,9 +6,11 @@ import Image from 'next/image';
 import { backIcon } from '@/constants/icons';
 import Link from 'next/link';
 import { toast } from '@/hooks/use-toast';
+import { useLogout } from '@/lib/logout';
 
 function MyPage() {
   const router = useRouter();
+  const logout = useLogout();
   const [progressBarStep, setProgressBarStep] = useState(2);
   const [name,setName] = useState("")
   const [userName,setUserName] = useState("")
@@ -48,8 +50,9 @@ function MyPage() {
             credentials:"include",
           });
 
+          const data = await res.json();
+
           if(res.status===200){
-            const data = await res.json();
             setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
             setUserName(data.user?.username ?? 'Anonymous');
             setProfileImage(data.user?.profilePicture ?? '');
@@ -60,10 +63,18 @@ function MyPage() {
             setAchievements(data.user?.achievements ?? []);
             setShootingPrice(data.user?.shootingPrice ?? 'Price not set');            
           }
-          else{
+          else if(res.status === 401){
             toast({
               title:"Error",
               description:"Unauthorized request",
+              variant:"destructive"
+            })
+            logout();
+          }
+          else {
+            toast({
+              title:"Internal server error",
+              description:`Error: ${data.message}`,
               variant:"destructive"
             })
           }

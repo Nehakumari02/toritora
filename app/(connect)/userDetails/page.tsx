@@ -6,10 +6,12 @@ import React, { Suspense, useEffect, useState } from 'react';
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import { useToast } from '@/hooks/use-toast';
 import { Gallery } from '@/components/common/gallery';
+import { useLogout } from '@/lib/logout';
 
 
 function UserDetails() {
   const router = useRouter();
+  const logout = useLogout();
   const { toast } = useToast();
   const [profession, setProfession] = useState("modelling");
   const searchParams = useSearchParams();
@@ -38,19 +40,27 @@ function UserDetails() {
           credentials:"include",
         });
 
+        const data = await res.json();
+
         if(res.status===200){
-          const data = await res.json();
           setUser(data?.user);
           console.log(data)
           setProfession(data?.user?.profession)
         }
-        else{
-          const data = await res.json();
-          // toast({
-          //   title:"Error",
-          //   description:`Error: ${data.message}`,
-          //   variant:"destructive"
-          // })
+        else if(res.status === 401){
+          toast({
+            title:"Error",
+            description:"Unauthorized request",
+            variant:"destructive"
+          })
+          logout();
+        }
+        else {
+          toast({
+            title:"Internal server error",
+            description:`Error: ${data.message}`,
+            variant:"destructive"
+          })
         }
 
       }

@@ -8,6 +8,9 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				"DM-Sans":["var(--font-DM-Sans)"],
+			  },
 			letterSpacing: {
 				tighter: '-.04em',
 				wide: '2rem'

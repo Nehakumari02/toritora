@@ -264,6 +264,7 @@ function Home() {
   },[])
 
   useEffect(()=>{
+      router.refresh()
       try {
         const fetchUser = async ()=>{
           setLoading(true);
@@ -341,25 +342,24 @@ function Home() {
       {/* Tab selector */}
       <div className='bg-primary-foreground'>
         <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
-          <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Model</button>
+          <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{profession === "modelling"? "Photographers" : "Models" }</button>
           <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Kikaku / Satueikai</button>
         </div>
       </div>
 
       {/* Search Bar */}
       <div className='max-w-[800px] mx-auto relative h-[42px] w-full px-[24px] my-[12px]'>
-        <input 
-        type="text" 
-        className='bg-[#EEF2F5] h-[42px] w-full pl-[20px] pr-[40px] rounded-md outline-none focus:outline-none'
-        placeholder='Find your favourite Model'
-        value={searchTerm}
-        onChange={(e)=>setSearchTerm(e.target.value)}
-        onFocus={()=>{handleGoToLink("/search")}}
-        />
+        <button
+          className='bg-[#EEF2F5] h-[42px] w-full pl-[20px] pr-[40px] rounded-md outline-none text-gray-400 text-left'
+          onClick={() => handleGoToLink("/search")}
+        >
+          Find your favourite {profession === "modelling"? "Photographers" : "Models" }
+        </button>
         <div className='absolute top-[50%] translate-y-[-50%] right-[34px]'>
           {searchIcon}
         </div>
       </div>
+
 
       <div className='flex-1 overflow-y-scroll no-scrollbar'>
         
@@ -415,7 +415,7 @@ function Home() {
             <UserTile key={index} user={item} />
           ))}
           {
-            !loading && !modelsNew.length && <span className='text-sm font-semibold text-[#999999]'>No new models</span>
+            !loading && !modelsNew.length && <span className='text-sm font-semibold text-[#999999]'>No new {profession === "modelling"? "Photographers" : profession === "photographer" ? "Models" : "Users" }</span>
           }
         </div>
         

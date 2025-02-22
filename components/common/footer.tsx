@@ -37,7 +37,7 @@ function Footer() {
   const path = pathname.split("/");
   const router = useRouter();
   const handleGoToLink = (route:string)=>{
-    router.push(route)
+    router.replace(route)
   }
 
   return (

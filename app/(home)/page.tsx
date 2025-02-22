@@ -265,13 +265,16 @@ function Home() {
       try {
         const fetchUser = async ()=>{
           setLoading(true);
+          const profession = localStorage.getItem('userProfession') || '';
           const pageNo = 1;
           const pageSize = 10;
           const isNew = true;
+          const type = profession;
           const queryParams = new URLSearchParams({
             pageNo: pageNo.toString(),
             pageSize: pageSize.toString(),
-            new: isNew.toString(),
+            isNew: isNew.toString(),
+            type: type,
           }).toString();
           const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/data/models?${queryParams}`, {
             method: 'GET',

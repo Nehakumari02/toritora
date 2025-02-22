@@ -212,7 +212,10 @@ function Register() {
             withCredentials: true,
           }
         );
-        if (res.status === 204) {
+
+        const data = res.data;
+        if (res.status === 201) {
+          localStorage.setItem('userProfession', data?.user?.profession);
           router.push('/');
           toast({
             title: 'Login Success',

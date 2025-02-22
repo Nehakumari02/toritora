@@ -75,6 +75,7 @@ function Login() {
     const data = await res.json();
 
     if (res.status === 200) {
+      localStorage.setItem('userProfession', data?.user?.profession);
       router.replace('/')
     }
     else if (res.status === 202) {
@@ -110,7 +111,11 @@ function Login() {
             withCredentials: true,
           }
         );
+
+        const data = res.data;
+
         if (res.status === 200) {
+          localStorage.setItem('userProfession', data?.user?.profession);
           router.push("/");
           toast({
             title: "Login Success",

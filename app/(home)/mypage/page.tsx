@@ -23,6 +23,7 @@ function MyPage() {
     });
 
     if(res.status === 200){
+      localStorage.removeItem("userProfession");
       router.replace('/onboard')
     }
     else{

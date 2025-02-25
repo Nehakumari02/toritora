@@ -3,7 +3,7 @@ import { backIcon } from '@/constants/icons';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
-function Help() {
+function TermsOfUse() {
   const router = useRouter();
 
   const handleGoBack = ()=>{
@@ -45,7 +45,7 @@ function Help() {
   )
 }
 
-export default Help
+export default TermsOfUse
 
 const termsOfUseList = [
   {

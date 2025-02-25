@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { toast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
 
-function MyPage() {
+function Profile() {
   const router = useRouter();
   const logout = useLogout();
   const [progressBarStep, setProgressBarStep] = useState(2);
@@ -280,7 +280,7 @@ function MyPage() {
   )
 }
 
-export default MyPage
+export default Profile
 
 
 const yellowBadgeIcon = <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

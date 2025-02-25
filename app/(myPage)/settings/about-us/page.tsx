@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import feedbackHeroImage from '@/public/images/common/feedbackHeroImage.png';
 
-function Points() {
+function AboutUs() {
   const router = useRouter();
 
   const handleGoBack = ()=>{
@@ -35,4 +35,4 @@ function Points() {
   )
 }
 
-export default Points
+export default AboutUs

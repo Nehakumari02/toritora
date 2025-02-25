@@ -348,14 +348,14 @@ function Home() {
       </div>
 
       {/* Search Bar */}
-      <div className='max-w-[800px] mx-auto relative h-[42px] w-full px-[24px] my-[12px]'>
+      <div className='max-w-[800px] mx-auto relative h-[42px] w-full px-[8px] md:px-[24px] mt-[8px] md:my-[12px]'>
         <button
-          className='bg-[#EEF2F5] h-[42px] w-full pl-[20px] pr-[40px] rounded-md outline-none text-gray-400 text-left'
+          className='bg-[#EEF2F5] h-[42px] w-full pl-[8px] md:pl-[20px] pr-[40px] text-[14px] md:text-[16px] leading-[20px] rounded-md outline-none text-gray-400 text-left'
           onClick={() => handleGoToLink("/search")}
         >
-          Find your favourite {profession === "modelling"? "Photographers" : "Models" }
+          Find your favourite {profession !== "modelling"? "Photographers" : "Models" }
         </button>
-        <div className='absolute top-[50%] translate-y-[-50%] right-[34px]'>
+        <div className='absolute top-[50%] translate-y-[-50%] right-4 md:right-[34px]'>
           {searchIcon}
         </div>
       </div>
@@ -365,7 +365,7 @@ function Home() {
         
       {/* Carousel Container for models */}
       {selectedMode === 0 &&
-      <div className='max-w-[800px] mx-auto px-[24px] mt-[24px] flex items-center justify-center w-full'>
+      <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] mt-[24px] flex items-center justify-center w-full'>
       <Swiper
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: true }}
@@ -404,7 +404,7 @@ function Home() {
 
       {/* New Models section */}
       {selectedMode === 0 &&
-      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>New {profession === "modelling"? "Photographers" : profession === "photographer" ? "Models" : "Users" }</span>
           <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
@@ -424,7 +424,7 @@ function Home() {
 
       {/* Availabel Models section */}
       {selectedMode === 0 &&
-      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Available this week</span>
           <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
@@ -441,7 +441,7 @@ function Home() {
 
       {/* Carousel Container for events */}
       {selectedMode === 1 &&
-      <div className='max-w-[800px] mx-auto px-[24px] mt-[24px] flex items-center justify-center w-full'>
+      <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] mt-[24px] flex items-center justify-center w-full'>
       <Swiper
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: true }}
@@ -480,7 +480,7 @@ function Home() {
 
       {/* New Events section */}
       {selectedMode === 1 &&
-      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 pt-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 pt-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Popular Events</span>
           <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>
@@ -497,7 +497,7 @@ function Home() {
 
       {/* Availabel Events section */}
       {selectedMode === 1 &&
-      <div className='max-w-[800px] mx-auto px-[24px] space-y-2 my-[24px]'>
+      <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 my-[24px]'>
         <div className='flex items-center justify-between'>
           <span className='text-[16px] font-medium leading-[24px]'>Mini Sessions</span>
           <button onClick={()=>handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>View all</button>

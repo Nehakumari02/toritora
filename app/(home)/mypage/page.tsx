@@ -102,22 +102,14 @@ function MyPage() {
         </div>
 
         <div className='flex flex-row items-center justify-center gap-4 flex-wrap py-6'>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
-            {cameraIcon}
-            <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Shooting request list</span>
-          </button>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
-            {smileIcon}
-            <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Toritai Toraretai</span>
-          </button>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
-            {starIcon}
-            <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>My Favourites</span>
-          </button>
-          <button onClick={()=>handleGoToLink("/mypage")} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
-            {fileIcon}
-            <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>Toritora college</span>
-          </button>
+          {navigationList.map((item,index)=>{
+            return(
+              <button key={index} onClick={()=>handleGoToLink(item.link)} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+                {item.icon}
+                <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>{item.name}</span>
+              </button>
+            )
+          })}
         </div>
 
         <div className='space-y-4'>
@@ -188,6 +180,28 @@ const rightArrowIcon = <svg width="25" height="24" viewBox="0 0 25 24" fill="non
 <path d="M10.25 7.5L14.75 12L10.25 16.5" stroke="#999999" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
 
+const navigationList = [
+  {
+    name:"Shooting request list",
+    link:"/shootingRequestList",
+    icon:cameraIcon
+  },
+  {
+    name:"Toritai Toraretai",
+    link:"/mypage",
+    icon:smileIcon
+  },
+  {
+    name:"My Favourites",
+    link:"/favourites",
+    icon:starIcon
+  },
+  {
+    name:"Toritora college",
+    link:"/mypage",
+    icon:fileIcon
+  }
+]
 
 const otherSettings = [
   {

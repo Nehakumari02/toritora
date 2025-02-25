@@ -27,117 +27,47 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 import { useEffect, useState } from 'react'
 import {cn} from '@/lib/utils'
 import { locationIcon } from '@/constants/icons'
+import UserSlot from '@/components/common/userSlot';
+import { Loader2 } from 'lucide-react';
+import WheelPicker from '@/components/common/wheelPicker';
+import { useToast } from '@/hooks/use-toast';
+import { useLogout } from '@/lib/logout';
 
-interface MeetingProps {
-  id: number;
-  name: string;
-  imageUrl: string;
-  startDatetime: string;
-  endDatetime: string;
+interface SlotProps {
+  _id: string;
+  user_id: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
-
-interface Props {
-  meeting: MeetingProps;
-  index:number;
-}
-
-const meetings: MeetingProps[] = [
-  {
-    id: 1,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-15T13:00',
-    endDatetime: '2025-02-15T14:30',
-  },
-  {
-    id: 2,
-    name: 'CDF Satueikai Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-15T09:00',
-    endDatetime: '2025-02-15T11:30',
-  },
-  {
-    id: 3,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-17T17:00',
-    endDatetime: '2025-02-17T18:30',
-  },
-  {
-    id: 4,
-    name: 'CDF Satueikai Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-17T13:00',
-    endDatetime: '2025-02-17T14:30',
-  },
-  {
-    id: 5,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-15T14:00',
-    endDatetime: '2025-02-15T14:30',
-  },
-  {
-    id: 6,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-17T17:00',
-    endDatetime: '2025-02-17T18:30',
-  },
-  {
-    id: 7,
-    name: 'CDF Satueikai Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-17T13:00',
-    endDatetime: '2025-02-17T14:30',
-  },
-  {
-    id: 8,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-15T14:00',
-    endDatetime: '2025-02-15T14:30',
-  },
-  {
-    id: 9,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-17T17:00',
-    endDatetime: '2025-02-17T18:30',
-  },
-  {
-    id: 10,
-    name: 'CDF Satueikai Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-17T13:00',
-    endDatetime: '2025-02-17T14:30',
-  },
-  {
-    id: 11,
-    name: 'ABC Kikaku Event',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-02-15T14:00',
-    endDatetime: '2025-02-15T14:30',
-  },
-]
 
 export default function Calendar() {
+  const {toast} = useToast()
+  const logout = useLogout()
   let today = startOfToday()
   let [selectedDay, setSelectedDay] = useState(today)
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
   let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
   let [previousMonthDisabled,setPreviousMonthDisabled] = useState(true)
+  const [slots,setSlots] = useState<SlotProps[]>([])
+  const [editSlot,setEditSlot] = useState<SlotProps|null>(null)
+  const [slotDrawer,setSlotDrawer] = useState(false)
+  const [popUpMode,setPopUpMode] = useState(0)
+  const [isEditPopUp,setIsEditPopUp] = useState(false)
+  const [slotSaveLoading,setSlotSaveLoading] = useState(false)
+  const [slotDeleteLoading,setSlotDeleteLoading] = useState(false)
+  const [startTime, setStartTime] = useState<Date>(new Date());
+  // const [endTime, setEndTime] = useState<Date>(new Date());
+  const [endTime, setEndTime] = useState<Date>(() => {
+    const date = new Date();
+    date.setHours(date.getHours() + 1);
+    return date;
+  });
+  const [showStartTimePicker,setShowStartTimePicker] = useState(false)
+  const [showEndTimePicker,setShowEndTimePicker] = useState(false)
 
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
@@ -154,23 +84,301 @@ export default function Calendar() {
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
   }
 
-  let selectedDayMeetings = meetings.filter((meeting) =>
-    isSameDay(parseISO(meeting.startDatetime), selectedDay)
-  )
-
   const leftIcon = <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M15.7163 17.75L11.0185 13.3132L15.7163 8.87637" stroke={previousMonthDisabled?"#999999":"#2EC4B6"} strokeWidth="2.08791" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M15.7163 17.75L11.0185 13.3132L15.7163 8.87637" 
+  // stroke={previousMonthDisabled?"#999999":"#2EC4B6"} 
+  stroke='#2EC4B6'
+  strokeWidth="2.08791" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 
   const rightIcon = <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M10.2495 17.75L14.9473 13.3132L10.2495 8.87637" stroke="#2EC4B6" strokeWidth="2.08791" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 
+  const handleEditSlot = async (slot:SlotProps) => {
+    console.log("slot", slot)
+    setIsEditPopUp(true)
+    setPopUpMode(1)
+    setStartTime(new Date(slot?.startTime))
+    setEndTime(new Date(slot?.endTime))
+    setEditSlot(slot)
+    setSlotDrawer(true)
+  }
+
+  const handleDeleteSlot = async (slot:SlotProps) => {
+    console.log("slot", slot)
+    try {
+      setSlotDeleteLoading(true)
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+  
+        },
+        credentials: "include",
+        body: JSON.stringify({ slot_id: slot?._id }),
+      });
+
+      const data = await res.json()
+      if(res.status===200){
+        setSlots(prevSlots => prevSlots.filter(s => s._id !== slot?._id));
+        toast({
+          title:"Success",
+          description:`${data?.message}`,
+          variant:"success"
+        })
+      }
+      else if(res.status === 401){
+        toast({
+          title:"Error",
+          description:"Unauthorized request",
+          variant:"destructive"
+        })
+        logout();
+      }
+      else {
+        toast({
+          title:"Internal server error",
+          description:`Error: ${data.message}`,
+          variant:"destructive"
+        })
+      }
+    } catch (error) {
+      
+    } finally {
+      setSlotDeleteLoading(false)
+    }
+  }
+
+  const fetchUserSlots = async () => {
+      const date = parse(currentMonth, "MMM-yyyy", new Date());
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+  
+      const res_slots = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot?month=${month}&year=${year}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials:"include",
+      });
+  
+      const data_slots = await res_slots.json();
+  
+      setSlots(data_slots.slots)
+      console.log(data_slots)
+    }
+
+  const handleAddSlot = async ()=>{
+    try {
+      setSlotSaveLoading(true)
+      const rawDate = new Date(selectedDay);
+      const rawStartTime = new Date(startTime);
+      const rawEndTime = new Date(endTime);
+
+      const newSlot = {
+        date: new Date(Date.UTC(rawDate.getFullYear(), rawDate.getMonth(), rawDate.getDate())).toISOString(),
+        startTime: rawStartTime.toISOString(),
+        endTime: rawEndTime.toISOString(),
+        status: "available"
+      };
+  
+      const isConflict = slots.some(slot => {
+        const existingStart = new Date(slot.startTime);
+        const existingEnd = new Date(slot.endTime);
+        const newStart = new Date(newSlot.startTime);
+        const newEnd = new Date(newSlot.endTime);
+  
+        return (
+          slot.date === newSlot.date &&
+          (
+            (newStart >= existingStart && newStart < existingEnd) ||
+            (newEnd > existingStart && newEnd <= existingEnd) ||
+            (newStart <= existingStart && newEnd >= existingEnd)
+          )
+        );
+      });
+  
+      if (isConflict) {
+        toast({
+          title: "Slot Conflict",
+          description: "This slot overlaps with an existing slot. Please choose another time.",
+          variant: "destructive"
+        });
+        return;
+      }
+  
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ slots: [newSlot] }),
+      });
+
+      const data = await res.json()
+      if(res.status===201){
+        setSlotDrawer(false)
+        setSlots((prevSlots) => [...prevSlots, ...data.slots]);
+        toast({
+          title:"Success",
+          description:`${data?.message}`,
+          variant:"success"
+        })
+      }
+      else if(res.status === 401){
+        setSlotDrawer(false)
+        toast({
+          title:"Error",
+          description:"Unauthorized request",
+          variant:"destructive"
+        })
+        logout();
+      }
+      else {
+        setSlotDrawer(false)
+        toast({
+          title:"Internal server error",
+          description:`Error: ${data.message}`,
+          variant:"destructive"
+        })
+      }
+    } catch (error) {
+      setSlotDrawer(false)
+      toast({
+        title:"Internal server error",
+        description:`Error: ${error}`,
+        variant:"destructive"
+      })
+    } finally {
+      setPopUpMode(0)
+      setSlotDrawer(false)
+      setSlotSaveLoading(false)
+    }
+  }
+
+  const handleUpdateSlot = async ()=>{
+    try {
+      setSlotSaveLoading(true)
+      const rawDate = new Date(selectedDay);
+      const rawStartTime = new Date(startTime);
+      const rawEndTime = new Date(endTime);
+
+      const newSlot = {
+        date: new Date(Date.UTC(rawDate.getFullYear(), rawDate.getMonth(), rawDate.getDate())).toISOString(),
+        startTime: rawStartTime.toISOString(),
+        endTime: rawEndTime.toISOString(),
+      };
+  
+      const isConflict = slots.some(slot => {
+        if (slot._id === editSlot?._id) return false;
+        const existingStart = new Date(slot.startTime);
+        const existingEnd = new Date(slot.endTime);
+        const newStart = new Date(newSlot.startTime);
+        const newEnd = new Date(newSlot.endTime);
+  
+        return (
+          slot.date === newSlot.date &&
+          (
+            (newStart >= existingStart && newStart < existingEnd) ||
+            (newEnd > existingStart && newEnd <= existingEnd) ||
+            (newStart <= existingStart && newEnd >= existingEnd)
+          )
+        );
+      });
+  
+      if (isConflict) {
+        toast({
+          title: "Slot Conflict",
+          description: "This slot overlaps with an existing slot. Please choose another time.",
+          variant: "destructive"
+        });
+        return;
+      }
+  
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ slot_id: editSlot?._id, startTime: newSlot?.startTime, endTime: newSlot?.endTime }),
+      });
+
+      const data = await res.json()
+      console.log(res,data)
+      if(res.status===200){
+        setSlotDrawer(false)
+        setSlots(prevSlots =>
+          prevSlots.map(slot =>
+            slot._id === editSlot?._id ? { ...slot, ...data.updatedSlot } : slot
+          )
+        );
+        toast({
+          title:"Success",
+          description:`${data?.message}`,
+          variant:"success"
+        })
+      }
+      else if(res.status === 401){
+        setSlotDrawer(false)
+        toast({
+          title:"Error",
+          description:"Unauthorized request",
+          variant:"destructive"
+        })
+        logout();
+      }
+      else {
+        setSlotDrawer(false)
+        toast({
+          title:"Internal server error",
+          description:`Error: ${data.message}`,
+          variant:"destructive"
+        })
+      }
+    } catch (error) {
+      setSlotDrawer(false)
+      toast({
+        title:"Internal server error",
+        description:`Error: ${error}`,
+        variant:"destructive"
+      })
+    } finally {
+      setPopUpMode(0)
+      setSlotDrawer(false)
+      setSlotSaveLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const minEndTime = new Date(startTime);
+    minEndTime.setHours(minEndTime.getHours() + 1);
+
+    if (endTime <= startTime || endTime < minEndTime) {
+      setEndTime(minEndTime);
+    }
+  }, [startTime, endTime]);
+
+  const formatTimeToHours = (date:Date) => {
+    return new Date(date).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  }
+
   useEffect(() => {
     const todayMonth = format(today, 'MMM-yyyy');
     const isSameMonth = currentMonth === todayMonth;
     setPreviousMonthDisabled(isSameMonth);
   }, [today,currentMonth]);
+
+  useEffect(() => {
+    fetchUserSlots();
+  },[currentMonth])
 
   return (
     <>
@@ -189,7 +397,7 @@ export default function Calendar() {
               <button
                 type="button"
                 onClick={previousMonth}
-                disabled={previousMonthDisabled}
+                // disabled={previousMonthDisabled}
                 className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">Previous month</span>
@@ -219,13 +427,13 @@ export default function Calendar() {
                   key={day.toString()}
                   className={cn(
                     dayIdx === 0 && colStartClasses[getDay(day)],
-                    // 'py-1'
+                    'py-1'
                   )}
                 >
                   <button
                     type="button"
                     onClick={() => setSelectedDay(day)}
-                    disabled={getDay(day) === 0 || isBefore(day, startOfDay(new Date()))}
+                    // disabled={getDay(day) === 0 || isBefore(day, startOfDay(new Date()))}
                     className={cn(
                       isEqual(day, selectedDay) && 'text-white',
                       isEqual(day, selectedDay) && isToday(day) && 'text-secondary',
@@ -238,6 +446,8 @@ export default function Calendar() {
                         'text-gray-900',
                         getDay(day) === 0 && 'text-[#999999]',
                         isBefore(day, startOfDay(new Date())) && 'text-[#999999]',
+                        isEqual(day, selectedDay) && 'text-white',
+                        isEqual(day, selectedDay) && isToday(day) && 'text-secondary',
                       !isEqual(day, selectedDay) &&
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&
@@ -249,7 +459,7 @@ export default function Calendar() {
                       // !isEqual(day, selectedDay) && 'hover:bg-gray-200',
                       (isEqual(day, selectedDay) || isToday(day)) &&
                         'font-semibold',
-                      'mx-auto flex h-10 w-14 items-center justify-center rounded-full font-semibold text-center text-[15px] transition-all duration-300'
+                      'mx-auto flex h-8 md:h-10 w-8 md:w-14 items-center justify-center rounded-full font-semibold text-center text-[15px] transition-all duration-300'
                     )}
                   >
                     <time dateTime={format(day, 'yyyy-MM-dd')}>
@@ -258,10 +468,10 @@ export default function Calendar() {
                   </button>
 
                   <div className="w-1 h-1 mx-auto mt-1">
-                    {meetings.some((meeting) =>
-                      isSameDay(parseISO(meeting.startDatetime), day)
+                    {slots.some((slot) =>
+                      isSameDay(parseISO(slot?.date), day)
                     ) && (
-                      <div className="w-1 h-1 rounded-full bg-sky-500"></div>
+                      <div className="w-1 h-1 rounded-full bg-secondary"></div>
                     )}
                   </div>
                 </div>
@@ -274,7 +484,7 @@ export default function Calendar() {
           </div>
 
           <div className=''>
-            <section className="mt-6 md:mt-0 pl-4">
+            <section className="mt-6 md:mt-0 md:pl-4">
               <h2 className="font-semibold text-gray-900 pl-4">
                 Schedule for{' '}
                 <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
@@ -282,12 +492,18 @@ export default function Calendar() {
                 </time>
               </h2>
               <ol className="mt-4 space-y-3 text-sm leading-6 text-gray-500 md:overflow-y-scroll md:h-[40vh] md:no-scrollbar">
-                {selectedDayMeetings.length > 0 ? (
-                  selectedDayMeetings.map((meeting,index) => (
-                    <Meeting meeting={meeting} index={index} key={meeting.id} />
+                {slots.length > 0 ? (
+                  slots
+                  .filter((slot) => {
+                    const slotDate = new Date(slot.date).toDateString();
+                    const selectedDate = selectedDay.toDateString();
+                    return slotDate === selectedDate;
+                  })
+                  .map((slot,index) => (
+                    <UserSlot handleEditSlot={handleEditSlot} handleDeleteSlot={handleDeleteSlot} slot={slot} index={index} key={index} />
                   ))
                 ) : (
-                  <p>No schedule for today.</p>
+                  <p>No slots for today.</p>
                 )}
               </ol>
             </section>
@@ -297,31 +513,50 @@ export default function Calendar() {
     </div>
 
     <div className='sticky bottom-0 pb-4 bg-white pt-4 z-10'>
-      <Drawer>
-        <DrawerTrigger className='w-[90%] md:w-[800px] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Add your available time</DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader className='flex items-center justify-between'>
+      <Drawer open={slotDrawer} onOpenChange={setSlotDrawer}>
+        <DrawerTrigger onClick={()=>{setIsEditPopUp(false);setPopUpMode(0);setEditSlot(null);setSlotDrawer(true);}} className='w-[90%] md:w-[800px] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Add your available time</DrawerTrigger>
+        <DrawerContent aria-describedby={undefined}>
+          <DrawerHeader className='flex items-center justify-between '>
             <DialogTitle className='hidden'></DialogTitle>
-            <div className='w-full border-b-[1px] pb-3'>
+            <div className='w-full max-w-[800px] mx-auto'>
               <div className='w-full mt-4 text-[16px] leading-[24px] font-semibold text-center'>
-                  Add your time on 
+                  Add your time on
                   <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-                    {format(selectedDay, 'MMM dd, yyy')}
+                    {" "}{format(selectedDay, 'MMM dd, yyy')}
                   </time>
               </div>
-              <span className='text-sm text-gray-500'>It will appear on your profile</span>
             </div>
             <DrawerClose className='text-[12px] leading-[18px] font-medium text-[#E10101]'>Close</DrawerClose>
           </DrawerHeader>
-          <div className='space-y-3'>
-            <span className='text-xs text-gray-500 px-4'>Add from history</span>
-            <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>10:00-15:00</button>
-            <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>12:00-17:30</button>
-            <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>15:00-16:00</button>
-          </div>
-          <div className='mt-8'>
-            <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>Choose new slot manually</button>
-          </div>
+          <span className='text-sm text-gray-500 max-w-[800px] pb-3 px-4 mx-auto w-full'>It will appear on your profile</span>
+          <hr className='pb-3'/>
+          {popUpMode === 0 &&
+            <div className='space-y-3 max-w-[800px] mx-auto w-full'>
+              <span className='text-xs text-gray-500 px-4'>Add from history</span>
+              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>10:00-15:00</button>
+              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>12:00-17:30</button>
+              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>15:00-16:00</button>
+              <div className='pt-8 max-w-[800px] mx-auto w-full'>
+                <button onClick={()=>setPopUpMode(1)} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>Choose new slot manually</button>
+              </div>
+            </div>
+          }
+          {popUpMode === 1 &&
+            <div className='space-y-3 max-w-[800px] mx-auto w-full'>
+              <button disabled={true} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Date {format(selectedDay, 'MMM dd, yyy')}</button>
+              <button onClick={()=>{setShowStartTimePicker(!showStartTimePicker);setShowEndTimePicker(false)}} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Start time {formatTimeToHours(startTime)}</button>
+              {showStartTimePicker && <WheelPicker setDate={setStartTime} time={startTime}/>}
+              <button onClick={()=>{setShowEndTimePicker(!showEndTimePicker);setShowStartTimePicker(false)}} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>End time {formatTimeToHours(endTime)}</button>
+              {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime}/>}
+              <div className='pt-8 max-w-[800px] mx-auto w-full'>
+                {isEditPopUp ? 
+                  <button onClick={()=>handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : "Update slot"}</button>
+                  :
+                  <button onClick={()=>handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : "Add to your calendar"}</button>
+                }
+              </div>
+            </div>
+          }
           <DrawerFooter className=''>
           
           </DrawerFooter>
@@ -329,54 +564,6 @@ export default function Calendar() {
       </Drawer>
     </div>
     </>
-  )
-}
-
-function Meeting({ meeting, index }:Props) {
-  let startDateTime = parseISO(meeting.startDatetime)
-  let endDateTime = parseISO(meeting.endDatetime)
-
-  let textColor, bgColor, border, timeColor;
-  if(index%2===0){
-    textColor="text-[#2EC4B6]";
-    bgColor="bg-[#2EC4B60F]";
-    border="border-[#2EC4B6]";
-    timeColor="text-[#2EC4B6]";
-  }
-  if(index%2===1){
-    textColor="text-[#FF0000]";
-    bgColor="bg-[#FF00000F]";
-    border="border-[#FF0000]";
-    timeColor="text-gray-500";
-  }
-
-  return (
-    <li>
-      <div className="flex gap-x-3">
-        <div className="w-16 text-end">
-          <span className={`text-xs ${timeColor} dark:text-neutral-400`}>{format(startDateTime, 'h:mm a')}</span>
-        </div>
-        
-        <div className="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
-          <div className="relative size-7 flex justify-center items-center">
-            <div className="size-2 rounded-full bg-gray-400 dark:bg-neutral-600"></div>
-          </div>
-        </div>
-
-        <div className={`grow pt-0.5 pb-4 mb-8 px-2 rounded-md border-l-8 ${border} ${textColor} ${bgColor}`}>
-          <h3 className="flex gap-x-1.5 font-semibold dark:text-white">
-            
-          </h3>
-          <p className="mt-1 text-sm dark:text-neutral-400">
-            {meeting.name}
-          </p>
-          <span className="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs rounded-lg border border-transparent dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-            {locationIcon}
-            Location / Event Name
-          </span>
-        </div>
-      </div>
-    </li>
   )
 }
 

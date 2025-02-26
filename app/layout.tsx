@@ -33,6 +33,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="apple-mobile-web-app-title" content="Toritora" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icon.png" />
+      </head>
       <body
         className={`${DMSans.variable} font-DM-Sans antialiased h-[100dvh]`}
       >

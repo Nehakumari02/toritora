@@ -188,7 +188,9 @@ const navigationList = [
   },
   {
     name:"Toritai Toraretai",
+    // Disabled link to toritai toraretai
     link:"/mypage",
+    // link:"/toritai-toraretai",
     icon:smileIcon
   },
   {

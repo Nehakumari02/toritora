@@ -259,65 +259,120 @@ function Home() {
     }
 
   useEffect(()=>{
-    setNotificationCount(7);
-    setMessageCount(5);
+    router.refresh()
+    try {
+      const fetchUser = async ()=>{
+        setLoading(true);
+        const professionFromLS = localStorage.getItem('userProfession') || '';
+        setProfession(professionFromLS);
+        const pageNo = 1;
+        const pageSize = 10;
+        const isNew = true;
+        const type = professionFromLS;
+        const queryParams = new URLSearchParams({
+          pageNo: pageNo.toString(),
+          pageSize: pageSize.toString(),
+          isNew: isNew.toString(),
+          type: type,
+        }).toString();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/data/models?${queryParams}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials:"include",
+        });
+
+        if(res.status===200){
+          const data = await res.json();
+          const transformedModels = data.models.map((user:any) => ({
+            name: `${user.firstName} ${user.lastName}`.trim(),
+            location: user.address,
+            profilePic: user.profilePicture,
+            userId: user.userId,
+            dateOfJoining: new Date(user.createdAt) // Convert to Date object
+          }));
+          setModelsNew(transformedModels)
+        }
+        else{
+          // toast({
+          //   title:"Error",
+          //   description:"Unauthorized request",
+          //   variant:"destructive"
+          // })
+        }
+        
+      }
+
+      fetchUser();
+
+      
+    } catch (error) {
+      console.log("Error",error)
+    } finally{
+      setLoading(false)
+    }
   },[])
 
-  useEffect(()=>{
-      router.refresh()
-      try {
-        const fetchUser = async ()=>{
-          setLoading(true);
-          const professionFromLS = localStorage.getItem('userProfession') || '';
-          setProfession(professionFromLS);
-          const pageNo = 1;
-          const pageSize = 10;
-          const isNew = true;
-          const type = professionFromLS;
-          const queryParams = new URLSearchParams({
-            pageNo: pageNo.toString(),
-            pageSize: pageSize.toString(),
-            isNew: isNew.toString(),
-            type: type,
-          }).toString();
-          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/data/models?${queryParams}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials:"include",
-          });
+  function urlBase64ToUint8Array(base64String: string) {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+   
+    const rawData = window.atob(base64)
+    const outputArray = new Uint8Array(rawData.length)
+   
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i)
+    }
+    return outputArray
+  }
+
+  const setupServiceWorker = async () => {
+    if (!("serviceWorker" in navigator)) return;
   
-          if(res.status===200){
-            const data = await res.json();
-            const transformedModels = data.models.map((user:any) => ({
-              name: `${user.firstName} ${user.lastName}`.trim(),
-              location: user.address,
-              profilePic: user.profilePicture,
-              userId: user.userId,
-              dateOfJoining: new Date(user.createdAt) // Convert to Date object
-            }));
-            setModelsNew(transformedModels)
-          }
-          else{
-            // toast({
-            //   title:"Error",
-            //   description:"Unauthorized request",
-            //   variant:"destructive"
-            // })
-          }
-          
-        }
+    try {
+      // Get existing registration (if any)
+      let registration = await navigator.serviceWorker.getRegistration();
   
-        fetchUser();
-  
-        
-      } catch (error) {
-        console.log("Error",error)
-      } finally{
-        setLoading(false)
+      // Register Service Worker if not already registered
+      if (!registration) {
+        registration = await navigator.serviceWorker.register("/sw.js");
+        console.log("Service worker registered successfully");
       }
-    },[])
+  
+      // Ensure registration is defined before proceeding
+      if (!registration) return;
+  
+      // Check for existing push subscription
+      const existingSubscription = await registration.pushManager.getSubscription();
+      if (!existingSubscription) {
+        // Subscribe to push notifications
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!),
+        });
+  
+        // Send subscription to backend
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notification/subscribeUser`, {
+          method: "POST",
+          body: JSON.stringify(subscription),
+          headers: { "content-type": "application/json" },
+        });
+  
+        const data = await res.json();
+        console.log("Subscription successful:", data);
+      } else {
+        console.log("Already subscribed to push notifications");
+      }
+    } catch (error) {
+      console.error("Service worker setup failed:", error);
+    }
+  };
+
+  
+  useEffect(() => {
+    setupServiceWorker();
+  }, []);
 
   return (
     <div className='flex flex-col h-full'>

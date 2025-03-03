@@ -35,6 +35,16 @@ import { useToast } from '@/hooks/use-toast';
 // } from "@/components/ui/drawer"
 // import { DialogTitle } from '@radix-ui/react-dialog';
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { prefectures } from '@/data/prefectures';
 
 function RegistrationInfo() {
   const router = useRouter();
@@ -184,6 +194,7 @@ function RegistrationInfo() {
     gender: "",
     mobile: "",
     postalCode: "",
+    location: "",
     address: "",
   });
 
@@ -208,9 +219,16 @@ function RegistrationInfo() {
     idProof: '',
   });
 
+  const handleSelectChange = (value: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      location: value,
+    }));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
+    console.log(formData)
 
     if (type === "file") {
       setFormData((prevData) => ({
@@ -606,10 +624,31 @@ function RegistrationInfo() {
               />
             </div>
 
+            {/* Location */}
+            <label className='block text-sm'>Location <span className="text-red-500">*</span></label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
+              <Select value={formData.location} onValueChange={handleSelectChange}>
+                <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
+                  <SelectValue placeholder="Select location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Locations</SelectLabel>
+                    {prefectures.map((prefecture) => (
+                      <SelectItem key={prefecture} value={prefecture}>
+                        {prefecture}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
             {/* Address */}
             <label className='block text-sm'>Address <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
-              <Image src={location} alt='location' width={20} height={20} className="text-gray-500 mr-2" />
+              <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
               <input
                 type='text'
                 name='address'

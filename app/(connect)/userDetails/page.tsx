@@ -28,53 +28,6 @@ import UserDetailsSkeleton from '@/components/skeleton/userDetailsSkeleton';
 import BookingSlot from '@/components/common/bookingSlot';
 import { addRequest } from '@/lib/requestHandler';
 
-let testSlots = [
-  {
-      "_id": "67bc6d710230d7ab05356aeb",
-      "user_id": "67b59210f510ef3bf6f57adf",
-      "date": "2025-02-20T00:00:00.000Z",
-      "startTime": "2025-02-20T09:00:00.000Z",
-      "endTime": "2025-02-20T10:15:00.000Z",
-      "status": "pending",
-      "__v": 0,
-      "createdAt": "2025-02-24T13:00:33.697Z",
-      "updatedAt": "2025-02-24T13:07:24.578Z"
-  },
-  {
-      "_id": "67bc6d710230d7ab05356aec",
-      "user_id": "67b59210f510ef3bf6f57adf",
-      "date": "2025-02-20T00:00:00.000Z",
-      "startTime": "2025-02-20T11:00:00.000Z",
-      "endTime": "2025-02-20T12:00:00.000Z",
-      "status": "available",
-      "__v": 0,
-      "createdAt": "2025-02-24T13:00:33.697Z",
-      "updatedAt": "2025-02-24T13:00:33.697Z"
-  },
-  {
-      "_id": "67bc6d710230d7ab05356aed",
-      "user_id": "67b59210f510ef3bf6f57adf",
-      "date": "2025-02-21T00:00:00.000Z",
-      "startTime": "2025-02-21T14:00:00.000Z",
-      "endTime": "2025-02-21T15:00:00.000Z",
-      "status": "available",
-      "__v": 0,
-      "createdAt": "2025-02-24T13:00:33.698Z",
-      "updatedAt": "2025-02-24T13:00:33.698Z"
-  },
-  {
-      "_id": "67bc6d710230d7ab05356aee",
-      "user_id": "67b59210f510ef3bf6f57adf",
-      "date": "2025-02-22T00:00:00.000Z",
-      "startTime": "2025-02-22T16:30:00.000Z",
-      "endTime": "2025-02-22T17:30:00.000Z",
-      "status": "available",
-      "__v": 0,
-      "createdAt": "2025-02-24T13:00:33.698Z",
-      "updatedAt": "2025-02-24T13:00:33.698Z"
-  }
-]
-
 interface SlotProps {
   _id: string;
   user_id: string;
@@ -93,6 +46,7 @@ function UserDetails() {
   const [profession, setProfession] = useState("modelling");
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
+  const [isToritaiSent, setIsToritaiSent] = useState(true);
   const [loadingSlotBooking, setLoadingSlotBooking] = useState(false);
   const userId = searchParams.get("userId");
   const [user, setUser] = useState<any | null>(null);
@@ -213,7 +167,7 @@ function UserDetails() {
           setUser(data?.user);
           console.log(data)
           setProfession(data?.user?.profession)
-
+          setIsToritaiSent(data?.isToritaiSent || false)
           userIdRef.current = data?.user?._id
 
         }
@@ -282,7 +236,7 @@ function UserDetails() {
         </div>
       </div>
 
-      <div className='overflow-y-scroll flex-1 no-scrollbar mb-4'>
+      <div className='overflow-y-scroll flex-1 no-scrollbar'>
 
         <div className={`${selectedMode === 0 ? "" : "hidden"} h-full pb-4`}>
 
@@ -775,6 +729,12 @@ function UserDetails() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className='flex items-center justify-center gap-6 md:max-w-[800px] w-full md:mx-auto py-4 px-2 shadow-[0_4px_20px_rgba(0,0,0,0.15)] '>
+        {/* Change disabled to isToritaiSent to handle toritai set value of disabled = isToritaiSent */}
+        <button disabled={true} onClick={()=>handleGoToLink(`/userDetails/toritai?fullName=${user?.firstName+" "+user?.lastName}&profileImage=${user?.profilePicture}&userId=${userIdRef.current}`)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center border bg-white flex items-center justify-center text-secondary rounded-md'>Toritai</button>
+        <button onClick={()=>setSelectedMode(1)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Book Now</button>
       </div>
     </div>
   )

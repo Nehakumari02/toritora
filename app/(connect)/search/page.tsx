@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState, useCallback } from 'react';
+import location from '../../../public/images/photographer_reg/location.png'
 import {
   Drawer,
   DrawerClose,
@@ -21,6 +22,17 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { prefectures } from '@/data/prefectures';
 
 const availableModelList = [
   {
@@ -118,6 +130,10 @@ function Search() {
     // handleSearch();
   };
 
+  const handleLocationSearch = (value: string) => {
+      setLocationSearch(value);
+    };
+
   const clearFilters = () => {
     setLocationSearch("");
     setGenre("All");
@@ -171,16 +187,24 @@ function Search() {
                 <hr />
 
                 <div className='space-y-2'>
-                  <span className='font-medium text-[14px] leading-[21px]'>Shooting Ares</span>
-                  <div className={`h-[42px] flex items-center gap-2 px-3 py-2 border rounded-lg transition-all duration-300 border-[#999999] `}>
-                    {locationIconGreen}
-                    <input
-                      type="text"
-                      value={locationSearch}
-                      onChange={(e)=>{setLocationSearch(e.target.value)}}
-                      className="outline-none w-full"
-                      placeholder="Select location"
-                    />
+                  <span className='font-medium text-[14px] leading-[21px]'>Location</span>
+                  <div className="flex items-center border rounded p-2">
+                    <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
+                    <Select value={locationSearch} onValueChange={handleLocationSearch}>
+                      <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
+                        <SelectValue placeholder="Select location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Locations</SelectLabel>
+                          {prefectures.map((prefecture) => (
+                            <SelectItem key={prefecture} value={prefecture}>
+                              {prefecture}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 

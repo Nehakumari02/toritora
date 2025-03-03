@@ -48,7 +48,7 @@ const WheelPicker: React.FC<WheelPickerProps> = ({ setDate, isEndTime = false, t
 
     scrollToValue(hourRef, selectedHour, hours);
     scrollToValue(minuteRef, selectedMinute, minutes);
-  }, [selectedHour, selectedMinute]); 
+  }, [selectedHour, selectedMinute,hours,minutes]); 
 
   return (
     <div className="flex justify-center items-center space-x-4 p-4">

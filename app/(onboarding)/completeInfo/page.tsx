@@ -200,8 +200,8 @@ function RegistrationInfo() {
 
   const [formData1, setFormData1] = useState({
     profilePicture: '',
-    userId: '',
-    username: '',
+    // userId: '',
+    // username: '',
     genres: '',
     achievements: [] as string[],
     cameraType: '',
@@ -298,7 +298,7 @@ function RegistrationInfo() {
 
     // Validate formData fields
     for (const [key, value] of Object.entries(formData)) {
-      if (!value && key !== "age" && key !== "username") {
+      if (!value && key !== "age" && key !== "username" && key !== "userId") {
         toast({
           title: "Error",
           description: `Please fill the ${key} field`,
@@ -313,7 +313,7 @@ function RegistrationInfo() {
     for (const [key, value] of Object.entries(formData1)) {
       if (
         !value &&
-        key !== "images" && key !== "profilePicture" && key !== "idProof" &&
+        key !== "images" && key !== "profilePicture" && key !== "idProof" && key !== "username" && key !== "userId" && 
         !excluded.includes(key)
       ) {
         toast({
@@ -707,7 +707,7 @@ function RegistrationInfo() {
               </label>
             </div>
 
-            <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
+            {/* <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -718,10 +718,10 @@ function RegistrationInfo() {
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px] bg-white autofill:bg-white"
               />
-            </div>
+            </div> */}
 
             {/* Username Field with Icon */}
-            <label className="block text-sm">Username <span className="text-red-500">*</span></label>
+            {/* <label className="block text-sm">Username <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2 bg-white">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -732,7 +732,7 @@ function RegistrationInfo() {
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px] bg-white autofill:bg-white"
               />
-            </div>
+            </div> */}
 
 
             <label className="block text-sm">Genres You Are Good At <span className="text-red-500">*</span></label>
@@ -912,7 +912,7 @@ function RegistrationInfo() {
               </label>
             </div>
 
-            <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
+            {/* <label className="block text-sm">UserId <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -923,10 +923,10 @@ function RegistrationInfo() {
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px]"
               />
-            </div>
+            </div> */}
 
             {/* Username Field with Icon */}
-            <label className="block text-sm">Username <span className="text-red-500">*</span></label>
+            {/* <label className="block text-sm">Username <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -937,7 +937,7 @@ function RegistrationInfo() {
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px]"
               />
-            </div>
+            </div> */}
 
 
 

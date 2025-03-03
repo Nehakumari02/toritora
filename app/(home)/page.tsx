@@ -15,6 +15,7 @@ import { EventTile, UserTile } from '@/components/common/tile'
 import { useToast } from '@/hooks/use-toast'
 import TileSkeleton from '@/components/common/tileSkeleton'
 import { preloadFont } from 'next/dist/server/app-render/entry-base'
+import { formatDate } from 'date-fns'
 
 const modelCarouselList = [
   {
@@ -253,6 +254,7 @@ function Home() {
   const {toast} = useToast();
   const [profession,setProfession] = useState("");
   const [modelsNew,setModelsNew] = useState([]);
+  const [availableModel,setAvailableModel] = useState([]);
   
     const handleGoToLink = (route:string)=>{
       router.push(route)
@@ -304,8 +306,66 @@ function Home() {
         
       }
 
-      fetchUser();
+      const fetchUserWithFilters = async ()=>{
+        setLoading(true);
+        try {
+          const professionFromLS = localStorage.getItem('userProfession') || '';
+          const formattedDate = formatDate(new Date, "yyyy-MM-dd");
+          const type = professionFromLS;
+          const queryParams = new URLSearchParams({
+            name: searchTerm,
+            type: type,
+            date: formattedDate,
+          }).toString();
+          console.log(queryParams)
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search?${queryParams}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials:"include",
+          });
+    
+          if(res.status===200){
+            const data = await res.json();
+            const transformedUsers = data.users.map((user:any) => ({
+              name: `${user.firstName} ${user.lastName}`.trim(),
+              location: user.address,
+              profilePic: user.profilePicture,
+              userId: user.userId,
+              dateOfJoining: new Date(user.createdAt)
+            }));
+            console.log(data)
+            setAvailableModel(transformedUsers)
+          }
+          else if(res.status===401){
+            toast({
+              title:"Error",
+              description:"Unauthorized request",
+              variant:"destructive"
+            })
+          }
+          else{
+            toast({
+              title:"Error",
+              description:"Server internal error",
+              variant:"destructive"
+            })
+          }
+        } catch (error) {
+          toast({
+            title:"Error",
+            description:`Server internal error: ,${error}`,
+            variant:"destructive"
+          })
+        } finally {
+          setLoading(false)
+        }
+        
+      }
 
+      fetchUser();
+      fetchUserWithFilters();
       
     } catch (error) {
       console.log("Error",error)
@@ -486,9 +546,12 @@ function Home() {
         </div>
 
         <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
-          {loading ? <TileSkeleton/> : availableModelList.map((item,index)=>(
+        {loading ? <TileSkeleton/> : availableModel.map((item,index)=>(
             <UserTile key={index} user={item} />
           ))}
+          {
+            !loading && !availableModel.length && <span className='text-sm font-semibold text-[#999999]'>No {profession === "modelling"? "Photographers" : profession === "photographer" ? "Models" : "Users" } available this week.</span>
+          }
         </div>
         
       </div>

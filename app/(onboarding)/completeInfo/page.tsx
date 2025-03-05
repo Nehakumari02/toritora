@@ -539,7 +539,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Date of Birth */}
-            <label className='block text-sm'>Date of Birth <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>Date of Birth <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2 bg-white relative">
               <Image src={calendar} alt="calendar" width={20} height={20} className="mr-2" />
               <input
@@ -572,7 +572,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Gender */}
-            <label className='block text-sm'>Gender <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>Gender <span className="text-red-500 hidden">*</span></label>
             <div className="flex gap-4">
               {['Male', 'Female'].map((gender) => (
                 <label key={gender} className="text-sm flex items-center cursor-pointer">
@@ -597,7 +597,7 @@ function RegistrationInfo() {
 
 
             {/* Mobile Number */}
-            <label className='block text-sm'>Mobile Number <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>Mobile Number <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={phone} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -639,7 +639,7 @@ function RegistrationInfo() {
             </div> */}
 
             {/* Postal Code */}
-            <label className='block text-sm'>Postal Code <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>Postal Code <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -653,7 +653,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Location */}
-            <label className='block text-sm'>Location <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>Location <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
               <Select value={formData.location} onValueChange={handleSelectChange}>
@@ -674,7 +674,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Address */}
-            <label className='block text-sm'>Address <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>Address <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
               <input
@@ -699,7 +699,7 @@ function RegistrationInfo() {
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <div className='flex flex-col gap-2'>
                   <div className='text-[16px] font-500 '>
-                    Profile Picture <span className="text-red-500">*</span>
+                    Profile Picture <span className="text-red-500 hidden">*</span>
                   </div>
                   <div className='text-[12px] font-400 ' >
                     This will be displayed on your profile
@@ -763,7 +763,7 @@ function RegistrationInfo() {
             </div> */}
 
 
-            <label className="block text-sm">Genres You Are Good At <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Genres You Are Good At <span className="text-red-500 hidden">*</span></label>
             <select
               name="genres"
               value={formData1.genres}
@@ -819,30 +819,30 @@ function RegistrationInfo() {
                 </div>
               ))}
             </div>
-            <label className="block text-sm">Camera Type <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Camera Type <span className="text-red-500 hidden">*</span></label>
             <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">Photography Experience (Years) <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Photography Experience (Years) <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="photographyExperience" placeholder="Enter years of experience" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Shooting Price Per Hour <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Shooting Price Per Hour <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="shootingPrice" placeholder="Price per hour" value={formData1.shootingPrice} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Transportation Fee <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Transportation Fee <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">SNS Username <span className="text-red-500">*</span></label>
+            <label className="block text-sm">SNS Username <span className="text-red-500 hidden">*</span></label>
             <input type="text" name="snsUsername" placeholder="Instagram, Twitter, etc." value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Website <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Website <span className="text-red-500 hidden">*</span></label>
             <input type="url" name="website" placeholder="Your website URL" value={formData1.website} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Self Introduction <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Self Introduction <span className="text-red-500 hidden">*</span></label>
             <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" ></textarea>
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
-              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500">*</span> </h2>
+              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500 hidden">*</span> </h2>
               <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
               {/* Add More Button at Top Right */}
               {subPhotos.length < 5 && (
@@ -909,7 +909,7 @@ function RegistrationInfo() {
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <div className='flex flex-col gap-2'>
                   <div className='text-[16px] font-500 '>
-                    Profile Picture <span className="text-red-500">*</span>
+                    Profile Picture <span className="text-red-500 hidden">*</span>
                   </div>
                   <div className='text-[12px] font-400 ' >
                     This will be displayed on your profile
@@ -969,7 +969,7 @@ function RegistrationInfo() {
 
 
 
-            <label className="block text-sm">Genres You Are Good At <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Genres You Are Good At <span className="text-red-500 hidden">*</span></label>
             <select
               name="genres"
               value={formData1.genres}
@@ -1025,15 +1025,15 @@ function RegistrationInfo() {
               ))}
             </div>
 
-            <label className="block text-sm">Height (in cms) <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Height (in cms) <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="height" placeholder="Enter value" value={formData1.height} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">Modeling Experience (Years) <span className="text-red-500">*</span></label>
+            <label className="block text-sm">Modeling Experience (Years) <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="modellingExperiance" placeholder="Enter value" value={formData1.modellingExperiance} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
-              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500">*</span> </h2>
+              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500 hidden">*</span> </h2>
               <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
               {/* Add More Button at Top Right */}
               {subPhotos.length < 5 && (
@@ -1090,7 +1090,7 @@ function RegistrationInfo() {
             </div>
 
 
-            <label className="block text-[14px]">Instagram Username <span className="text-red-500">*</span></label>
+            <label className="block text-[14px]">Instagram Username <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={instagram} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -1103,7 +1103,7 @@ function RegistrationInfo() {
               />
             </div>
 
-            <label className="block text-[14px]">Twitter Username <span className="text-red-500">*</span></label>
+            <label className="block text-[14px]">Twitter Username <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={twitter} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -1187,7 +1187,7 @@ function RegistrationInfo() {
 
             <div className="max-w-md mx-auto mb-8 mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2 text-center mt-12">
-                ID Proof <span className="text-red-500">*</span>
+                ID Proof <span className="text-red-500 hidden">*</span>
               </label>
               <div className='w-full flex flex-center item-center w-full'>
                 <div

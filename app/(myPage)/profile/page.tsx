@@ -59,8 +59,8 @@ function Profile() {
             setUserId(data.user?.userId ?? '');
             setIntro(data.user?.selfIntroduction ?? 'No introduction provided');
             setLocation(data.user?.address ?? 'Location not available');
-            setGenre(data.user?.genres ?? '');
-            setAchievements(data.user?.achievements ?? []);
+            setGenre(data.user?.genres ?? 'No genre provided');
+            setAchievements(data.user?.achievements ?? ['No achievements provided']);
             setShootingPrice(data.user?.shootingPrice ?? 'Price not set');            
           }
           else if(res.status === 401){

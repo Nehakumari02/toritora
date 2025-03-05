@@ -532,10 +532,10 @@ export default function Calendar() {
           <hr className='pb-3'/>
           {popUpMode === 0 &&
             <div className='space-y-3 max-w-[800px] mx-auto w-full'>
-              <span className='text-xs text-gray-500 px-4'>Add from history</span>
-              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>10:00-15:00</button>
+              {/* <span className='text-xs text-gray-500 px-4'>Add from history</span> */}
+              {/* <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>10:00-15:00</button>
               <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>12:00-17:30</button>
-              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>15:00-16:00</button>
+              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>15:00-16:00</button> */}
               <div className='pt-8 max-w-[800px] mx-auto w-full'>
                 <button onClick={()=>setPopUpMode(1)} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>Choose new slot manually</button>
               </div>

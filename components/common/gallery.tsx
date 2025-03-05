@@ -16,9 +16,11 @@ interface GalleryProps {
         )}
   
         {!loading && images?.length === 0 && (
-          <span className="block text-sm text-center font-semibold text-gray-500">
-            No new models
-          </span>
+          <div className="pb-8 w-full items-center">
+            <span className="block text-sm text-center font-semibold text-gray-500">
+              No photos to show
+            </span>
+          </div>
         )}
   
         {!loading &&

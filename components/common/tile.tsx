@@ -2,6 +2,7 @@ import { locationIcon } from '@/constants/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 
 interface UserTileProps {
   user: {
@@ -36,7 +37,7 @@ export function UserTile({ user }: UserTileProps) {
   return (
     <div className='bg-white h-[236px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center px-[12px] py-[14px]'>
       <div className='relative'>
-        <Image src={user.profilePic} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover' />
+        <Image src={user.profilePic||userAvatar} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover' />
         {!isFiveDaysOld(user?.dateOfJoining) && <span className='absolute top-0 left-0 bg-secondary w-[64px] h-[18px] text-center text-white text-[10px] leading-[15px] font-medium rounded-tl-md rounded-br-md'>New</span>}
       </div>
       <div className='flex flex-col items-start justify-center w-full'>

@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation'
 import { EventTile, UserTile } from '@/components/common/tile'
 import { useToast } from '@/hooks/use-toast'
 import TileSkeleton from '@/components/common/tileSkeleton'
-import { preloadFont } from 'next/dist/server/app-render/entry-base'
 import { formatDate } from 'date-fns'
 
 const modelCarouselList = [
@@ -288,7 +287,7 @@ function Home() {
         if(res.status===200){
           const data = await res.json();
           const transformedModels = data.models.map((user:any) => ({
-            name: `${user.firstName} ${user.lastName}`.trim(),
+            name: `${user?.firstName ?? 'Toritora User'} ${user?.lastName ?? ''}`.trim(),
             location: user.location,
             profilePic: user.profilePicture,
             userId: user.userId,
@@ -330,7 +329,7 @@ function Home() {
           if(res.status===200){
             const data = await res.json();
             const transformedUsers = data.users.map((user:any) => ({
-              name: `${user.firstName} ${user.lastName}`.trim(),
+              name: `${user?.firstName ?? 'Toritora User'} ${user?.lastName ?? ''}`.trim(),
               location: user.location,
               profilePic: user.profilePicture,
               userId: user.userId,
@@ -464,7 +463,7 @@ function Home() {
       </div>
 
       {/* Search Bar */}
-      <div className='max-w-[800px] mx-auto relative h-[42px] w-full px-[8px] md:px-[24px] mt-[8px] md:my-[12px]'>
+      <div className='max-w-[800px] mx-auto relative h-[42px] w-full px-[8px] md:px-[24px] mb-2 mt-[8px] md:my-[12px]'>
         <button
           className='bg-[#EEF2F5] h-[42px] w-full pl-[8px] md:pl-[20px] pr-[40px] text-[14px] md:text-[16px] leading-[20px] rounded-md outline-none text-gray-400 text-left'
           onClick={() => handleGoToLink("/search")}

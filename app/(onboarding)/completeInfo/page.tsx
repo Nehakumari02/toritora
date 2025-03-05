@@ -832,7 +832,7 @@ function RegistrationInfo() {
             <label className="block text-sm">Transportation Fee <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">SNS Username <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-sm">SNS Username <span className="text-red-500">*</span></label>
             <input type="text" name="snsUsername" placeholder="Instagram, Twitter, etc." value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             <label className="block text-sm">Website <span className="text-red-500 hidden">*</span></label>

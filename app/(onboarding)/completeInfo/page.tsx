@@ -137,7 +137,7 @@ function RegistrationInfo() {
       });
       uploadPromises.push(idProofPromise);
     } else {
-      console.error("No file selected for ID Proof");
+      console.log("No file selected for ID Proof");
     }
 
     // Handle selectedProfilePic upload
@@ -150,7 +150,7 @@ function RegistrationInfo() {
       });
       uploadPromises.push(profilePicPromise);
     } else {
-      console.error("No file selected for Profile Picture");
+      console.log("No file selected for Profile Picture");
     }
 
     try {

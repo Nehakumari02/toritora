@@ -104,7 +104,7 @@ function RegistrationInfo() {
         })
         return;
       }
-      else if(!formData.lastName){
+      if(!formData.lastName){
         toast({
           title:"Error",
           description:"Last name is required",
@@ -112,7 +112,7 @@ function RegistrationInfo() {
         })
         return;
       }
-      else if(!formData1.snsUsername && profession === "photographer"){
+      if(!formData1.snsUsername && profession === "photographer"){
         toast({
           title:"Error",
           description:"SNS username is required",

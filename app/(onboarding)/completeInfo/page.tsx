@@ -96,13 +96,13 @@ function RegistrationInfo() {
 
   const handleSubmit = async () => {
     // if (!validateForms()) return;
-    if(!formData.firstName || !formData.lastName || formData1.snsUsername){
       if(!formData.firstName){
         toast({
           title:"Error",
           description:"First name is required",
           variant:"destructive"
         })
+        return;
       }
       else if(!formData.lastName){
         toast({
@@ -110,16 +110,16 @@ function RegistrationInfo() {
           description:"Last name is required",
           variant:"destructive"
         })
+        return;
       }
-      else if(!formData1.snsUsername){
+      else if(!formData1.snsUsername && profession === "photographer"){
         toast({
           title:"Error",
           description:"SNS username is required",
           variant:"destructive"
         })
+        return;
       }
-      return;
-    }
     setSubmitting(true);
 
     const uploadPromises = [];

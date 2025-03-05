@@ -289,7 +289,7 @@ function Home() {
           const data = await res.json();
           const transformedModels = data.models.map((user:any) => ({
             name: `${user.firstName} ${user.lastName}`.trim(),
-            location: user.address,
+            location: user.location,
             profilePic: user.profilePicture,
             userId: user.userId,
             dateOfJoining: new Date(user.createdAt) // Convert to Date object
@@ -315,6 +315,7 @@ function Home() {
           const queryParams = new URLSearchParams({
             name: searchTerm,
             type: type,
+            isWeek: "true",
             date: formattedDate,
           }).toString();
           console.log(queryParams)
@@ -330,7 +331,7 @@ function Home() {
             const data = await res.json();
             const transformedUsers = data.users.map((user:any) => ({
               name: `${user.firstName} ${user.lastName}`.trim(),
-              location: user.address,
+              location: user.location,
               profilePic: user.profilePicture,
               userId: user.userId,
               dateOfJoining: new Date(user.createdAt)

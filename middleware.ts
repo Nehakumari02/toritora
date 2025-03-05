@@ -4,6 +4,8 @@ const publicPages = [
   '/onboard',
   '/login',
   '/registration',
+  '/forgot-password',
+  '/reset-password',
   '/',
 ];
 

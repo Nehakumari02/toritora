@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { FaCheckCircle } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
-import { Upload, XCircle, PlusCircle, Plus, X } from 'lucide-react';
+import { Upload, XCircle, PlusCircle, Plus, X, Loader2 } from 'lucide-react';
 import { uploadFileToS3 } from '@/lib/fileUpload';
 
 
@@ -51,6 +51,7 @@ function RegistrationInfo() {
   const [profession, setProfession] = useState<string>("photographer");
   const [infoStep, setInfoStep] = useState<number>(1);
   const { toast } = useToast();
+  const [submitting,setSubmitting] = useState(false);
 
   const [subPhotos, setSubPhotos] = useState<File[]>([]);
   const [selectedFileProfilePic, setSelectedFileProfilePic] = useState<File | null>(null);
@@ -94,7 +95,32 @@ function RegistrationInfo() {
   }
 
   const handleSubmit = async () => {
-    if (!validateForms()) return;
+    // if (!validateForms()) return;
+    if(!formData.firstName || !formData.lastName || formData1.snsUsername){
+      if(!formData.firstName){
+        toast({
+          title:"Error",
+          description:"First name is required",
+          variant:"destructive"
+        })
+      }
+      else if(!formData.lastName){
+        toast({
+          title:"Error",
+          description:"Last name is required",
+          variant:"destructive"
+        })
+      }
+      else if(!formData1.snsUsername){
+        toast({
+          title:"Error",
+          description:"SNS username is required",
+          variant:"destructive"
+        })
+      }
+      return;
+    }
+    setSubmitting(true);
 
     const uploadPromises = [];
 
@@ -173,6 +199,8 @@ function RegistrationInfo() {
         description: "An error occurred during the upload or submission process",
         variant: "destructive",
       });
+    } finally {
+      setSubmitting(false)
     }
 
     console.log("Submitting");
@@ -1327,7 +1355,7 @@ function RegistrationInfo() {
         <div className='py-4 w-[80%] flex items-center justify-center gap-4'>
           <button onClick={handleBack} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center border-[1px] text-secondary flex items-center justify-center rounded-md'>Back</button>
           {infoStep < 4 && <button onClick={handleNext} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>NEXT</button>}
-          {infoStep == 4 && <button onClick={handleSubmit} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>SUBMIT</button>}
+          {infoStep == 4 && <button onClick={handleSubmit} disabled={submitting} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{submitting ? <Loader2 className='animate-spin' /> : "SUBMIT"}</button>}
         </div>
 
       </div>

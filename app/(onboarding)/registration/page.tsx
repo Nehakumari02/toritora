@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import LoginImage from '@/public/images/onboard/login.svg'
+import Link from 'next/link';
 
 type AuthResult = {
   code: string;
@@ -369,6 +370,9 @@ function Register() {
         </div>
       }
 
+      <div className='mx-5 py-5 flex items-center justify-center h-[100px] border-t-[1px] border-primary border-opacity-20'>
+        <span className='text-[15px] leading-[22px] font-medium text-[#6C7178]'>Already have an account? <Link href={'/login'} className='text-[16px] leading-[24px] font-semibold text-secondary'>Login</Link></span>
+      </div>  
     </div>
   )
 }

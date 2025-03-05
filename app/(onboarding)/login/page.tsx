@@ -75,6 +75,11 @@ function Login() {
     const data = await res.json();
 
     if (res.status === 200) {
+      toast({
+        title: "Success",
+        description: "Login Success",
+        variant: "success"
+      })
       localStorage.setItem('userProfession', data?.user?.profession);
       router.replace('/')
     }
@@ -84,6 +89,20 @@ function Login() {
         title: "Success",
         description: "Profile pending redirecting...",
         variant: "success"
+      })
+    }
+    else if (res.status === 203) {
+      toast({
+        title: "Success",
+        description: "User not found",
+        variant: "destructive"
+      })
+    }
+    else if (res.status === 401) {
+      toast({
+        title: "Success",
+        description: "Password is incorrect",
+        variant: "destructive"
       })
     }
     else {
@@ -218,7 +237,7 @@ function Login() {
                   </label>
                 </div>
 
-                <Link href={'/forgotPassword'} className='text-[15px] leading-[22px] font-medium text-secondary'>Forgot Password?</Link>
+                <Link href={'/forgot-password'} className='text-[15px] leading-[22px] font-medium text-secondary'>Forgot Password?</Link>
               </div>
 
             </div>

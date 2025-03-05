@@ -48,6 +48,7 @@ function Onboard() {
         <div className='flex flex-col items-center justify-center gap-4'>
             <Link href={'/registration'} className='w-[90%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Join now</Link>
             <Link href={'/login'} className='w-[90%] h-[54px] text-[16px] leading-[24px] font-bold text-center flex items-center justify-center text-secondary rounded-md'>Login</Link>
+            <Link href={'/'} className='underline underline-offset-1 text-[14px] leading-[21px] font-normal text-[#777777]'>Use Toritora as Visitor users</Link>
         </div>
 
     </div>

@@ -164,10 +164,25 @@ export default function Calendar() {
         credentials:"include",
       });
   
-      const data_slots = await res_slots.json();
-  
-      setSlots(data_slots.slots)
-      console.log(data_slots)
+      if(res_slots.status===200){
+        const data_slots = await res_slots.json();
+        setSlots(data_slots.slots)
+      }
+      else if(res_slots.status === 401){
+        toast({
+          title:"Error",
+          description:"Unauthorized request redirecting to login page",
+          variant:"destructive"
+        })
+        logout();
+      }
+      else {
+        toast({
+          title:"Internal server error",
+          description:`Internal server error`,
+          variant:"destructive"
+        })
+      }
     }
 
   const handleAddSlot = async ()=>{
@@ -468,7 +483,7 @@ export default function Calendar() {
                   </button>
 
                   <div className="w-1 h-1 mx-auto mt-1">
-                    {slots.some((slot) =>
+                    {slots?.some((slot) =>
                       isSameDay(parseISO(slot?.date), day)
                     ) && (
                       <div className="w-1 h-1 rounded-full bg-secondary"></div>
@@ -492,7 +507,7 @@ export default function Calendar() {
                 </time>
               </h2>
               <ol className="mt-4 space-y-3 text-sm leading-6 text-gray-500 md:overflow-y-scroll md:h-[40vh] md:no-scrollbar">
-                {slots.length > 0 ? (
+                {slots?.length > 0 ? (
                   slots
                   .filter((slot) => {
                     const slotDate = new Date(slot.date).toDateString();

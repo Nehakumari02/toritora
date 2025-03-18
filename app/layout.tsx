@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { DMSans,JNFont } from '@/lib/fonts';
 import { Toaster } from "@/components/ui/toaster";
+import {NextIntlClientProvider} from 'next-intl';
+import { getLocale, getMessages } from "next-intl/server";
 
 const defaultUrl = process.env.NEXT_PUBLIC_DOMAIN_NAME
   ? `${process.env.NEXT_PUBLIC_DOMAIN_NAME}`
@@ -26,13 +28,15 @@ export const viewport: Viewport = {
   userScalable: false
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const messages = await getMessages();
+  const locale = await getLocale();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta name="apple-mobile-web-app-title" content="Toritora" />
         <link rel="icon" href="/favicon.ico" />
@@ -41,8 +45,10 @@ export default function RootLayout({
       <body
         className={`${DMSans.variable} font-DM-Sans antialiased h-[100dvh]`}
       >
+        <NextIntlClientProvider messages={messages}>
         {children}
         <Toaster />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

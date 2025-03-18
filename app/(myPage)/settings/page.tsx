@@ -2,10 +2,43 @@
 import { backIcon } from '@/constants/icons';
 import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 function Settings() {
   const router = useRouter();
+  const [langPopup, setLangPopup] = useState(false);
+
+  const [locale, setLocale] = useState<string>("");
+
+  useEffect(()=>{
+    const cookieLocale = document.cookie.split("; ").find((row)=>row.startsWith("TORITORA_LOCALE="))?.split("=")[1];
+    if(cookieLocale){
+      setLocale(cookieLocale);
+    }
+    else {
+      const browserLocale = navigator.language.slice(0,2);
+      setLocale(browserLocale);
+      document.cookie = `TORITORA_LOCALE=${browserLocale};  path=/; max-age=31536000`;
+      router.refresh();
+    }
+  },[router])
+
+  const changeLocale = (newLocale: string) => {
+    setLangPopup(false);
+    setLocale(newLocale);
+    document.cookie = `TORITORA_LOCALE=${newLocale};  path=/; max-age=31536000`;
+    router.refresh();
+  }
 
   const logout = async() => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
@@ -57,6 +90,30 @@ function Settings() {
                 </button>
               )
             })}
+
+            <Dialog open={langPopup} onOpenChange={setLangPopup}>
+              <DialogTrigger asChild>
+                <button className='w-full h-8 flex items-center justify-between'>
+                  <span className='flex items-center justify-center gap-4 font-normal text-[12px] leading-[18px] text-[#111111]'>{langIcon} Change Language</span>
+
+                  {rightArrowIcon}
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] rounded-md">
+                <DialogHeader>
+                  <DialogTitle>Choose Language</DialogTitle>
+                  <DialogDescription>
+
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex items-center justify-center gap-8">
+                  <button onClick={()=>{changeLocale("en")}} className={`${locale === "en" ? "text-white bg-secondary" : ""} px-2 py-2 border rounded-md font-semibold text-[16px]`}>EN</button>
+                  <button onClick={()=>{changeLocale("jn")}} className={`${locale === "jn" ? "text-white bg-secondary" : ""} px-2 py-2 border rounded-md font-semibold text-[16px]`}>JN</button>
+                </div>
+                <DialogFooter>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
@@ -98,6 +155,10 @@ const locationIcon = <svg width="15" height="20" viewBox="0 0 15 20" fill="none"
 
 const bellIcon = <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.03491 17.5354C7.99765 17.5354 8.78534 16.7477 8.78534 15.785H5.28448C5.28448 16.2492 5.4689 16.6945 5.79717 17.0227C6.12544 17.351 6.57067 17.5354 7.03491 17.5354ZM12.2862 12.2841V7.90807C12.2862 5.22116 10.8508 2.97186 8.34773 2.37672V1.78157C8.34773 1.05514 7.76134 0.46875 7.03491 0.46875C6.30848 0.46875 5.72209 1.05514 5.72209 1.78157V2.37672C3.21023 2.97186 1.78363 5.21241 1.78363 7.90807V12.2841L0.0332031 14.0346V14.9098H14.0366V14.0346L12.2862 12.2841Z" fill="#2EC4B6"/>
+</svg>
+
+const langIcon = <svg x="0px" y="0px" width="18" height="18" viewBox="0,0,256,256">
+<g fill="#2ec4b6" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" ><g transform="scale(5.12,5.12)"><path d="M6,3c-1.69922,0 -3,1.30078 -3,3v20c0,1.69922 1.30078,3 3,3h0.40625l1.59375,-2h-2c-0.60156,0 -1,-0.39844 -1,-1v-20c0,-0.60156 0.39844,-1 1,-1h20c0.60156,0 1,0.39844 1,1v15h-3c-1.69922,0 -3,1.30078 -3,3v3h-5l1.59375,2h3.40625v3.40625l2,1.6875v-10.09375c0,-0.60156 0.39844,-1 1,-1h20c0.60156,0 1,0.39844 1,1v20c0,0.60156 -0.39844,1 -1,1h-20c-0.60156,0 -1,-0.39844 -1,-1v-2l-2,1.6875v0.3125c0,1.69922 1.30078,3 3,3h20c1.69922,0 3,-1.30078 3,-3v-20c0,-1.69922 -1.30078,-3 -3,-3h-15v-15c0,-1.69922 -1.30078,-3 -3,-3zM16,8v2h-8v2h11.90625c-0.30859,2.22656 -1.61328,4.05469 -3.25,5.53125c-2.50781,-2.19922 -3.78125,-4.5 -3.78125,-4.5l-1.75,0.9375c0,0 1.30859,2.41016 3.9375,4.8125c-0.06641,0.04688 -0.12109,0.10938 -0.1875,0.15625c-2.64062,1.82031 -5.28125,2.71875 -5.28125,2.71875l0.625,1.90625c0,0 2.90625,-0.96484 5.8125,-2.96875c0.20703,-0.14453 0.41797,-0.3125 0.625,-0.46875c1.14063,0.84375 2.46875,1.61719 3.96875,2.21875l0.75,-1.875c-1.14844,-0.45703 -2.17578,-1.05078 -3.09375,-1.6875c1.82813,-1.73047 3.35547,-3.98828 3.65625,-6.78125h3.0625v-2h-7v-2zM12,25l-5,6h3v4h4v-4h3zM33,26.40625l-5.1875,13.78125h2.5l1.09375,-3.1875h5.28125l1.125,3.1875h2.5l-5.21875,-13.78125zM34,29.40625l2,5.6875h-4zM19,33v3h-9l4,4h5v3l6,-5z"></path></g></g>
 </svg>
 
 const infoIcon = <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

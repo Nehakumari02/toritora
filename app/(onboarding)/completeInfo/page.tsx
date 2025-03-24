@@ -22,6 +22,7 @@ import password from '../../../public/images/photographer_reg/lock.png'
 import instagram from '../../../public/images/photographer_reg/instagram.png'
 import twitter from '../../../public/images/photographer_reg/twitter.png'
 import { useToast } from '@/hooks/use-toast';
+import { useTranslations } from 'next-intl'
 
 // import {
 //   Drawer,
@@ -51,7 +52,7 @@ function RegistrationInfo() {
   const [profession, setProfession] = useState<string>("photographer");
   const [infoStep, setInfoStep] = useState<number>(1);
   const { toast } = useToast();
-  const [submitting,setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const [subPhotos, setSubPhotos] = useState<File[]>([]);
   const [selectedFileProfilePic, setSelectedFileProfilePic] = useState<File | null>(null);
@@ -96,30 +97,30 @@ function RegistrationInfo() {
 
   const handleSubmit = async () => {
     // if (!validateForms()) return;
-      if(!formData.firstName){
-        toast({
-          title:"Error",
-          description:"First name is required",
-          variant:"destructive"
-        })
-        return;
-      }
-      if(!formData.lastName){
-        toast({
-          title:"Error",
-          description:"Last name is required",
-          variant:"destructive"
-        })
-        return;
-      }
-      if(!formData1.snsUsername && profession === "photographer"){
-        toast({
-          title:"Error",
-          description:"SNS username is required",
-          variant:"destructive"
-        })
-        return;
-      }
+    if (!formData.firstName) {
+      toast({
+        title: "Error",
+        description: t("error_first_name"),
+        variant: "destructive"
+      })
+      return;
+    }
+    if (!formData.lastName) {
+      toast({
+        title: "Error",
+        description: t("error_last_name"),
+        variant: "destructive"
+      })
+      return;
+    }
+    if (!formData1.snsUsername && profession === "photographer") {
+      toast({
+        title: "Error",
+        description: t("error_sns_username"),
+        variant: "destructive"
+      })
+      return;
+    }
     setSubmitting(true);
 
     const uploadPromises = [];
@@ -181,14 +182,14 @@ function RegistrationInfo() {
       if (res.status === 200) {
         toast({
           title: "Success",
-          description: "User details updated successfully",
+          description: t("success_update"),
           variant: "success",
         });
         router.push('/');
       } else if (res.status === 500) {
         toast({
           title: "Internal error",
-          description: "Server internal error, please try again later",
+          description: t("error_internal"),
           variant: "destructive",
         });
       }
@@ -196,7 +197,7 @@ function RegistrationInfo() {
       console.error("Error during file upload or submission:", error);
       toast({
         title: "Error",
-        description: "An error occurred during the upload or submission process",
+        description: t("error_submission"),
         variant: "destructive",
       });
     } finally {
@@ -341,7 +342,7 @@ function RegistrationInfo() {
     for (const [key, value] of Object.entries(formData1)) {
       if (
         !value &&
-        key !== "images" && key !== "profilePicture" && key !== "idProof" && key !== "username" && key !== "userId" && 
+        key !== "images" && key !== "profilePicture" && key !== "idProof" && key !== "username" && key !== "userId" &&
         !excluded.includes(key)
       ) {
         toast({
@@ -452,6 +453,8 @@ function RegistrationInfo() {
     event.preventDefault();
   };
 
+  const t = useTranslations('CompleteInfo');
+
   useEffect(() => {
     const storedProfession = localStorage.getItem('userProfession');
     if (storedProfession) {
@@ -465,16 +468,16 @@ function RegistrationInfo() {
     <div className='h-[100dvh]'>
       <header className='relative w-full h-[72px] flex items-center justify-center shadow-lg'>
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className='text-[16px] leading-[24px] text-center font-semibold'>Info</span>
+        <span className='text-[16px] leading-[24px] text-center font-semibold'>{t("info")}</span>
       </header>
       <div className='flex flex-col flex-1 items-center space-y-4 overflow-y-scroll no-scrollbar'>
         <div className='h-[102px] overflow-hidden relative'>
           <Image src={profession === "photographer" ? photographerBanner : modelBanner} alt='Banner' />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-[22px] leading-[32px] font-semibold text-white">
-            {infoStep === 1 && <span>Primary Info / Personal Info</span>}
-            {infoStep === 2 && <span>Professional Info</span>}
-            {infoStep === 3 && <span>Verification</span>}
-            {infoStep === 4 && <span>Questionaries</span>}
+            {infoStep === 1 && <span>{t("primaryInfo")}</span>}
+            {infoStep === 2 && <span>{t("professionalInfo")}</span>}
+            {infoStep === 3 && <span>{t("verification")}</span>}
+            {infoStep === 4 && <span>{t("questionnaires")}</span>}
           </div>
         </div>
 
@@ -488,19 +491,19 @@ function RegistrationInfo() {
           >
             <div className={`${infoStep >= 1 ? "bg-primary text-white border-primary" : "bg-white"} relative border-[1px] flex items-center justify-center h-[24px] w-[24px] rounded-full text-center text-[11px] leading-[15px] font-medium`}>
               1
-              <span className={`${infoStep >= 1 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>Personal Info</span>
+              <span className={`${infoStep >= 1 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>{t("step1")}</span>
             </div>
             <div className={`${infoStep >= 2 ? "bg-primary text-white border-primary" : "bg-white"} relative border-[1px] flex items-center justify-center h-[24px] w-[24px] rounded-full text-center text-[11px] leading-[15px] font-medium`}>
               2
-              <span className={`${infoStep >= 2 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>Professional Info</span>
+              <span className={`${infoStep >= 2 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>{t("professionalInfo")}</span>
             </div>
             <div className={`${infoStep >= 3 ? "bg-primary text-white border-primary" : "bg-white"} relative border-[1px] flex items-center justify-center h-[24px] w-[24px] rounded-full text-center text-[11px] leading-[15px] font-medium`}>
               3
-              <span className={`${infoStep >= 3 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>Verification</span>
+              <span className={`${infoStep >= 3 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>{t("verification")}</span>
             </div>
             <div className={`${infoStep >= 4 ? "bg-primary text-white border-primary" : "bg-white"} relative border-[1px] flex items-center justify-center h-[24px] w-[24px] rounded-full text-center text-[11px] leading-[15px] font-medium`}>
               4
-              <span className={`${infoStep >= 4 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>Questionaries</span>
+              <span className={`${infoStep >= 4 ? "text-[9px] leading-[13px] font-semibold text-primary" : "text-[8px] leading-[11px] font-normal text-[#333333]"} text-nowrap absolute left-[50%] translate-x-[-50%] bottom-[-20px]`}>{t("questionnaires")}</span>
             </div>
           </div>
         </div>
@@ -511,13 +514,13 @@ function RegistrationInfo() {
         {infoStep === 1 &&
           <div className='flex-1 space-y-4 w-full p-6'>
             {/* First Name */}
-            <label className='block text-sm'>First Name <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>{t("firstName")} <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='user' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type='text'
                 name='firstName'
-                placeholder='First Name'
+                placeholder={t("firstName")}
                 value={formData.firstName}
                 onChange={handleChange}
                 className='w-full outline-none text-[12px] '
@@ -525,13 +528,13 @@ function RegistrationInfo() {
             </div>
 
             {/* Last Name */}
-            <label className='block text-sm'>Last Name <span className="text-red-500">*</span></label>
+            <label className='block text-sm'>{t("lastName")} <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={user} alt='user' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type='text'
                 name='lastName'
-                placeholder='Last Name'
+                placeholder={t("lastName")}
                 value={formData.lastName}
                 onChange={handleChange}
                 className='w-full outline-none text-[12px] autofill:bg-white'
@@ -539,7 +542,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Date of Birth */}
-            <label className='block text-sm'>Date of Birth <span className="text-red-500 hidden">*</span></label>
+            <label className='block text-sm'>{t("dateOfBirth")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2 bg-white relative">
               <Image src={calendar} alt="calendar" width={20} height={20} className="mr-2" />
               <input
@@ -558,7 +561,7 @@ function RegistrationInfo() {
 
 
             {/* Age */}
-            <label className='block text-sm'>Age (optional)</label>
+            <label className='block text-sm'>{t("age")}</label>
             <div className="flex items-center border rounded p-2">
               <Image src={calendar} alt='calendar' width={20} height={20} className="text-gray-500 mr-2" />
               <input
@@ -572,7 +575,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Gender */}
-            <label className='block text-sm'>Gender <span className="text-red-500 hidden">*</span></label>
+            <label className='block text-sm'>{t("gender")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex gap-4">
               {['Male', 'Female'].map((gender) => (
                 <label key={gender} className="text-sm flex items-center cursor-pointer">
@@ -597,13 +600,13 @@ function RegistrationInfo() {
 
 
             {/* Mobile Number */}
-            <label className='block text-sm'>Mobile Number <span className="text-red-500 hidden">*</span></label>
+            <label className='block text-sm'>{t("mobile")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={phone} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type='tel'
                 name='mobile'
-                placeholder='Mobile Number'
+                placeholder={t("mobile")}
                 value={formData.mobile}
                 onChange={handleChange}
                 className='w-full outline-none text-[12px]'
@@ -639,13 +642,13 @@ function RegistrationInfo() {
             </div> */}
 
             {/* Postal Code */}
-            <label className='block text-sm'>Postal Code <span className="text-red-500 hidden">*</span></label>
+            <label className='block text-sm'>{t("postalCode")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={mail} alt='email' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type='text'
                 name='postalCode'
-                placeholder='Postal Code'
+                placeholder={t("postalCode")}
                 value={formData.postalCode}
                 onChange={handleChange}
                 className='w-full outline-none text-[12px]'
@@ -653,7 +656,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Location */}
-            <label className='block text-sm'>Location <span className="text-red-500 hidden">*</span></label>
+            <label className='block text-sm'>{t("location")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
               <Select value={formData.location} onValueChange={handleSelectChange}>
@@ -662,7 +665,7 @@ function RegistrationInfo() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Locations</SelectLabel>
+                    <SelectLabel>{t("selectLocation")}</SelectLabel>
                     {prefectures.map((prefecture) => (
                       <SelectItem key={prefecture} value={prefecture}>
                         {prefecture}
@@ -674,7 +677,7 @@ function RegistrationInfo() {
             </div>
 
             {/* Address */}
-            <label className='block text-sm'>Address <span className="text-red-500 hidden">*</span></label>
+            <label className='block text-sm'>{t("address")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
               <input
@@ -699,10 +702,10 @@ function RegistrationInfo() {
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <div className='flex flex-col gap-2'>
                   <div className='text-[16px] font-500 '>
-                    Profile Picture <span className="text-red-500 hidden">*</span>
+                    {t("profilePicture")} <span className="text-red-500 hidden">*</span>
                   </div>
                   <div className='text-[12px] font-400 ' >
-                    This will be displayed on your profile
+                    {t("profilePictureDesc")}
                   </div>
                 </div>
 
@@ -763,25 +766,25 @@ function RegistrationInfo() {
             </div> */}
 
 
-            <label className="block text-sm">Genres You Are Good At <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-sm">{t("genres")}<span className="text-red-500 hidden">*</span></label>
             <select
               name="genres"
               value={formData1.genres}
               onChange={handleChange1}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
             >
-              <option value="">Select Genres</option>
-              <option value="Portrait">Portrait</option>
-              <option value="Landscape">Landscape</option>
-              <option value="Wedding">Wedding</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Nature">Nature</option>
-              <option value="Event">Event</option>
-              <option value="Product">Product</option>
+              <option value="">{t("selectGenres")}</option>
+              <option value="Portrait">{t("portrait")}</option>
+              <option value="Landscape">{t("landscape")}</option>
+              <option value="Wedding">{t("wedding")}</option>
+              <option value="Fashion">{t("fashion")}</option>
+              <option value="Nature">{t("nature")}</option>
+              <option value="Event">{t("event")}</option>
+              <option value="Product">{t("product")}</option>
             </select>
 
             <div className="relative border border-gray-300 rounded p-4">
-              <label className="block text-sm mb-4">Achievements</label>
+              <label className="block text-sm mb-4">{t("achievements")}</label>
 
               {/* Plus Icon in Top-Right Corner */}
               <button
@@ -792,7 +795,7 @@ function RegistrationInfo() {
               >
                 <div className='flex text-[12px] gap-1'>
                   <Plus size={14} />
-                  <div>Add More</div>
+                  <div>{t("addMore")}</div>
                 </div>
               </button>
 
@@ -819,36 +822,36 @@ function RegistrationInfo() {
                 </div>
               ))}
             </div>
-            <label className="block text-sm">Camera Type <span className="text-red-500 hidden">*</span></label>
-            <input type="text" name="cameraType" placeholder="E.g. Canon EOS R5" value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
+            <label className="block text-sm">{t("cameraType")} <span className="text-red-500 hidden">*</span></label>
+            <input type="text" name="cameraType" placeholder={t("cameraPlaceholder")} value={formData1.cameraType} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">Photography Experience (Years) <span className="text-red-500 hidden">*</span></label>
-            <input type="number" name="photographyExperience" placeholder="Enter years of experience" value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
+            <label className="block text-sm">{t("photographyExperience")} <span className="text-red-500 hidden">*</span></label>
+            <input type="number" name="photographyExperience" placeholder={t("photographyPlaceholder")} value={formData1.photographyExperience} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Shooting Price Per Hour <span className="text-red-500 hidden">*</span></label>
-            <input type="number" name="shootingPrice" placeholder="Price per hour" value={formData1.shootingPrice} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
+            <label className="block text-sm">{t("shootingPrice")}  <span className="text-red-500 hidden">*</span></label>
+            <input type="number" name="shootingPrice" placeholder={t("shootingPlaceholder")} value={formData1.shootingPrice} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Transportation Fee <span className="text-red-500 hidden">*</span></label>
-            <input type="number" name="transportationFee" placeholder="Transportation fee" value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
+            <label className="block text-sm">{t("transportationFee")} <span className="text-red-500 hidden">*</span></label>
+            <input type="number" name="transportationFee" placeholder={t("transportationFee")} value={formData1.transportationFee} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">SNS Username <span className="text-red-500">*</span></label>
-            <input type="text" name="snsUsername" placeholder="Instagram, Twitter, etc." value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
+            <label className="block text-sm">{t("snsUsername")} <span className="text-red-500">*</span></label>
+            <input type="text" name="snsUsername" placeholder={t("snsPlaceholder")} value={formData1.snsUsername} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Website <span className="text-red-500 hidden">*</span></label>
-            <input type="url" name="website" placeholder="Your website URL" value={formData1.website} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
+            <label className="block text-sm">{t("website")} <span className="text-red-500 hidden">*</span></label>
+            <input type="url" name="website" placeholder={t("websitePlaceholder")} value={formData1.website} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" />
 
-            <label className="block text-sm">Self Introduction <span className="text-red-500 hidden">*</span></label>
-            <textarea name="selfIntroduction" placeholder="Introduce yourself" value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" ></textarea>
+            <label className="block text-sm">{t("selfIntroduction")} <span className="text-red-500 hidden">*</span></label>
+            <textarea name="selfIntroduction" placeholder={t("selfIntroductionPlaceholder")} value={formData1.selfIntroduction} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition" ></textarea>
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
-              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500 hidden">*</span> </h2>
-              <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
+              <h2 className="text-[14px] font-semibold mb-4">{t("addSubPhotos")} <span className="text-red-500 hidden">*</span> </h2>
+              <h2 className="text-[10px] font-400 mb-4">{t("addSubPhotosInfo")}</h2>
               {/* Add More Button at Top Right */}
               {subPhotos.length < 5 && (
                 <label htmlFor="subphoto-upload" className="absolute top-2 right-3 cursor-pointer flex ">
                   <Plus size={16} className="text-[#2EC4B6] hover:text-blue-700" />
-                  <div className='text-[12px] text-[#2EC4B6]'>Add More</div>
+                  <div className='text-[12px] text-[#2EC4B6]'>{t("addMore")}</div>
 
                 </label>
               )}
@@ -875,7 +878,7 @@ function RegistrationInfo() {
                     ) : (
                       <label htmlFor="subphoto-upload" className="w-full h-full flex items-center justify-center cursor-pointer flex flex-col gap-2">
                         <Plus size={16} className="text-[#FF9F1C] hover:text-gray-700" />
-                        <div className='text-[8px]'>Add Image</div>
+                        <div className='text-[8px]'>{t("addImage")}</div>
                       </label>
                     )}
                   </div>
@@ -894,7 +897,7 @@ function RegistrationInfo() {
 
               {/* Info Message */}
               {subPhotos.length >= 5 && (
-                <p className="text-sm text-red-500 mt-2">Maximum 5 photos reached.</p>
+                <p className="text-sm text-red-500 mt-2">{t("maxPhotosReached")}</p>
               )}
             </div>
 
@@ -909,10 +912,10 @@ function RegistrationInfo() {
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <div className='flex flex-col gap-2'>
                   <div className='text-[16px] font-500 '>
-                    Profile Picture <span className="text-red-500 hidden">*</span>
+                    {t("profilePicture")} <span className="text-red-500 hidden">*</span>
                   </div>
                   <div className='text-[12px] font-400 ' >
-                    This will be displayed on your profile
+                    {t("profilePictureInfo")}
                   </div>
                 </div>
 
@@ -969,24 +972,24 @@ function RegistrationInfo() {
 
 
 
-            <label className="block text-sm">Genres You Are Good At <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-sm">{t("genres")} <span className="text-red-500 hidden">*</span></label>
             <select
               name="genres"
               value={formData1.genres}
               onChange={handleChange1}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
             >
-              <option value="">Preety</option>
-              <option value="Portrait">Cute</option>
-              <option value="Landscape">Cool</option>
-              <option value="Wedding">Clean</option>
-              <option value="Fashion">Natural</option>
-              <option value="Nature">Art</option>
-              <option value="Event">Dark</option>
-              <option value="Product">Others</option>
+              <option value="">{t("preety")}</option>
+              <option value="Portrait">{t("cute")}</option>
+              <option value="Landscape">{t("cool")}</option>
+              <option value="Wedding">{t("clean")}</option>
+              <option value="Fashion">{t("natural")}</option>
+              <option value="Nature">{t("art")}rt</option>
+              <option value="Event">{t("dark")}</option>
+              <option value="Product">{t("others")}</option>
             </select>
             <div className="relative border border-gray-300 rounded p-4">
-              <label className="block text-sm mb-4">Achievements</label>
+              <label className="block text-sm mb-4">{t("achievements")}</label>
 
               {/* Plus Icon in Top-Right Corner */}
               <button
@@ -997,7 +1000,7 @@ function RegistrationInfo() {
               >
                 <div className='flex text-[12px] gap-1'>
                   <Plus size={14} />
-                  <div>Add More</div>
+                  <div>{t("addMore")}</div>
                 </div>
               </button>
 
@@ -1025,21 +1028,21 @@ function RegistrationInfo() {
               ))}
             </div>
 
-            <label className="block text-sm">Height (in cms) <span className="text-red-500 hidden">*</span></label>
-            <input type="number" name="height" placeholder="Enter value" value={formData1.height} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
+            <label className="block text-sm">{t("height")} <span className="text-red-500 hidden">*</span></label>
+            <input type="number" name="height" placeholder={t("heightPlaceholder")} value={formData1.height} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">Modeling Experience (Years) <span className="text-red-500 hidden">*</span></label>
-            <input type="number" name="modellingExperiance" placeholder="Enter value" value={formData1.modellingExperiance} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
+            <label className="block text-sm">{t("modellingExperiance")} <span className="text-red-500 hidden">*</span></label>
+            <input type="number" name="modellingExperiance" placeholder={t("modellingExperiencePlaceholder")} value={formData1.modellingExperiance} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
-              <h2 className="text-[14px] font-semibold mb-4">Add Sub Photos  up to 5 <span className="text-red-500 hidden">*</span> </h2>
-              <h2 className="text-[10px] font-400 mb-4">Please add images and select their genres</h2>
+              <h2 className="text-[14px] font-semibold mb-4">{t("addSubPhotos")} <span className="text-red-500 hidden">*</span> </h2>
+              <h2 className="text-[10px] font-400 mb-4">{t("addSubphotosInfo")}</h2>
               {/* Add More Button at Top Right */}
               {subPhotos.length < 5 && (
                 <label htmlFor="subphoto-upload" className="absolute top-2 right-3 cursor-pointer flex ">
                   <Plus size={16} className="text-[#2EC4B6] hover:text-blue-700" />
-                  <div className='text-[12px] text-[#2EC4B6]'>Add More</div>
+                  <div className='text-[12px] text-[#2EC4B6]'>{t("addMore")}</div>
 
                 </label>
               )}
@@ -1066,7 +1069,7 @@ function RegistrationInfo() {
                     ) : (
                       <label htmlFor="subphoto-upload" className="w-full h-full flex items-center justify-center cursor-pointer flex flex-col gap-2">
                         <Plus size={16} className="text-[#FF9F1C] hover:text-gray-700" />
-                        <div className='text-[8px]'>Add Image</div>
+                        <div className='text-[8px]'>{t("addImage")}</div>
                       </label>
                     )}
                   </div>
@@ -1085,31 +1088,31 @@ function RegistrationInfo() {
 
               {/* Info Message */}
               {subPhotos.length >= 5 && (
-                <p className="text-sm text-red-500 mt-2">Maximum 5 photos reached.</p>
+                <p className="text-sm text-red-500 mt-2">{t("maxPhotosReached")}</p>
               )}
             </div>
 
 
-            <label className="block text-[14px]">Instagram Username <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-[14px]">{t("instagramUsername")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={instagram} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="text"
                 name="instagram"
-                placeholder="https://www.instagram.com/yourusername"
+                placeholder={t("instagramPlaceholder")}
                 value={formData1.instagram}
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px]"
               />
             </div>
 
-            <label className="block text-[14px]">Twitter Username <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-[14px]">{t("twitterUsername")} <span className="text-red-500 hidden">*</span></label>
             <div className="flex items-center border rounded p-2">
               <Image src={twitter} alt='mobile' width={20} height={20} className="text-gray-500 mr-2" />
               <input
                 type="text"
                 name="twitter"
-                placeholder="https://twitter.com/yourusername"
+                placeholder={t("twitterPlaceholder")}
                 value={formData1.twitter}
                 onChange={handleChange1}
                 className="w-full outline-none text-[12px]"
@@ -1125,14 +1128,14 @@ function RegistrationInfo() {
         {infoStep === 3 &&
           <div className="flex-1  space-y-4 w-full p-6 ">
             {/* Email Verification */}
-            <label className="block text-sm">Email</label>
+            <label className="block text-sm">{t("email")}</label>
             <div className='flex item-center justify-center customPlaceholderText '>
               <div className="pl-4 w-[70%] flex items-center border-t-[1px] border-l-[1px] border-b-[1px] rounded-tl-md rounded-bl-md bg-[#D9D9D9]  pl-1 h-[48px]">
 
                 <Image src={mail} alt='email' width={20} height={20} className=" mr-2" />
                 <input
                   type="email"
-                  placeholder="Your Email Id"
+                  placeholder={t("emailPlaceholder")}
                   //value={email}
                   //onChange={handleEmailChange}
                   className="w-full outline-none text-[12px]  pointer-events-none cursor-not-allowed bg-transparent text-[#333333]"
@@ -1144,7 +1147,7 @@ function RegistrationInfo() {
                 className=" h-[48px] text-[#2EC458]  px-[2px] rounded  text-sm w-[30%] flex items-center justify-center gap-1 bg-white border-t-[1px] border-r-[1px] border-b-[1px] rounded-tr-md rounded-br-md "
               >
                 <FaCheckCircle />
-                Verified
+                {t("verified")}
               </button>
             </div>
 
@@ -1187,7 +1190,7 @@ function RegistrationInfo() {
 
             <div className="max-w-md mx-auto mb-8 mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-2 text-center mt-12">
-                ID Proof <span className="text-red-500 hidden">*</span>
+                {t("idProof")} <span className="text-red-500 hidden">*</span>
               </label>
               <div className='w-full flex flex-center item-center w-full'>
                 <div
@@ -1202,7 +1205,7 @@ function RegistrationInfo() {
                     alt="Upload Icon"
                     className="w-[60px] h-[40px] object-cover mb-3"
                   />
-                  {!idProof && (<p className="text-gray-500 text-[10px]">It may contains Driver&apos;s license, National id or any ID Proof</p>
+                  {!idProof && (<p className="text-gray-500 text-[10px]">{t("idProofInfo")}</p>
                   )}
                   {/* {idProof && (
 
@@ -1225,7 +1228,7 @@ function RegistrationInfo() {
               </div>
 
             </div>
-            <div className='text-[12px] mt-4 pt-2 mb-3 font-400'>Note : Best Resolution 100px*100px, Image should not exceed more than 2MB
+            <div className='text-[12px] mt-4 pt-2 mb-3 font-400'>{t("resolutionNote")}
             </div>
             {/* Consent Checkboxes */}
             <div className="flex gap-4 mt-4 pt-6">
@@ -1237,7 +1240,7 @@ function RegistrationInfo() {
                   className="flex-shrink-0 h-[16px] w-[16px] mr-2 text-[12px]  accent-[#FF9F1C]"
                 />
 
-                I have confirmed that my personal information is correct.
+                {t("confirmPersonalInfo")}
               </label>
             </div>
             <div className="flex gap-4 mt-2 text-[12px]">
@@ -1248,7 +1251,7 @@ function RegistrationInfo() {
                   onChange={handleConsent2Change}
                   className="flex-shrink-0 h-[16px] w-[16px] text-[12px] mr-2 accent-[#FF9F1C]"
                 />
-                I would like to receive e-mails about the latest information such as events and model entries.
+                {t("receiveEmails")}
               </label>
             </div>
           </div>
@@ -1258,45 +1261,45 @@ function RegistrationInfo() {
           <div className="flex-1 space-y-4 w-full p-6">
 
             {/* Question 1 */}
-            <label className="block text-sm">1. What is the most important thing for you at Photorage Photography?</label>
+            <label className="block text-sm">{t("importantThing")}</label>
             <textarea
               name="importantThing"
               value={feedback.importantThing}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 2 */}
-            <label className="block text-sm">2. Do you have any stress at Photorage Photography? What is it?</label>
+            <label className="block text-sm">{t("stress")}</label>
             <textarea
               name="stress"
               value={feedback.stress}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 3 */}
-            <label className="block text-sm">3. Do you have any assistance with models? What is it?</label>
+            <label className="block text-sm">{t("importantThing")}</label>
             <textarea
               name="assistanceWithModels"
               value={feedback.assistanceWithModels}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 4 */}
-            <label className="block text-sm">4. Please tell me your hobbies.</label>
+            <label className="block text-sm">{t("hobbies")}</label>
             <textarea
               name="hobbies"
               value={feedback.hobbies}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
@@ -1307,18 +1310,18 @@ function RegistrationInfo() {
           <div className="flex-1 space-y-4 w-full p-6">
 
             {/* Question 1 */}
-            <label className="block text-sm">1. Why did you become models?</label>
+            <label className="block text-sm">{t("whyModel")}</label>
             <textarea
               name="importantThing"
               value={feedback.importantThing}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 2 */}
-            <label className="block text-sm">2. What is the most important thing for you in a photo session?</label>
+            <label className="block text-sm">{t("importantThingSession")}</label>
             <textarea
               name="stress"
               value={feedback.stress}
@@ -1329,23 +1332,23 @@ function RegistrationInfo() {
             ></textarea>
 
             {/* Question 3 */}
-            <label className="block text-sm">3. What do you think photographers have to do in a photo session? Do you need any assistance</label>
+            <label className="block text-sm">{t("photographerDo")}</label>
             <textarea
               name="assistanceWithModels"
               value={feedback.assistanceWithModels}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 4 */}
-            <label className="block text-sm">4. Please tell me your hobbies.</label>
+            <label className="block text-sm">{t("hobbies")}</label>
             <textarea
               name="hobbies"
               value={feedback.hobbies}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
@@ -1353,9 +1356,9 @@ function RegistrationInfo() {
           </div>
         }
         <div className='py-4 w-[80%] flex items-center justify-center gap-4'>
-          <button onClick={handleBack} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center border-[1px] text-secondary flex items-center justify-center rounded-md'>Back</button>
-          {infoStep < 4 && <button onClick={handleNext} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>NEXT</button>}
-          {infoStep == 4 && <button onClick={handleSubmit} disabled={submitting} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{submitting ? <Loader2 className='animate-spin' /> : "SUBMIT"}</button>}
+          <button onClick={handleBack} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center border-[1px] text-secondary flex items-center justify-center rounded-md'>{t("back")}</button>
+          {infoStep < 4 && <button onClick={handleNext} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("next")}</button>}
+          {infoStep == 4 && <button onClick={handleSubmit} disabled={submitting} className='w-full h-[54px] text-[14px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{submitting ? <Loader2 className='animate-spin' /> : t("submit")}</button>}
         </div>
 
       </div>

@@ -12,6 +12,7 @@ import LoginImage from '@/public/images/onboard/login.svg'
 
 import googleIcon from '@/public/images/onboard/google.png'
 import { useToast } from '@/hooks/use-toast';
+import { useTranslations } from 'next-intl'
 
 type AuthResult = {
   code: string;
@@ -38,24 +39,24 @@ function Login() {
   const handleLogin = async () => {
     if ((!username || username === "") && (!password || password === "")) {
       toast({
-        title: "Error",
-        description: "Please enter your email and password",
+        title: t("error"),
+        description: t("enterEmailPassword"),
         variant: "destructive"
       })
       return;
     }
     else if (!username || username === "") {
       toast({
-        title: "Error",
-        description: "Please enter your email",
+        title: t("error"),
+        description: t("enterEmail"),
         variant: "destructive"
       })
       return;
     }
     else if (!password || password === "") {
       toast({
-        title: "Error",
-        description: "Please enter your password",
+        title: t("error"),
+        description: t("enterPassword"),
         variant: "destructive"
       })
       return;
@@ -76,8 +77,8 @@ function Login() {
 
     if (res.status === 200) {
       toast({
-        title: "Success",
-        description: "Login Success",
+        title: t("success"),
+        description: t("loginSuccess"),
         variant: "success"
       })
       localStorage.setItem('userProfession', data?.user?.profession);
@@ -86,29 +87,29 @@ function Login() {
     else if (res.status === 202) {
       router.push("/registerProfile");
       toast({
-        title: "Success",
-        description: "Profile pending redirecting...",
+        title: t("success"),
+        description: t("profilePending"),
         variant: "success"
       })
     }
     else if (res.status === 203) {
       toast({
-        title: "Success",
-        description: "User not found",
+        title: t("success"),
+        description: t("userNotFound"),
         variant: "destructive"
       })
     }
     else if (res.status === 401) {
       toast({
-        title: "Success",
-        description: "Password is incorrect",
+        title: t("success"),
+        description: t("incorrectPassword"),
         variant: "destructive"
       })
     }
     else {
       toast({
-        title: "Error",
-        description: "Something went wrong, please try again",
+        title: t("error"),
+        description: t("genericError"),
         variant: "destructive"
       })
     }
@@ -137,29 +138,29 @@ function Login() {
           localStorage.setItem('userProfession', data?.user?.profession);
           router.push("/");
           toast({
-            title: "Login Success",
+            title: t("loginSuccess"),
             variant: "success"
           })
         }
         else if (res.status === 202) {
           router.push("/registerProfile");
           toast({
-            title: "Success",
-            description: "Profile pending redirecting...",
+            title: t("success"),
+            description: t("profilePending"),
             variant: "success"
           })
         }
         else if (res.status === 204) {
           toast({
-            title: "Error",
-            description: "No user found with this email",
+            title: t("error"),
+            description: t("noUserFound1"),
             variant: "destructive"
           })
         }
         else if (res.status === 203) {
           toast({
-            title: "Error",
-            description: "Kindly login with credentials",
+            title: t("error"),
+            description: t("credentialLogin"),
             variant: "destructive"
           })
         }
@@ -167,13 +168,13 @@ function Login() {
         // Handle error case (does not have 'code')
         console.error("Error during Google login:", authResult.error_description);
         toast({
-          title: "Error",
-          description: authResult.error_description || "An unknown error occurred.",
+          title: t("error"),
+          description: authResult.error_description || t("unknownError"),
           variant: "destructive",
         });
       }
     } catch (error) {
-      console.error('Error while signing up: ', error);
+      console.error(t("signupError"), error);
     }
   };
 
@@ -183,11 +184,13 @@ function Login() {
     flow: 'auth-code'
   });
 
+  const t = useTranslations('Login');
+
   return (
     <div className='h-[100dvh] flex flex-col'>
       <header className='w-full h-[72px] flex-shrink-0 sticky top-0 z-10 bg-white flex items-center justify-center shadow-lg'>
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className='text-[16px] leading-[24px] text-center font-semibold'>Sign In</span>
+        <span className='text-[16px] leading-[24px] text-center font-semibold'>{t("signIn")}</span>
       </header>
 
       <div className='md:grid md:grid-cols-2 flex-1 gap-16 md:max-w-[1200px] md:mx-auto'>
@@ -200,24 +203,24 @@ function Login() {
           <div className='flex flex-col flex-1 mx-5 py-4 space-y-4'>
 
             <div className='flex flex-col gap-2'>
-              <span className='text-[22px] leading-[50px] font-semibold'>Let&apos;s you sign in to toritora</span>
-              <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Welcome back, you have been missed</p>
+              <span className='text-[22px] leading-[50px] font-semibold'>{t("welcomeBack")}</span>
+              <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>{t("welcomeBack")}</p>
             </div>
 
             <div className='space-y-4'>
               <div className='space-y-2'>
-                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Username</span>
+                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("username")}</span>
                 <div className='relative h-[48px] border-[1px] rounded-md'>
                   <span className='absolute top-[50%] translate-y-[-50%] left-2'>{userIcon}</span>
-                  <input value={username} onChange={(e) => (setUsername(e.target.value))} type="text" placeholder='Enter your username' className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
+                  <input value={username} onChange={(e) => (setUsername(e.target.value))} type="text" placeholder={t("enterUsername")} className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
                 </div>
               </div>
 
               <div className='space-y-2'>
-                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Password</span>
+                <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("password")}</span>
                 <div className='relative h-[48px] border-[1px] rounded-md'>
                   <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
-                  <input value={password} onChange={(e) => (setPassword(e.target.value))} type={passwordVisibility ? "text" : "password"} placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]' />
+                  <input value={password} onChange={(e) => (setPassword(e.target.value))} type={passwordVisibility ? "text" : "password"} placeholder={t("enterPassword")} className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]' />
                   <button className='absolute top-[11px] md:top-[18px] right-[12px]' onClick={() => setPasswordVisibility(!passwordVisibility)}>{passwordVisibility ? hiddenPasswordIcon : showPasswrodIcon}</button>
 
                 </div>
@@ -233,24 +236,24 @@ function Login() {
                     className="w-5 h-5 text-white accent-secondary bg-gray-100 border-gray-300 rounded-sm focus:ring-secondary"
                   />
                   <label htmlFor="checked-checkbox" className="text-[14px] leading-[21px] font-medium text-[#999999]">
-                    Remember me
+                    {t("remember")}
                   </label>
                 </div>
 
-                <Link href={'/forgot-password'} className='text-[15px] leading-[22px] font-medium text-secondary'>Forgot Password?</Link>
+                <Link href={'/forgot-password'} className='text-[15px] leading-[22px] font-medium text-secondary'>{t("forget")}</Link>
               </div>
 
             </div>
 
             <div className='flex-1 w-full flex-col gap-4 flex items-center justify-center pt-16'>
-              <button onClick={handleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loading ? <Loader2 className='animate-spin' /> : "LOGIN"}</button>
-              <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' />Login with Google</button>
+              <button onClick={handleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loading ? <Loader2 className='animate-spin' /> : t("login")}</button>
+              <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' />{t("googleLogin")}</button>
             </div>
 
           </div>
 
           <div className='mx-5 flex items-center justify-center h-[100px] border-t-[1px] border-primary border-opacity-20'>
-            <span className='text-[15px] leading-[22px] font-medium text-[#6C7178]'>Don&apos;t have account? <Link href={'/registration'} className='text-[16px] leading-[24px] font-semibold text-secondary'>Register</Link></span>
+            <span className='text-[15px] leading-[22px] font-medium text-[#6C7178]'> {t("dontHaveAccount")} <Link href={'/registration'} className='text-[16px] leading-[24px] font-semibold text-secondary'>{t("register")}</Link></span>
           </div>
         </div>
       </div>

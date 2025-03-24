@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import LoginImage from '@/public/images/onboard/login.svg'
 import Link from 'next/link';
+import { useTranslations } from 'next-intl'
 
 type AuthResult = {
   code: string;
@@ -77,24 +78,24 @@ function Register() {
   const handleSubmit = async () => {
     if (!email || email === "") {
       toast({
-        title: "Error",
-        description: `Please enter your email`,
+        title: t("error1"),
+        description: t("emailError"),
         variant: "destructive"
       })
       return;
     }
     else if (!password || password === "" || lengthError || uppercaseError || lowercaseError || numberError || specialCharError) {
       toast({
-        title: "Error",
-        description: `Please enter valid password`,
+        title: t("error1"),
+        description: t("passwordError"),
         variant: "destructive"
       })
       return;
     }
     else if (password !== confirmPassword) {
       toast({
-        title: "Error",
-        description: `Password and confirm password does not match`,
+        title: t("error1"),
+        description: t("passwordMatch"),
         variant: "destructive"
       })
       return;
@@ -112,8 +113,8 @@ function Register() {
 
     if (res.status === 200) {
       toast({
-        title: "Success",
-        description: `Verification code has been sent to ${email}`,
+        title: t("success1"),
+        description: `${t("verificationCodeSent")} ${email}`,
         variant: "success"
       })
       setVerificationCodeSent(true);
@@ -121,16 +122,16 @@ function Register() {
 
     else if (res.status === 500) {
       toast({
-        title: "Internal server error",
-        description: `Server internal error please try after again`,
+        title: t("error"),
+        description: t("error"),
         variant: "destructive"
       })
     }
 
     else if (res.status === 204) {
       toast({
-        title: "Error",
-        description: `${email} is already registered`,
+        title: t("error1"),
+        description: `${email} ${t("alreadyRegistered")}`,
         variant: "destructive"
       })
     }
@@ -147,8 +148,8 @@ function Register() {
   const handleVerifyCode = async () => {
     if (!otp || otp.length !== 6) {
       toast({
-        title: "Error",
-        description: "Please enter your verification code",
+        title: t("error1"),
+        description: t("verificationCode"),
         variant: "destructive"
       })
       return
@@ -169,8 +170,8 @@ function Register() {
 
     if (res.status === 200) {
       toast({
-        title: "Success",
-        description: `Verification successful redirecting to registration page`,
+        title: t("success1"),
+        description: t("sucess"),
         variant: "success"
       })
       router.replace("/registerProfile")
@@ -179,8 +180,8 @@ function Register() {
 
     else if (res.status === 400) {
       toast({
-        title: "Error",
-        description: `Verification code doesn't match`,
+        title: t("error1"),
+        description: t("codeMatch"),
         variant: "destructive"
       })
     }
@@ -219,32 +220,32 @@ function Register() {
           localStorage.setItem('userProfession', data?.user?.profession);
           router.push('/');
           toast({
-            title: 'Login Success',
-            description: 'User already exists, redirecting to homepage',
+            title: t("loginSuccess"),
+            description: t("userAlreadyRegistered"),
             variant: 'success',
           });
         }
         else if (res.status === 205) {
           router.push('/');
           toast({
-            title: 'Login Error',
-            description: 'User exists, Kindly login with credentials',
+            title: t("loginError"),
+            description: t("userRegistered"),
             variant: 'destructive',
           });
         }
         else if (res.status === 200) {
           router.push('/registerProfile');
           toast({
-            title: 'Signup Success',
-            description: 'User registered successfully',
+            title: t("signupSuccess"),
+            description: t("RegisterSucess"),
             variant: 'success',
           });
         }
         else if (res.status === 202) {
           router.push("/registerProfile");
           toast({
-            title: "Success",
-            description: "Profile pending redirecting...",
+            title: t("success1"),
+            description: t("profilePending"),
             variant: "success"
           })
         }
@@ -252,8 +253,8 @@ function Register() {
         // Handle error case (does not have 'code')
         console.error("Error during Google login:", authResult.error_description);
         toast({
-          title: "Error",
-          description: authResult.error_description || "An unknown error occurred.",
+          title: t("error1"),
+          description: authResult.error_description || t("unknownError"),
           variant: "destructive",
         });
       }
@@ -267,6 +268,8 @@ function Register() {
     onError: responseGoogle,
     flow: 'auth-code'
   });
+
+  const t = useTranslations('Registration');
 
   return (
     <div className='h-[100dvh] flex flex-col'>
@@ -289,54 +292,54 @@ function Register() {
               <div className='flex flex-col flex-1 mx-5 py-4 space-y-4 overflow-y-scroll no-scrollbar'>
 
                 <div className='flex flex-col gap-2'>
-                  <span className='text-[22px] leading-[50px] font-semibold'>Register your account</span>
-                  <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Please register to continue</p>
+                  <span className='text-[22px] leading-[50px] font-semibold'>{t("register")}</span>
+                  <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>{t("continue")}</p>
                 </div>
 
                 <div className='space-y-4'>
                   <div className='space-y-2'>
-                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Email Id</span>
+                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("email")}</span>
                     <div className={`relative h-[48px] border-[1px] ${emailError ? "border-[#E10101]" : ""} rounded-md`}>
                       <span className='absolute top-[50%] translate-y-[-50%] left-2'>{emailIcon}</span>
-                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder='Enter your username' className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
+                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder={t("enterName")} className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
                     </div>
                   </div>
 
                   <div className='space-y-2'>
-                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Password</span>
+                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("password")}</span>
                     <div className={`relative h-[48px] border-[1px] ${lengthError || uppercaseError || lowercaseError || numberError || specialCharError ? "border-[#E10101]" : ""} rounded-md`}>
                       <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
-                      <input value={password} onChange={(e) => setPassword(e.target.value)} type={passwordVisibility ? "text" : "password"} placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]' />
+                      <input value={password} onChange={(e) => setPassword(e.target.value)} type={passwordVisibility ? "text" : "password"} placeholder={t("enterPassword")} className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]' />
                       <button className='absolute top-[11px] md:top-[18px] right-[12px]' onClick={() => setPasswordVisibility(!passwordVisibility)}>{passwordVisibility ? hiddenPasswordIcon : showPasswrodIcon}</button>
                     </div>
                   </div>
 
                   <div className='space-y-2'>
-                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>Re-enter Password</span>
+                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("re-enter")}</span>
                     <div className={`relative h-[48px] border-[1px] ${confirmPasswordError ? "border-[#E10101]" : ""} rounded-md`}>
                       <span className='absolute top-[50%] translate-y-[-50%] left-2'>{lockIcon}</span>
-                      <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type={passwordVisibility1 ? "text" : "password"} placeholder='Enter your password' className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]' />
+                      <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type={passwordVisibility1 ? "text" : "password"} placeholder={t("enterPassword")} className='h-full pl-8 pr-8 w-full outline-none rounded-md text-[#333333]' />
                       <button className='absolute top-[11px] md:top-[18px] right-[12px]' onClick={() => setPasswordVisibility1(!passwordVisibility1)}>{passwordVisibility1 ? hiddenPasswordIcon : showPasswrodIcon}</button>
                     </div>
                     {confirmPasswordError && <span className="text-[#E10101] text-[12px] leading-[18px] font-medium">Password doesn&apos;t match</span>}
                   </div>
 
                   <div className='space-y-4'>
-                    <span className='text-[14px] leading-[26px] font-semibold'>Password Conditions</span>
+                    <span className='text-[14px] leading-[26px] font-semibold'>{t("condition")}</span>
                     <div className='space-y-2'>
-                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lengthError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lengthError ? "E10101" : "text-[#333333]"}`}>Must be at least 8 characters long</span></div>
-                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{uppercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${uppercaseError ? "E10101" : "text-[#333333]"}`}>Must include at least 1 upper case character</span></div>
-                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lowercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lowercaseError ? "E10101" : "text-[#333333]"}`}>Must include at least 1 lower case character</span></div>
-                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{numberError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${numberError ? "E10101" : "text-[#333333]"}`}>Must include at least 1 numeric character</span></div>
-                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{specialCharError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${specialCharError ? "E10101" : "text-[#333333]"}`}>Must include at least 1 special character (Ex. @ # $ % ! & *)</span></div>
+                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lengthError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lengthError ? "E10101" : "text-[#333333]"}`}>{t("character")}</span></div>
+                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{uppercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${uppercaseError ? "E10101" : "text-[#333333]"}`}>{t("upperCase")}</span></div>
+                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{lowercaseError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${lowercaseError ? "E10101" : "text-[#333333]"}`}>{t("lowerCase")}</span></div>
+                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{numberError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${numberError ? "E10101" : "text-[#333333]"}`}>{t("numeric")}</span></div>
+                      <div className='flex items-start gap-2 relative pl-8'><span className='absolute top-[5px] left-2'>{specialCharError ? redCircleIcon : greenTickIcon}</span> <span className={`text-[12px] leading-[24px] font-normal ${specialCharError ? "E10101" : "text-[#333333]"}`}>{t("specialCharacter")}</span></div>
                     </div>
                   </div>
 
                 </div>
 
                 <div className='flex-1 py-4 w-full flex-col gap-4 flex items-center justify-center pb-4'>
-                  <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingCode ? <Loader2 className='animate-spin' /> : "Submit"}</button>
-                  <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' /> Sign up with Google</button>
+                  <button onClick={handleSubmit} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingCode ? <Loader2 className='animate-spin' /> : t("submit")}</button>
+                  <button onClick={googleLogin} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex gap-2 items-center justify-center text-white rounded-md'><Image src={googleIcon} alt='google' height={32} width={32} className='bg-white rounded-full' /> {t("google")}</button>
                 </div>
 
               </div>
@@ -349,12 +352,12 @@ function Register() {
       {verificationCodeSent &&
         <div className='flex flex-col flex-1 mx-5 py-4 space-y-4 overflow-y-scroll no-scrollbar'>
           <div className='flex flex-col gap-2'>
-            <span className='text-[22px] leading-[50px] font-semibold'>Verification</span>
-            <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Enter the verification code that we have sent to your registered email ID.</p>
+            <span className='text-[22px] leading-[50px] font-semibold'>{t("verification")}</span>
+            <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>{t("enterCode")}</p>
           </div>
 
           <div className='space-y-4'>
-            <span className='text-[20px] leading-[30px] font-semibold text-[#111111]'>Code</span>
+            <span className='text-[20px] leading-[30px] font-semibold text-[#111111]'>{t("code")}</span>
             <OtpInput length={6} onChangeOtp={setOtp} />
           </div>
 
@@ -363,16 +366,16 @@ function Register() {
           </div>
 
           <div className='flex flex-row items-center justify-between'>
-            <span className='text-[16px] leading-[24px] font-normal text-[#333333]'>Time Remaining : {formatTime(timeRemaining)}</span>
-            <button disabled={timeRemaining !== 0} onClick={resendCode} className='text-[16px] leading-[24px] font-normal text-[#BDBCBC] underline'>Resend Code?</button>
+            <span className='text-[16px] leading-[24px] font-normal text-[#333333]'>{t("time")} {formatTime(timeRemaining)}</span>
+            <button disabled={timeRemaining !== 0} onClick={resendCode} className='text-[16px] leading-[24px] font-normal text-[#BDBCBC] underline'>{t("resend")}</button>
           </div>
 
         </div>
       }
 
       <div className='mx-5 py-5 flex items-center justify-center h-[100px] border-t-[1px] border-primary border-opacity-20'>
-        <span className='text-[15px] leading-[22px] font-medium text-[#6C7178]'>Already have an account? <Link href={'/login'} className='text-[16px] leading-[24px] font-semibold text-secondary'>Login</Link></span>
-      </div>  
+        <span className='text-[15px] leading-[22px] font-medium text-[#6C7178]'>{t("already")} <Link href={'/login'} className='text-[16px] leading-[24px] font-semibold text-secondary'>{t("login")}</Link></span>
+      </div>
     </div>
   )
 }

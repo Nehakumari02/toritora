@@ -569,7 +569,7 @@ export default function Calendar() {
                   {isEditPopUp ?
                     <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_lot")}</button>
                     :
-                    <button onClick={() => handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("upload_to_calendar")}</button>
+                    <button onClick={() => handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("add_to_calendar")}</button>
                   }
                 </div>
               </div>

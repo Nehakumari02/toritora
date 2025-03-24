@@ -1,4 +1,5 @@
 import { parseISO, format } from "date-fns";
+import Link from "next/link";
 
 interface SlotProps {
   _id: string;
@@ -15,9 +16,10 @@ interface Props {
   slot: SlotProps;
   index: number;
   handleSlotBooking: (slot: SlotProps) => void;
+  user: any;
 }
 
-function BookingSlot({ slot, index, handleSlotBooking }: Props) {
+function BookingSlot({ slot, index, handleSlotBooking, user }: Props) {
   let startDateTime = parseISO(slot.startTime);
   let endDateTime = parseISO(slot.endTime);
 
@@ -58,7 +60,7 @@ function BookingSlot({ slot, index, handleSlotBooking }: Props) {
           <p className="mt-1 text-sm text-black dark:text-neutral-400">
             {format(startDateTime, "h:mm a")} - {format(endDateTime, "h:mm a")}
           </p>
-          <button
+          {/* <button
             onClick={() => handleSlotBooking(slot)}
             className={`mt-2 text-sm px-3 py-1 rounded ${
               slot.status === "available"
@@ -68,7 +70,25 @@ function BookingSlot({ slot, index, handleSlotBooking }: Props) {
             disabled={slot.status !== "available"}
           >
             {slot.status === "available" ? "Book Slot" : "Unavailable"}
-          </button>
+          </button> */}
+          <Link
+            href={{
+              pathname:"/userDetails/book-slot",
+              query: {
+                user: JSON.stringify(user),
+                slot: JSON.stringify(slot)
+              },
+            }}
+            tabIndex={slot.status === "available" ? -1 : undefined}
+            className={`${slot.status === "available" ? 'pointer-events-none' : ''}mt-2 text-sm px-3 py-1 rounded ${
+              slot.status === "available"
+                ? "bg-secondary text-white"
+                : "bg-gray-200 text-gray-500 cursor-not-allowed"
+            }`}
+            aria-disabled={slot.status !== "available"}
+          >
+            {slot.status === "available" ? "Book Slot" : "Unavailable"}
+          </Link>
         </div>
       </div>
     </li>

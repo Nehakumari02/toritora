@@ -46,16 +46,18 @@ export const fetchRequests = async (logout: () => Promise<void>): Promise<any> =
 /**
  * Add a new booking request.
  * @param slot_id - The ID of the slot to book.
+ * @param data - The form data to be sent in the request.
  */
-export const addRequest = async (slot_id: string, logout: () => Promise<void>): Promise<any> => {
+export const addRequest = async (slot_id: string, logout: () => Promise<void>, data: object): Promise<any> => {
     try {
+        console.log("slot is add request",slot_id)
         const res = await fetch(`${BASE_URL}/booking`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({ slot_id }),
+            body: JSON.stringify({ slot_id, ...data }),
         });
 
         return await handleResponse(res, logout);

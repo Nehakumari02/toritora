@@ -8,6 +8,7 @@ import { acceptRequest, deleteRequest, fetchRequests } from '@/lib/requestHandle
 import { Check, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import Ghost from '@/public/images/mypage/ghost.gif'
+import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 
 interface User {
   _id: string;
@@ -27,6 +28,26 @@ interface BookingRequestRecieved {
   status: string;
   createdAt: string;
   updatedAt: string;
+
+  // Optional fields for both forms (normal and rainy day)
+  shootingPlace?: string;
+  shootingLocation?: string;
+  meetingPoint?: string;
+  shootingConcept?: string;
+  clothingType?: string;
+  shoesType?: string;
+  itemsType?: string;
+  makeUpType?: string;
+
+  // Rainy day form fields
+  shootingPlaceRainy?: string;
+  shootingLocationRainy?: string;
+  meetingPointRainy?: string;
+  shootingConceptRainy?: string;
+  clothingTypeRainy?: string;
+  shoesTypeRainy?: string;
+  itemsTypeRainy?: string;
+  makeUpTypeRainy?: string;
 }
 
 interface BookingRequestSent {
@@ -40,6 +61,26 @@ interface BookingRequestSent {
   status: string;
   createdAt: string;
   updatedAt: string;
+
+  // Optional fields for both forms (normal and rainy day)
+  shootingPlace?: string;
+  shootingLocation?: string;
+  meetingPoint?: string;
+  shootingConcept?: string;
+  clothingType?: string;
+  shoesType?: string;
+  itemsType?: string;
+  makeUpType?: string;
+
+  // Rainy day form fields
+  shootingPlaceRainy?: string;
+  shootingLocationRainy?: string;
+  meetingPointRainy?: string;
+  shootingConceptRainy?: string;
+  clothingTypeRainy?: string;
+  shoesTypeRainy?: string;
+  itemsTypeRainy?: string;
+  makeUpTypeRainy?: string;
 }
 
 function ShootingRequestList() {
@@ -49,6 +90,11 @@ function ShootingRequestList() {
   const [sentRequests,setSentRequests] = useState<BookingRequestSent[]>([]);
   const [recievedRequests,setRecievedRequests] = useState<BookingRequestRecieved[]>([]);
   const [reqLoading,setReqLoading] = useState(false);
+  const [expandedRequest, setExpandedRequest] = useState<string | null>(null);
+
+  const handleToggleExpand = (requestId: string) => {
+    setExpandedRequest((prevState) => (prevState === requestId ? null : requestId));
+  };
 
   const handleGoBack = ()=>{
     router.back();
@@ -200,6 +246,8 @@ function ShootingRequestList() {
                   hour12: true,
                 });
 
+                const isExpanded = expandedRequest === request._id;
+
                 return (
                   <div
                     key={index}
@@ -207,7 +255,7 @@ function ShootingRequestList() {
                   >
                     <div className='flex flex-wrap items-center justify-start gap-2 min-w-[220px]'>
                       <div className=''>
-                        <Image height={64} width={64} src={request.user_id_2?.profilePicture} alt='profile picture' className='h-[48px] w-[48px] rounded-full animate-in object-cover object-center' />
+                        <Image height={64} width={64} src={request.user_id_2?.profilePicture||userAvatar} alt='profile picture' className='h-[48px] w-[48px] rounded-full animate-in object-cover object-center' />
                       </div>
                       <div>
                         <p className="text-lg font-semibold">
@@ -239,6 +287,35 @@ function ShootingRequestList() {
                       {request.status === "rejected" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>Rejected</span>}
                       {request.status === "cancelled_by_sender" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>Cancelled</span>}
                     </div>
+
+                      <div className='w-full flex justify-end'>
+                        <button onClick={() => handleToggleExpand(request._id)} className='underline'>{isExpanded?"Hide details":"Show details"}</button>
+                      </div>
+                      <div className={`w-full p-4 border-t space-y-4 border-gray-200 ${isExpanded?"":"hidden"}`}>
+                        <div className=''>
+                          <span className='text-[14px] font-semibold'>Normal Occasion</span>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Place:</span> {request?.shootingPlace || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Location:</span> {request?.shootingLocation || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Meeting Point:</span> {request?.meetingPoint || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Concept:</span> {request?.shootingConcept || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Clothing Type:</span> {request?.clothingType || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shoes Type:</span> {request?.shoesType || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Items Type:</span> {request?.itemsType || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Makeup Type:</span> {request?.makeUpType || "N/A" }</p>
+                        </div>
+                        <div className=''>
+                          <span className='text-[14px] font-semibold'>Rainy Occasion</span>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Place:</span> {request?.shootingPlaceRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Location:</span> {request?.shootingLocationRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Meeting Point:</span> {request?.meetingPointRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Concept:</span> {request?.shootingConceptRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Clothing Type:</span> {request?.clothingTypeRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shoes Type:</span> {request?.shoesTypeRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Items Type:</span> {request?.itemsTypeRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Makeup Type:</span> {request?.makeUpTypeRainy || "N/A" }</p>
+                        </div>
+                      </div>
+
                   </div>
                 );
               })}
@@ -283,7 +360,7 @@ function ShootingRequestList() {
                 >
                   <div className='flex flex-wrap items-center justify-start gap-2 min-w-[220px]'>
                     <div className=''>
-                      <Image height={64} width={64} src={request.user_id?.profilePicture} alt='profile picture' className='h-[48px] w-[48px] rounded-full animate-in object-cover object-center' />
+                      <Image height={64} width={64} src={request.user_id?.profilePicture||userAvatar} alt='profile picture' className='h-[48px] w-[48px] rounded-full animate-in object-cover object-center' />
                     </div>
                     <div>
                       <p className="text-lg font-semibold">

@@ -718,7 +718,7 @@ function UserDetails() {
                         return slotDate === selectedDate;
                       })
                       .map((slot,index) => (
-                        <BookingSlot handleSlotBooking={handleSlotBooking} slot={slot} index={index} key={index} />
+                        <BookingSlot handleSlotBooking={handleSlotBooking} user={{name:user?.firstName + " " + user?.lastName, _id:user?._id, shootingPrice:user?.shootingPrice, profileImage:user?.profilePicture}} slot={slot} index={index} key={index} />
                       ))
                     ) : (
                       <p>No slots for today.</p>

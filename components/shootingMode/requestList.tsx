@@ -10,6 +10,16 @@ import { toast } from '@/hooks/use-toast';
 import Ghost from '@/public/images/mypage/ghost.gif'
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+
 interface User {
   _id: string;
   profilePicture: string;
@@ -83,7 +93,7 @@ interface BookingRequestSent {
   makeUpTypeRainy?: string;
 }
 
-function ShootingRequestList() {
+function RequestList() {
   const router = useRouter();
   const [selectedMode,setSelectedMode] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -207,16 +217,30 @@ function ShootingRequestList() {
 
   return (
     <div className='flex flex-col h-full'>
-      <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
-        <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Shooting request list</span>
-      </header>
 
       {/* Tab selector */}
-      <div className='bg-primary-foreground my-4'>
-        <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
-          <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Request recieved</button>
-          <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Request sent</button>
+      <div className=''>
+        <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-start px-4 gap-[8px] transition-all duration-300'>
+          {/* <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Request recieved</button>
+          <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Request sent</button> */}
+        <div className="flex items-center border rounded p-2">
+            <Select value={selectedMode.toString()} onValueChange={(value) => setSelectedMode(Number(value))}>
+            <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
+                <SelectValue placeholder="Select location" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                <SelectLabel>Request type</SelectLabel>
+                <SelectItem value={"0"}>
+                    Request Recieved
+                </SelectItem>
+                <SelectItem value={"1"}>
+                    Request Sent
+                </SelectItem>
+                </SelectGroup>
+            </SelectContent>
+            </Select>
+        </div>
         </div>
       </div>
 
@@ -404,4 +428,4 @@ function ShootingRequestList() {
   )
 }
 
-export default ShootingRequestList
+export default RequestList

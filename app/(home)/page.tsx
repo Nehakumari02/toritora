@@ -388,65 +388,65 @@ function Home() {
     }
   }, [])
 
-  function urlBase64ToUint8Array(base64String: string) {
-    const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  // function urlBase64ToUint8Array(base64String: string) {
+  //   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  //   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
 
-    const rawData = window.atob(base64)
-    const outputArray = new Uint8Array(rawData.length)
+  //   const rawData = window.atob(base64)
+  //   const outputArray = new Uint8Array(rawData.length)
 
-    for (let i = 0; i < rawData.length; ++i) {
-      outputArray[i] = rawData.charCodeAt(i)
-    }
-    return outputArray
-  }
+  //   for (let i = 0; i < rawData.length; ++i) {
+  //     outputArray[i] = rawData.charCodeAt(i)
+  //   }
+  //   return outputArray
+  // }
 
-  const setupServiceWorker = async () => {
-    if (!("serviceWorker" in navigator)) return;
+  // const setupServiceWorker = async () => {
+  //   if (!("serviceWorker" in navigator)) return;
 
-    try {
-      // Get existing registration (if any)
-      let registration = await navigator.serviceWorker.getRegistration();
+  //   try {
+  //     // Get existing registration (if any)
+  //     let registration = await navigator.serviceWorker.getRegistration();
 
-      // Register Service Worker if not already registered
-      if (!registration) {
-        registration = await navigator.serviceWorker.register("/sw.js");
-        console.log("Service worker registered successfully");
-      }
+  //     // Register Service Worker if not already registered
+  //     if (!registration) {
+  //       registration = await navigator.serviceWorker.register("/sw.js");
+  //       console.log("Service worker registered successfully");
+  //     }
 
-      // Ensure registration is defined before proceeding
-      if (!registration) return;
+  //     // Ensure registration is defined before proceeding
+  //     if (!registration) return;
 
-      // Check for existing push subscription
-      const existingSubscription = await registration.pushManager.getSubscription();
-      if (!existingSubscription) {
-        // Subscribe to push notifications
-        const subscription = await registration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!),
-        });
+  //     // Check for existing push subscription
+  //     const existingSubscription = await registration.pushManager.getSubscription();
+  //     if (!existingSubscription) {
+  //       // Subscribe to push notifications
+  //       const subscription = await registration.pushManager.subscribe({
+  //         userVisibleOnly: true,
+  //         applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!),
+  //       });
 
-        // Send subscription to backend
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notification/subscribeUser`, {
-          method: "POST",
-          body: JSON.stringify(subscription),
-          headers: { "content-type": "application/json" },
-        });
+  //       // Send subscription to backend
+  //       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notification/subscribeUser`, {
+  //         method: "POST",
+  //         body: JSON.stringify(subscription),
+  //         headers: { "content-type": "application/json" },
+  //       });
 
-        const data = await res.json();
-        console.log("Subscription successful:", data);
-      } else {
-        console.log("Already subscribed to push notifications");
-      }
-    } catch (error) {
-      console.error("Service worker setup failed:", error);
-    }
-  };
+  //       const data = await res.json();
+  //       console.log("Subscription successful:", data);
+  //     } else {
+  //       console.log("Already subscribed to push notifications");
+  //     }
+  //   } catch (error) {
+  //     console.error("Service worker setup failed:", error);
+  //   }
+  // };
 
 
-  useEffect(() => {
-    setupServiceWorker();
-  }, []);
+  // useEffect(() => {
+  //   setupServiceWorker();
+  // }, []);
 
   return (
     <div className='flex flex-col h-full'>

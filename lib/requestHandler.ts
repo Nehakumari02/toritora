@@ -38,7 +38,7 @@ export const fetchRequests = async (logout: () => Promise<void>): Promise<any> =
 
         return await handleResponse(res, logout);
     } catch (error) {
-        console.error("Error fetching requests:", error);
+        // console.error("Error fetching requests:", error);
         throw error;
     }
 };
@@ -62,7 +62,7 @@ export const addRequest = async (slot_id: string, logout: () => Promise<void>, d
 
         return await handleResponse(res, logout);
     } catch (error) {
-        console.error("Error adding request:", error);
+        // console.error("Error adding request:", error);
         throw error;
     }
 };
@@ -85,7 +85,7 @@ export const deleteRequest = async (request_id: string, cancelledBy: "sender" | 
 
         return await handleResponse(res, logout);
     } catch (error) {
-        console.error("Error deleting request:", error);
+        // console.error("Error deleting request:", error);
         throw error;
     }
 };
@@ -107,7 +107,7 @@ export const acceptRequest = async (request_id: string, logout: () => Promise<vo
 
         return await handleResponse(res, logout);
     } catch (error) {
-        console.error("Error accepting request:", error);
+        // console.error("Error accepting request:", error);
         throw error;
     }
 };

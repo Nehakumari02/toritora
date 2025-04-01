@@ -39,60 +39,58 @@ function Profile() {
 
   useEffect( ()=>{
       setProgressBarStep(2)
-      try {
         const fetchUser = async ()=>{
-          setLoading(true);
-          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials:"include",
-          });
+          try {
+            setLoading(true);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials:"include",
+            });
 
-          const data = await res.json();
+            const data = await res.json();
 
-          if(res.status===200){
-            setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
-            setUserName(data.user?.username ?? 'Anonymous');
-            setProfileImage(data.user?.profilePicture ?? '');
-            setUserId(data.user?.userId ?? '');
-            setIntro(data.user?.selfIntroduction ?? 'No introduction provided');
-            setLocation(data.user?.address ?? 'Location not available');
-            setGenre(data.user?.genres ?? 'No genre provided');
-            setAchievements(data.user?.achievements ?? ['No achievements provided']);
-            setShootingPrice(data.user?.shootingPrice ?? 'Price not set');            
-          }
-          else if(res.status === 401){
+            if(res.status===200){
+              setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
+              setUserName(data.user?.username ?? 'Anonymous');
+              setProfileImage(data.user?.profilePicture ?? '');
+              setUserId(data.user?.userId ?? '');
+              setIntro(data.user?.selfIntroduction ?? 'No introduction provided');
+              setLocation(data.user?.address ?? 'Location not available');
+              setGenre(data.user?.genres ?? 'No genre provided');
+              setAchievements(data.user?.achievements ?? ['No achievements provided']);
+              setShootingPrice(data.user?.shootingPrice ?? 'Price not set');            
+            }
+            else if(res.status === 401){
+              toast({
+                title:"Error",
+                description:"Unauthorized request",
+                variant:"destructive"
+              })
+              logout();
+            }
+            else {
+              toast({
+                title:"Internal server error",
+                description:`Error: ${data.message}`,
+                variant:"destructive"
+              })
+            }
+          } catch (error) {
             toast({
-              title:"Error",
-              description:"Unauthorized request",
+              title:"Server internal error",
+              description:`Error : ${error}`,
               variant:"destructive"
             })
-            logout();
-          }
-          else {
-            toast({
-              title:"Internal server error",
-              description:`Error: ${data.message}`,
-              variant:"destructive"
-            })
+            // console.error("error",error)
+          } finally{
+            setLoading(false)
           }
         }
   
         fetchUser();
-  
-        
-      } catch (error) {
-        toast({
-          title:"Server internal error",
-          description:`Error : ${error}`,
-          variant:"destructive"
-        })
-        console.error("error",error)
-      } finally{
-        setLoading(false)
-      }
     },[])
 
   return (

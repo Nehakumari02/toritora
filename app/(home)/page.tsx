@@ -270,43 +270,51 @@ function Home() {
     try {
       const fetchUser = async () => {
         setLoading(true);
-        const professionFromLS = localStorage.getItem('userProfession') || '';
-        setProfession(professionFromLS);
-        const pageNo = 1;
-        const pageSize = 10;
-        const isNew = true;
-        const type = professionFromLS;
-        const queryParams = new URLSearchParams({
-          pageNo: pageNo.toString(),
-          pageSize: pageSize.toString(),
-          isNew: isNew.toString(),
-          type: type,
-        }).toString();
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/data/models?${queryParams}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: "include",
-        });
+        try {
+          const professionFromLS = localStorage.getItem('userProfession') || '';
+          setProfession(professionFromLS);
+          const pageNo = 1;
+          const pageSize = 10;
+          const isNew = true;
+          const type = professionFromLS;
+          const queryParams = new URLSearchParams({
+            pageNo: pageNo.toString(),
+            pageSize: pageSize.toString(),
+            isNew: isNew.toString(),
+            type: type,
+          }).toString();
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/data/models?${queryParams}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: "include",
+          });
 
-        if (res.status === 200) {
-          const data = await res.json();
-          const transformedModels = data.models.map((user: any) => ({
-            name: `${user?.firstName ?? 'Toritora User'} ${user?.lastName ?? ''}`.trim(),
-            location: user.location,
-            profilePic: user.profilePicture,
-            userId: user.userId,
-            dateOfJoining: new Date(user.createdAt) // Convert to Date object
-          }));
-          setModelsNew(transformedModels)
-        }
-        else {
-          // toast({
-          //   title:"Error",
-          //   description:"Unauthorized request",
-          //   variant:"destructive"
-          // })
+          if (res.status === 200) {
+            const data = await res.json();
+            const transformedModels = data.models.map((user: any) => ({
+              name: `${user?.firstName ?? 'Toritora User'} ${user?.lastName ?? ''}`.trim(),
+              location: user.location,
+              profilePic: user.profilePicture,
+              userId: user.userId,
+              dateOfJoining: new Date(user.createdAt) // Convert to Date object
+            }));
+            setModelsNew(transformedModels)
+          }
+          else {
+            // toast({
+            //   title:"Error",
+            //   description:"Unauthorized request",
+            //   variant:"destructive"
+            // })
+          }
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: `Server internal error: ,${error}`,
+            variant: "destructive"
+          })
         }
 
       }

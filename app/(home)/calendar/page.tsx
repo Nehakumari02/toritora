@@ -158,6 +158,8 @@ export default function Calendar() {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
+    try {
+
     const res_slots = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot?month=${month}&year=${year}`, {
       method: 'GET',
       headers: {
@@ -184,6 +186,14 @@ export default function Calendar() {
         description: t("serverError"),
         variant: "destructive"
       })
+    }
+
+    } catch (error:any) {
+        toast({
+          title: t("serverError"),
+          description: error?.message,
+          variant: "destructive"
+        })
     }
   }
 

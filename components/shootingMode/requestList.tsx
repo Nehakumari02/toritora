@@ -204,8 +204,12 @@ function RequestList() {
               setRecievedRequests(data?.received)
               setSentRequests(data?.sent)
               console.log("Booking Requests:", data);
-          } catch (error) {
-              console.error("Error fetching booking requests:", error);
+          } catch (error:any) {
+              toast({
+                title: "Error",
+                description: `Error fetching booking requests: ${error?.message}`,
+                variant: "destructive"
+              })
           } finally {
             setLoading(false);
           }

@@ -22,50 +22,47 @@ function MyPage() {
   const t = useTranslations('MyPage');
 
   useEffect(() => {
-    try {
       const fetchUser = async () => {
-        setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: "include",
-        });
+        try {
+          setLoading(true);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: "include",
+          });
 
-        const data = await res.json();
+          const data = await res.json();
 
-        if (res.status === 200) {
-          setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
-          setUserName(data.user?.username ?? 'Anonymous');
-          setProfileImage(data.user?.profilePicture ?? '');
+          if (res.status === 200) {
+            setName(`${data.user?.firstName ?? 'Guest'} ${data.user?.lastName ?? ''}`.trim());
+            setUserName(data.user?.username ?? 'Anonymous');
+            setProfileImage(data.user?.profilePicture ?? '');
+          }
+          else if (res.status === 401) {
+            toast({
+              title: "Error",
+              description: t("unauthorized"),
+              variant: "destructive"
+            })
+            logout();
+          }
+          else {
+            toast({
+              title: t("serverError"),
+              description: `Error: ${data.message}`,
+              variant: "destructive"
+            })
+          }
+        } catch (error) {
+          console.log("Error", error)
+        } finally {
+          setLoading(false)
         }
-        else if (res.status === 401) {
-          toast({
-            title: "Error",
-            description: t("unauthorized"),
-            variant: "destructive"
-          })
-          logout();
-        }
-        else {
-          toast({
-            title: t("serverError"),
-            description: `Error: ${data.message}`,
-            variant: "destructive"
-          })
-        }
-
       }
 
       fetchUser();
-
-
-    } catch (error) {
-      console.log("Error", error)
-    } finally {
-      setLoading(false)
-    }
   }, [])
 
   return (

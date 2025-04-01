@@ -18,9 +18,9 @@ function Shooting() {
 
       <div className='bg-primary-foreground my-2'>
         <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
-          <button onClick={() => setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] text-center font-semibold text-[14px] leading-[21px] px-4 transition-all duration-300`}>{t("upcoming")}</button>
-          <button onClick={() => setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] text-center font-semibold text-[14px] leading-[21px] px-4 transition-all duration-300`}>{t("requestList")}</button>
-          <button onClick={() => setSelectedMode(2)} className={`${selectedMode === 2 ? "bg-primary text-white rounded-md" : ""} h-[40px] text-center font-semibold text-[14px] leading-[21px] px-4 transition-all duration-300`}>{t("kikaku")}</button>
+          <button onClick={() => setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] md:w-[30%] text-center font-semibold text-[14px] leading-[21px] px-4 transition-all duration-300`}>{t("upcoming")}</button>
+          <button onClick={() => setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] md:w-[30%] text-center font-semibold text-[14px] leading-[21px] px-4 transition-all duration-300`}>{t("requestList")}</button>
+          <button onClick={() => setSelectedMode(2)} className={`${selectedMode === 2 ? "bg-primary text-white rounded-md" : ""} h-[40px] md:w-[30%] text-center font-semibold text-[14px] leading-[21px] px-4 transition-all duration-300`}>{t("kikaku")}</button>
         </div>
       </div>
 

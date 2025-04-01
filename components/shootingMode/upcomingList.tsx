@@ -150,7 +150,7 @@ function UpcomingList() {
           try {
               setLoading(true);
             //   const data = await fetchRequests(logout);
-            const res = await fetch(`http://localhost:8080/api/reservation`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reservations`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -164,8 +164,12 @@ function UpcomingList() {
               console.log(groupedReservations)
               setGroupedReservations(groupedReservations);
               console.log("Reservations:", data);
-          } catch (error) {
-              console.error("Error fetching booking requests:", error);
+          } catch (error:any) {
+              toast({
+                title: "Error",
+                description: `Error fetching upcoming bookings: ${error?.message}`,
+                variant: "destructive"
+              })
           } finally {
             setLoading(false);
           }
@@ -310,7 +314,7 @@ function UpcomingList() {
                                                 </div>
                                                 <div className='flex flex-col gap-2 flex-wrap'>
                                                     {reservation.user_id_2?._id === userIdRef.current ? <button className='w-[100px] h-[30px] bg-primary text-white text-[9px] font-semibold flex items-center justify-center rounded-lg'>Edit Request</button>: <></>}
-                                                    <button className='w-[100px] h-[30px] bg-primary text-white text-[9px] font-semibold flex items-center justify-center rounded-lg'>View Request</button>
+                                                    {/* <button className='w-[100px] h-[30px] bg-primary text-white text-[9px] font-semibold flex items-center justify-center rounded-lg'>View Request</button> */}
                                                 </div>
                                             </div>
                                             <div className='p-4 flex flex-row flex-wrap items-center justify-start gap-2 border-t'>
@@ -321,7 +325,7 @@ function UpcomingList() {
                                                 </div>
                                             </div>
                                             <div className='p-4 border-t'>
-                                                <span className='text-[11px] font-medium'>Payment Status: </span><span className={`${reservation?.payment_status !== "completed" ? "text-red-500" : "text-green-500"} text-[12px] font-normal capitalize`}>{reservation?.payment_status}</span>
+                                                <span className='text-[11px] font-medium'>Payment Status: </span><span className={`${reservation?.payment_status !== "paid" ? "text-red-500" : "text-green-500"} text-[12px] font-normal capitalize`}>{reservation?.payment_status}</span>
                                             </div>
                                             <button onClick={()=>{handleGoToLink(`/reservation?reservationId=${reservation._id}`)}} className='w-full text-center h-[42px] flex items-center justify-center bg-secondary text-white font-medium text-[14px]'>Use Shoot Mode</button>
                                         </div>

@@ -979,7 +979,7 @@ function RegistrationInfo() {
               onChange={handleChange1}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
             >
-              <option value="">{t("preety")}</option>
+              <option value="">{t("pretty")}</option>
               <option value="Portrait">{t("cute")}</option>
               <option value="Landscape">{t("cool")}</option>
               <option value="Wedding">{t("clean")}</option>
@@ -1032,12 +1032,12 @@ function RegistrationInfo() {
             <input type="number" name="height" placeholder={t("heightPlaceholder")} value={formData1.height} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             {/* New Field for Photography Experience */}
-            <label className="block text-sm">{t("modellingExperiance")} <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-sm">{t("modellingExperience")} <span className="text-red-500 hidden">*</span></label>
             <input type="number" name="modellingExperiance" placeholder={t("modellingExperiencePlaceholder")} value={formData1.modellingExperiance} onChange={handleChange1} className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-[#FF9F1C] focus:outline-none transition" />
 
             <div className="p-4 border rounded-xl bg-white shadow-lg relative">
               <h2 className="text-[14px] font-semibold mb-4">{t("addSubPhotos")} <span className="text-red-500 hidden">*</span> </h2>
-              <h2 className="text-[10px] font-400 mb-4">{t("addSubphotosInfo")}</h2>
+              <h2 className="text-[10px] font-400 mb-4">{t("addSubPhotosInfo")}</h2>
               {/* Add More Button at Top Right */}
               {subPhotos.length < 5 && (
                 <label htmlFor="subphoto-upload" className="absolute top-2 right-3 cursor-pointer flex ">
@@ -1332,7 +1332,7 @@ function RegistrationInfo() {
             ></textarea>
 
             {/* Question 3 */}
-            <label className="block text-sm">{t("photographerDo")}</label>
+            <label className="block text-sm">{t("photgrapherDo")}</label>
             <textarea
               name="assistanceWithModels"
               value={feedback.assistanceWithModels}

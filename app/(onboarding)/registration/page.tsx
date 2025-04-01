@@ -237,7 +237,7 @@ function Register() {
           router.push('/registerProfile');
           toast({
             title: t("signupSuccess"),
-            description: t("RegisterSucess"),
+            description: t("registerSucess"),
             variant: 'success',
           });
         }

@@ -43,7 +43,7 @@ function Footer() {
       {
         bottomTabs.map((tab,index)=>{
           return(
-            <Link href={tab.link} key={index} className='flex flex-col items-center justify-center gap-2 transition-all duration-300'>
+            <Link href={tab.link} key={index} className='flex flex-col items-center justify-center gap-2 transition-all duration-300 active:translate-y-2 active:scale-90 '>
               {tab.link===`/${path[1]}`?tab.iconSelected:tab.icon}
               <span className={`${tab.link===`/${path[1]}`?"text-secondary":""} text-[10px] leading-[15px] text-center font-normal`}>
                 {t.rich(tab.name)}

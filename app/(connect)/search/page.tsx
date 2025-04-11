@@ -31,6 +31,7 @@ import { prefectures } from '@/data/prefectures';
 import { UserTile } from '@/components/common/tile';
 import TileSkeleton from '@/components/common/tileSkeleton';
 import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
 
 const genres = ["Cool", "Pretty", "Dark", "Natural", "Art", "Clean", "Cute", "All"]
 
@@ -38,19 +39,22 @@ function Search() {
   const router = useRouter();
   const {toast} = useToast();
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
   const [locationSearch, setLocationSearch] = useState("");
   const [genre, setGenre] = useState("All");
   let today = startOfToday()
   const [shootingDate, setShootingDate] = useState<Date>(today);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [experienceSearch, setExperienceSearch] = useState(0);
-  const [searchResult,setSearchResult] = useState([]);
+  const [searchResult,setSearchResult] = useState<any>([]);
   const [loading,setLoading] = useState(true);
   const [totalPages,setTotalPages] = useState(1);
   const [pageSize,setPageSize] = useState(10);
   const [currentPage,setCurrentPage] = useState(1);
   const [totalCount,setTotalCount] = useState(0);
   const [showFilters,setShowFilters] = useState(false)
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const isFilterAdded = useRef(false);
   const handleGoBack = () => {
@@ -98,11 +102,13 @@ function Search() {
         type: type,
         pageNo: currentPage.toString(),
         pageSize: pageSize.toString(),
+        isMonth: 'true',
       };
 
       const queryParams = new URLSearchParams({
         ...baseParams,
-        ...(isFilterAdded.current ? {date: formattedDate} : {date : formatDate(today,"yyyy-MM-dd")}),
+        // ...(isFilterAdded.current ? {date: formattedDate} : {date : formatDate(today,"yyyy-MM-dd")}),
+        ...(isFilterAdded.current ? {date: formattedDate} : {isMonth:'true'}),
         ...(isFilterAdded.current ? filters : {}),
       }).toString();
 
@@ -122,13 +128,15 @@ function Search() {
           location: user.address,
           profilePic: user.profilePicture,
           userId: user.userId,
-          dateOfJoining: new Date(user.createdAt) // Convert to Date object
+          dateOfJoining: new Date(user.createdAt)
         }));
         console.log(data)
         setSearchResult(transformedUsers)
         setTotalPages(totalPages)
         setCurrentPage(currentPage)
         setTotalCount(totalCount)
+        setHasMore(currentPage<data.totalPages);
+        if(currentPage<data.totalPages)setCurrentPage(currentPage+1);
       }
       else if(res.status===401){
         toast({
@@ -156,9 +164,97 @@ function Search() {
     
   }
 
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try{
+      const professionFromLS = localStorage.getItem('userProfession') || '';
+      const formattedDate = formatDate(shootingDate, "yyyy-MM-dd");
+      const type = professionFromLS;
+      const filters = {
+        location: locationSearch,
+        genres: genre,
+        experience: experienceSearch.toString(),
+      }
+
+      const baseParams = {
+        name: searchTerm,
+        type: type,
+        pageNo: currentPage.toString(),
+        pageSize: pageSize.toString(),
+        isMonth: 'true',
+      };
+
+      const queryParams = new URLSearchParams({
+        ...baseParams,
+        // ...(isFilterAdded.current ? {date: formattedDate} : {date : formatDate(today,"yyyy-MM-dd")}),
+        ...(isFilterAdded.current ? {date: formattedDate} : {isMonth:'true'}),
+        ...(isFilterAdded.current ? filters : {}),
+      }).toString();
+
+      console.log(queryParams)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search?${queryParams}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials:"include",
+      });
+
+      if(res.status===200){
+        const data = await res.json();
+        const transformedUsers = data.users?.map((user:any) => ({
+          name: `${user.firstName} ${user.lastName}`.trim(),
+          location: user.address,
+          profilePic: user.profilePicture,
+          userId: user.userId,
+          dateOfJoining: new Date(user.createdAt)
+        })) ?? [];
+        console.log(data)
+        setSearchResult([...searchResult, ...transformedUsers])
+        setTotalPages(totalPages)
+        setCurrentPage(currentPage)
+        setTotalCount(totalCount)
+        setHasMore(currentPage<data.totalPages);
+        if(currentPage<data.totalPages)setCurrentPage(currentPage+1);
+      }
+      else if(res.status===401){
+        toast({
+          title:"Error",
+          description:"Unauthorized request",
+          variant:"destructive"
+        })
+      }
+      else{
+        toast({
+          title:"Error",
+          description:"Server internal error",
+          variant:"destructive"
+        })
+      }
+    } catch (error:any) {
+      toast({
+        title:"Error",
+        description: `Error during fetch: ${error.message}`,
+        variant: "destructive"
+      })
+    } finally {
+      setLoadingMore(false)
+    }
+  }
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
   useEffect(()=>{
     fetchUserWithFilters();
-  },[searchTerm])
+  },[debouncedTerm])
 
   return (
     <div className='flex flex-col h-full w-[100%] '>
@@ -313,13 +409,12 @@ function Search() {
           </div>
 
           <div className='grid grid-cols-[repeat(auto-fit,minmax(172px,1fr))] mx-auto gap-[10px] md:gap-[20px] py-2 rounded-md'>
-            {loading ? <TileSkeleton/> : searchResult.map((item,index)=>(
+            {loading ? <TileSkeleton/> : searchResult.map((item:any,index:number)=>(
               <UserTile key={index} user={item} />
             ))}
-            {
-              !loading && !searchResult.length && <span className='text-sm font-semibold text-[#999999]'>No search results found.</span>
-            }
           </div>
+          {!loading && hasMore && <button disabled={loadingMore} onClick={loadMore} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingMore ? <Loader2 className='animate-spin' /> : "Load more"}</button>}
+          {!loading && !searchResult.length && <span className='text-sm font-semibold text-[#999999]'>No search results found.</span>}
         </div>
       </div>
     </div>

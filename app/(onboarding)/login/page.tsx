@@ -70,7 +70,7 @@ function Login() {
 
       },
       credentials: "include",
-      body: JSON.stringify({ email: username, password }),
+      body: JSON.stringify({ email: username, password, rememberMe }),
     });
 
     const data = await res.json();
@@ -124,7 +124,7 @@ function Login() {
         // Handle success case (has 'code')
         const code = authResult.code;
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signin?code=${code}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signin?code=${code}&rememberMe=${rememberMe}`,
           {},
           {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

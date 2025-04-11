@@ -413,7 +413,7 @@ function BookingDetails() {
               <label className='block text-sm'>Rainy Shooting Location <span className="text-red-500 hidden">*</span></label>
               <div className="flex items-center border border-[#999999] px-2 h-[48px] rounded-lg">
                 <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
-                <Select value={formValuesRainyDay.shootingLocationRainy} onValueChange={(value) => handleSelectChange(value, "normal")}>
+                <Select value={formValuesRainyDay.shootingLocationRainy} onValueChange={(value) => handleSelectChange(value, "rainy")}>
                   <SelectTrigger className="w-full h-[48px] border-none outline-none focus:ring-0 shadow-none p-0">
                     <SelectValue placeholder="Select location" />
                   </SelectTrigger>

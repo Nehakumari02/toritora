@@ -44,7 +44,7 @@ function BookSlot() {
     setHourlyPrice(deserializedUser?.shootingPrice);
     setProfileImage(deserializedUser?.profileImage);
 
-  },[searchParams])
+  },[searchParams,deserializedUser])
 
   const handleGoBack = ()=>{
     router.back();

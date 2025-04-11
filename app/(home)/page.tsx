@@ -536,7 +536,7 @@ function Home() {
           <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 pt-[24px]'>
             <div className='flex items-center justify-between'>
               <span className='text-[16px] font-medium leading-[24px]'>{t("new")} {profession === "modelling" ? "Photographers" : profession === "photographer" ? "Models" : "Users"}</span>
-              <button onClick={() => handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>{t("viewAll")}</button>
+              <button onClick={() => handleGoToLink("/new-users")} className='text-[13px] leading-[20px] text-right text-[#999999]'>{t("viewAll")}</button>
             </div>
 
             <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>
@@ -556,7 +556,7 @@ function Home() {
           <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 my-[24px]'>
             <div className='flex items-center justify-between'>
               <span className='text-[16px] font-medium leading-[24px]'>{t("available")}</span>
-              <button onClick={() => handleGoToLink("/")} className='text-[13px] leading-[20px] text-right text-[#999999]'>{t("viewAll")}</button>
+              <button onClick={() => handleGoToLink("/available-users")} className='text-[13px] leading-[20px] text-right text-[#999999]'>{t("viewAll")}</button>
             </div>
 
             <div className='bg-[#F0F0F1] flex flex-row items-center gap-[10px] overflow-x-scroll md:flex-wrap py-2 no-scrollbar px-2 rounded-md'>

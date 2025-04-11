@@ -200,7 +200,7 @@ function ForgotPassword() {
       }
 
       {resetCodeSent &&
-        <div className='flex flex-col flex-1 mx-5 py-4 space-y-4 overflow-y-scroll no-scrollbar'>
+        <div className='flex flex-col flex-1 mx-5 py-4 space-y-4 md:max-w-[800px] md:mx-auto overflow-y-scroll no-scrollbar'>
           <div className='flex flex-col gap-2'>
             <span className='text-[22px] leading-[50px] font-semibold'>Verification</span>
             <p className='text-[14px] leading-[21px] font-medium text-[#959595]'>Enter the verification code that we have sent to your registered email ID.</p>

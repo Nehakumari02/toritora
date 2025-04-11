@@ -35,7 +35,7 @@ const isFiveDaysOld = (dateOfJoining?: Date): boolean => {
 
 export function UserTile({ user }: UserTileProps) {
   return (
-    <div className='bg-white h-[236px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center px-[12px] py-[14px]'>
+    <div className='bg-white h-[226px] w-[172px] flex-shrink-0 rounded-md flex flex-col gap-2 items-center px-[12px] py-[14px]'>
       <div className='relative'>
         <Image src={user.profilePic||userAvatar} alt='userImage' width={148} height={151} className='h-[151px] w-[148px] rounded-md object-cover' />
         {!isFiveDaysOld(user?.dateOfJoining) && <span className='absolute top-0 left-0 bg-secondary w-[64px] h-[18px] text-center text-white text-[10px] leading-[15px] font-medium rounded-tl-md rounded-br-md'>New</span>}

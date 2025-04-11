@@ -73,7 +73,7 @@ function MyPage() {
 
       <div className='bg-[#f8fcfd] overflow-y-scroll flex-1 no-scrollbar'>
         <div className='max-w-[800px] mx-auto p-4 py-6'>
-          <div className='h-[120px] bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-between gap-4 px-4'>
+          <div className='min-h-[120px] bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex flex-wrap items-center justify-between gap-4 p-4'>
             <div className='h-[88px] w-[88px] rounded-full border-[3px] border-secondary'>
               {profileImage === "" ?
                 <Image src={userAvatar} alt="User" objectFit="contain" objectPosition="center" className='h-full w-full rounded-full p-[2px]' />
@@ -81,7 +81,7 @@ function MyPage() {
                 <Image src={profileImage} alt="User" height={88} width={88} className='h-full w-full object-cover object-center rounded-full p-[2px]' />
               }
             </div>
-            <div className='flex-1 flex items-center justify-between'>
+            <div className='flex-1 flex flex-wrap gap-2 items-center justify-between'>
               <div className='flex flex-col items-start justify-center gap-1'>
                 {loading ?
                   <>
@@ -94,18 +94,21 @@ function MyPage() {
                   </>
                 }
               </div>
-              <button onClick={() => handleGoToLink("/profile")} className='bg-[#FF9F1C] px-8 py-2 rounded-md text-white font-medium text-[10px] leading-[15px]'>
+              <button onClick={() => handleGoToLink("/profile")} className='bg-[#FF9F1C] transition-transform active:scale-90 px-8 py-2 rounded-md text-white font-medium text-[10px] leading-[15px]'>
                 {t("view")}
               </button>
             </div>
           </div>
 
-          <div className='flex flex-row items-center justify-center gap-4 flex-wrap py-6'>
+          <div 
+          className='flex flex-row items-center justify-center gap-4 flex-wrap py-6'
+          // className='grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 py-6 justify-center'
+          >
             {navigationList.map((item, index) => {
               return (
-                <button key={index} onClick={() => handleGoToLink(item.link)} className='h-[98px] w-[170px] rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+                <button key={index} onClick={() => handleGoToLink(item.link)} className='h-[98px] min-w-[130px] md:w-[200px] px-4 transition-transform active:scale-90 rounded-md flex flex-col items-center justify-center gap-4 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
                   {item.icon}
-                  <span className='font-normal text-[12px] leading-[18px] text-[#111111]'>{item.name}</span>
+                  <span className='font-normal text-wrap text-[12px] leading-[18px] text-[#111111]'>{item.name}</span>
                 </button>
               )
             })}
@@ -113,11 +116,11 @@ function MyPage() {
 
           <div className='space-y-4'>
             <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>{t("otherSettings")}</span>
-            <div className='flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+            <div className='flex flex-col items-center justify-center gap-6 p-4 md:p-8 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
               {otherSettings.map((item, index) => {
                 return (
-                  <button className='w-full h-8 flex items-center justify-between' key={index} onClick={() => handleGoToLink(item.link)}>
-                    <span className='flex items-center justify-center gap-4 font-normal text-[12px] leading-[18px] text-[#111111]'>{item.icon} {item.name}</span>
+                  <button className='w-full h-10 flex items-center justify-between transition-transform active:bg-gray-100 active:translate-y-2 active:scale-99 rounded-lg p-2' key={index} onClick={() => handleGoToLink(item.link)}>
+                    <span className='flex items-center justify-center gap-4 font-normal text-left text-[12px] leading-[18px] text-[#111111]'>{item.icon} <span className='flex flex-wrap'>{item.name}</span></span>
 
                     {rightArrowIcon}
                   </button>
@@ -127,7 +130,7 @@ function MyPage() {
           </div>
 
           <div className='mt-4'>
-            <button onClick={logout} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("logout")}</button>
+            <button onClick={logout} className='w-full h-[54px] transition-transform active:translate-y-2 active:scale-95 text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("logout")}</button>
           </div>
         </div>
       </div>
@@ -153,6 +156,10 @@ const starIcon = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xml
 
 const fileIcon = <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M13.4379 1V5.125C13.4379 5.88439 14.0535 6.5 14.8129 6.5H18.9379M5.87543 6.5H8.62543M5.87543 10.625H14.1254M5.87543 14.75H14.1254M16.8754 3.0625C16.2635 2.51495 15.6284 1.86554 15.2276 1.44376C14.9608 1.16309 14.5922 1 14.205 1H3.81261C2.29383 1 1.06262 2.23121 1.06261 3.74999L1.0625 20.2499C1.06249 21.7687 2.2937 22.9999 3.81249 23L16.1875 23C17.7063 23 18.9375 21.7688 18.9376 20.2501L18.9379 5.67252C18.9379 5.32093 18.8038 4.98296 18.5598 4.72984C18.1086 4.26178 17.3551 3.49164 16.8754 3.0625Z" stroke="#2EC4B6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+</svg>
+
+const graphIcon = <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 12H1C0.4 12 0 12.4 0 13V21C0 21.6 0.4 22 1 22H5C5.6 22 6 21.6 6 21V13C6 12.4 5.6 12 5 12ZM21 8H17C16.4 8 16 8.4 16 9V21C16 21.6 16.4 22 17 22H21C21.6 22 22 21.6 22 21V9C22 8.4 21.6 8 21 8ZM13 0H9C8.4 0 8 0.4 8 1V21C8 21.6 8.4 22 9 22H13C13.6 22 14 21.6 14 21V1C14 0.4 13.6 0 13 0Z" fill="#2EC4B6"/>
 </svg>
 
 const profileIcon = <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +188,7 @@ const rightArrowIcon = <svg width="25" height="24" viewBox="0 0 25 24" fill="non
 
 const navigationList = [
   {
-    name: "Shooting request list",
+    name: "Shooting request",
     link: "/shootingRequestList",
     icon: cameraIcon
   },
@@ -196,6 +203,16 @@ const navigationList = [
     name: "My Favourites",
     link: "/favourites",
     icon: starIcon
+  },
+  {
+    name: "Manage Kikaku",
+    link: "#",
+    icon: fileIcon
+  },
+  {
+    name: "Finance",
+    link: "/finance",
+    icon: graphIcon
   },
   {
     name: "Toritora college",

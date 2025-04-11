@@ -118,7 +118,7 @@ function UserDetails() {
   const handleSlotBooking = async (slot:SlotProps) => {
         try {
           setLoadingSlotBooking(true);
-          const data = await addRequest(slot?._id,logout);
+          const data = await addRequest(slot?._id,logout,slot);
           console.log("Booking request sent:", data);
           if(data.status === 201){
             setSlots((prevSlots) =>

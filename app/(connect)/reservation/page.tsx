@@ -182,7 +182,7 @@ function ReservationDetails() {
     } catch (error) {
       console.log("Error", error)
     }
-  }, [])
+  }, [logout,reservationId,toast])
 
   return (
     <div className='no-scrollbar flex flex-col h-full'>
@@ -224,7 +224,7 @@ function ReservationDetails() {
                 <span className='text-[17px] font-semibold flex gap-2 items-center justify-center'>{loading ? <div className='h-[17px] w-[40px] bg-gray-300 animate-pulse rounded-md'></div> : reservation?.fees}{" "}JPY</span>
             </div>
           </div>
-          <div>
+          <div className='max-w-[800px] md:mx-auto'>
             {reservation?.payment_status === "pending" ?
             <span className='text-[16px] font-medium text-[#111111]'>Payment is pending <button onClick={handleCheckout} className={`${reservation?.user_id?._id === userIdRef.current ? "hidden" : "" } text-white bg-secondary px-8 py-2 rounded-lg text-[16px] font-semibold`}> Pay Now </button></span> :
             reservation?.payment_status === "failed" ?
@@ -248,7 +248,7 @@ function ReservationDetails() {
               </div>
               <div className='flex flex-col items-start gap-1'>
                   <span className='text-[#B9B9B9] text-[10px] font-normal'>Date of shoot</span>
-                  <span className='text-[11px] font-semibold'>{loading ? <div className='h-[11px] w-[60px] bg-gray-300 animate-pulse rounded-md'></div> : reservation?.date && format(parseISO(reservation?.date!), "EEE, dd MMM yyyy")}</span>
+                  <span className='text-[11px] font-semibold'>{loading ? <div className='h-[11px] w-[60px] bg-gray-300 animate-pulse rounded-md'></div> : reservation?.date && format(parseISO(reservation?.date), "EEE, dd MMM yyyy")}</span>
               </div>
             </div>
             <div className='h-[40px] w-[2px] bg-[#EAE9E9]'></div>
@@ -258,7 +258,7 @@ function ReservationDetails() {
               </div>
               <div className='flex flex-col items-start gap-1'>
                   <span className='text-[#B9B9B9] text-[10px] font-normal'>Time of shoot</span>
-                  <span className='text-[11px] font-semibold'>{loading ? <div className='h-[11px] w-[60px] bg-gray-300 animate-pulse rounded-md'></div> : reservation?.startTime && format(parseISO(reservation?.startTime!), "hh:mm a")} {loading ? "" : " - "} {reservation?.endTime && format(parseISO(reservation?.endTime!), "hh:mm a")}</span>
+                  <span className='text-[11px] font-semibold'>{loading ? <div className='h-[11px] w-[60px] bg-gray-300 animate-pulse rounded-md'></div> : reservation?.startTime && format(parseISO(reservation?.startTime), "hh:mm a")} {loading ? "" : " - "} {reservation?.endTime && format(parseISO(reservation?.endTime), "hh:mm a")}</span>
               </div>
             </div>
           </div>

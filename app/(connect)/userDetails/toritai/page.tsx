@@ -98,7 +98,6 @@ function Toritai() {
     setFullName(fullNameLS)
     setDisplayPicture(DP)
     userIdRef.current = userIdLS
-    console.log(userIdRef.current,fullName,displayPicture)
 
   }, [])
 

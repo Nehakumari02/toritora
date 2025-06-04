@@ -733,7 +733,7 @@ function UserDetails() {
 
       <div className='flex items-center justify-center gap-6 md:max-w-[800px] w-full md:mx-auto py-4 px-2 shadow-[0_4px_20px_rgba(0,0,0,0.15)] '>
         {/* Change disabled to isToritaiSent to handle toritai set value of disabled = isToritaiSent */}
-        <button disabled={true} onClick={()=>handleGoToLink(`/userDetails/toritai?fullName=${user?.firstName+" "+user?.lastName}&profileImage=${user?.profilePicture}&userId=${userIdRef.current}`)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center border bg-white flex items-center justify-center text-secondary rounded-md'>Toritai</button>
+        <button disabled={isToritaiSent} onClick={()=>handleGoToLink(`/userDetails/toritai?fullName=${user?.firstName+" "+user?.lastName}&profileImage=${user?.profilePicture}&userId=${userIdRef.current}`)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center border bg-white flex items-center justify-center text-secondary rounded-md'>Toritai</button>
         <button onClick={()=>setSelectedMode(1)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Book Now</button>
       </div>
     </div>

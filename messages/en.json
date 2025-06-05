@@ -255,6 +255,13 @@
         "toritaiToraretai": "Toritai Toraretai",
         "myFavourites": "My Favourites",
         "toritoraCollege": "Toritora College",
+        "manageKikaku": "Manage Kikaku",
+        "finance": "finance",
+        "editProfile1": "Edit Profile",
+        "yourPoint": "Your Points",
+        "mySettings": "My Settings",
+        "help": "Help / How to use Toritora",
+        "giveFeedback": "Give Feedback",
         "feedback": {
             "giveFeedback": "Give Feedback",
             "feedbackHeader": "Give Feedback",
@@ -320,7 +327,8 @@
             "enterAssistanceWithModels": "Enter your characters here",
             "enterHobbies": "Enter your characters here",
             "save": "SAVE",
-            "error": "Error"
+            "error": "Error",
+            "snsUsername": "SNS Username"
         },
         "settings": {
             "feedback": {
@@ -333,6 +341,11 @@
                 "feedbackPlaceholder": "Enter characters up to 0 to 100 words",
                 "send": "SEND"
             }
+        },
+        "shooting": {
+            "upcoming": {},
+            "requestList": {},
+            "kikaku": {}
         }
     }
 }

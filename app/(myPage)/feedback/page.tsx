@@ -62,7 +62,7 @@ function Feedback() {
         <textarea
           value={feedbackText}
           onChange={(e) => setFeedbackText(e.target.value)}
-          placeholder="Let us know what is on your mind"
+          placeholder={t("feedbackPlaceholder")}
           className="w-full h-60 p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2EC4B6] no-scrollbar"
         />
 

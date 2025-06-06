@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { backIcon } from '@/constants/icons';
 import { useLogout } from '@/lib/logout';
 import { toast } from '@/hooks/use-toast';
+import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import Ghost from '@/public/images/mypage/ghost.gif'
 
 export interface SentToritai {
@@ -138,9 +139,10 @@ function Toritai() {
             <div key={date} className='space-y-4'>
               <h3 className='text-[12px] leading-[18px] font-medium text-[#999999]'>{date}</h3>
               {records.map((record) => (
-                <div key={record._id} className='bg-white min-h-[108px] flex items-center flex-wrap gap-4 p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+                <div key={record._id} className='bg-white min-h-[108px] flex flex-col items-center justify-center w-full gap-4 p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
+                  <div className='flex items-center flex-wrap gap-4 w-full'>
                   <div className=''>
-                    <Image height={64} width={64} src={record.user_id?.profilePicture} alt='profile picture' className='h-[54px] w-[54px] rounded-full animate-in object-cover object-center' />
+                    <Image height={64} width={64} src={record.user_id?.profilePicture||userAvatar} alt='profile picture' className='h-[54px] w-[54px] rounded-full animate-in object-cover object-center' />
                   </div>
                   <div className='flex flex-col items-start justify-center'>
                     <span className='text-[12px] leading-[18px] font-semibold text-[#111111]'>{record.user_id?.firstName} {record.user_id?.lastName}</span>
@@ -148,6 +150,11 @@ function Toritai() {
                   </div>
 
                   <button className='ml-auto font-semibold text-[11px] leading-[17px] text-white bg-secondary text-center w-[94px] h-[32px] rounded-sm'>Thanks</button>
+                  </div>
+                  <div className='flex flex-col items-start justify-center w-full'>
+                    <span className='text-[12px] leading-[18px] font-semibold text-[#111111]'>{record.question1}</span>
+                    <span className='text-[12px] leading-[18px] font-semibold text-[#999999]'>{record?.question2}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -163,7 +170,7 @@ function Toritai() {
               {records.map((record) => (
                 <div key={record._id} className='bg-white min-h-[108px] flex items-center flex-wrap gap-4 p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
                   <div className=''>
-                    <Image height={64} width={64} src={record.user_id_2?.profilePicture} alt='profile picture' className='h-[54px] w-[54px] rounded-full animate-in object-cover object-center' />
+                    <Image height={64} width={64} src={record.user_id_2?.profilePicture||userAvatar} alt='profile picture' className='h-[54px] w-[54px] rounded-full animate-in object-cover object-center' />
                   </div>
                   <div className='flex flex-col items-start justify-center'>
                     <span className='text-[12px] leading-[18px] font-semibold text-[#111111]'>{record.user_id_2?.firstName} {record.user_id_2?.lastName}</span>

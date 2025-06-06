@@ -147,7 +147,7 @@ function UsersListView() {
 
   return (
     <div className='overflow-y-scroll no-scrollbar h-full bg-[#F0F0F1]'>
-      <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
+      <header className="sticky z-50 top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
         <span className="text-[16px] leading-[24px] text-center font-semibold">New Users</span>
       </header>

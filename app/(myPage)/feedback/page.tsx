@@ -5,21 +5,59 @@ import React, { useState } from 'react'
 import greenTick from '@/public/images/common/greenTick.png';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl'
+import { useToast } from '@/hooks/use-toast';
 
 function Feedback() {
   const router = useRouter();
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
   const t = useTranslations('MyPage.feedback');
+  const { toast } = useToast();
 
   const handleGoBack = () => {
     router.back();
   }
 
   const handleSendFeedback = async () => {
-
-
-    setFeedbackSent(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: "include",
+        body: JSON.stringify({ text:feedbackText }),
+      });
+  
+      if (res.status === 200) {
+        toast({
+          title: "Success",
+          description: `Feedback has been sent successfully.`,
+          variant: "success"
+        })
+      }
+  
+      else if (res.status === 401) {
+        const data = await res.json()
+        toast({
+          title: "Error",
+          description: `${data.message}: ${data?.error}`,
+          variant: "destructive"
+        })
+      }
+  
+      else {
+        toast({
+          title: "Internal server error",
+          description: `Server internal error please try after some time`,
+          variant: "destructive"
+        })
+      }
+    } catch (error) {
+      
+    } finally{
+      setFeedbackSent(true);
+    }
   }
 
   const handleGoToLink = (route: string) => {

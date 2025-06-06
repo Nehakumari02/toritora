@@ -6,6 +6,7 @@ import greenTick from '@/public/images/common/greenTick.png';
 import feedbackHeroImage from '@/public/images/common/feedbackHeroImage.png';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl'
+import { useToast } from '@/hooks/use-toast';
 
 
 function Feedback() {
@@ -14,6 +15,7 @@ function Feedback() {
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [rating, setRating] = useState(0);
   const t = useTranslations('MyPage.settings.feedback');
+  const {toast} = useToast();
 
   const emojis = [
     '😥', // 1 - Very sad
@@ -28,9 +30,45 @@ function Feedback() {
   }
 
   const handleSendFeedback = async () => {
-
-
-    setFeedbackSent(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: "include",
+        body: JSON.stringify({ text:feedbackText,rating }),
+      });
+  
+      if (res.status === 201) {
+        toast({
+          title: "Success",
+          description: `Feedback has been sent successfully.`,
+          variant: "success"
+        })
+      }
+  
+      else if (res.status === 401) {
+        const data = await res.json()
+        toast({
+          title: "Error",
+          description: `${data.message}: ${data?.error}`,
+          variant: "destructive"
+        })
+      }
+  
+      else {
+        toast({
+          title: "Internal server error",
+          description: `Server internal error please try after some time`,
+          variant: "destructive"
+        })
+      }
+    } catch (error) {
+      
+    } finally{
+      setFeedbackSent(true);
+    }
   }
 
   const handleGoToLink = (route: string) => {
@@ -71,7 +109,7 @@ function Feedback() {
       <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] my-8 space-y-8'>
         <div className='space-y-6 flex flex-col'>
           <span className='font-semibold text-[16px] leading-[24px] text-[#333333]'>{t("rateExperience")}</span>
-          <div className="flex items-center justify-between mx-4">
+          <div className="flex items-center justify-between flex-wrap gap-2 mx-1">
             {emojis.map((emoji, index) => (
               <button
                 key={index}

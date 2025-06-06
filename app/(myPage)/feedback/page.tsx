@@ -20,45 +20,49 @@ function Feedback() {
 
   const handleSendFeedback = async () => {
     try {
+      if (!feedbackText.trim()) {
+        toast({
+          title: "Feedback Required",
+          description: "Please write something before submitting.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: "include",
-        body: JSON.stringify({ text:feedbackText }),
+        body: JSON.stringify({ text: feedbackText }),
       });
-  
-      if (res.status === 200) {
+
+      const data = await res.json();
+
+      if (res.status === 200 || res.status === 201) {
         toast({
           title: "Success",
-          description: `Feedback has been sent successfully.`,
-          variant: "success"
-        })
-      }
-  
-      else if (res.status === 401) {
-        const data = await res.json()
+          description: data.message || "Feedback has been sent successfully.",
+          variant: "success",
+        });
+        setFeedbackSent(true);
+      } else {
         toast({
           title: "Error",
-          description: `${data.message}: ${data?.error}`,
-          variant: "destructive"
-        })
+          description: data.message || "Something went wrong.",
+          variant: "destructive",
+        });
       }
-  
-      else {
-        toast({
-          title: "Internal server error",
-          description: `Server internal error please try after some time`,
-          variant: "destructive"
-        })
-      }
-    } catch (error) {
-      
-    } finally{
-      setFeedbackSent(true);
+    } catch (error: any) {
+      toast({
+        title: "Unexpected Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
     }
-  }
+  };
+
 
   const handleGoToLink = (route: string) => {
     router.push(route)

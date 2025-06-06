@@ -29,8 +29,7 @@ import { cn } from '@/lib/utils'
 import { locationIcon } from '@/constants/icons'
 import UserSlot from '@/components/common/userSlot';
 import { Loader2 } from 'lucide-react';
-//import WheelPicker from '@/components/common/wheelPicker';
-import WheelPicker from '@/components/WheelPicker';
+import WheelPicker from '@/components/common/wheelPicker';
 import { useToast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
 import { useTranslations } from 'next-intl'
@@ -71,7 +70,6 @@ export default function Calendar() {
   });
   const [showStartTimePicker, setShowStartTimePicker] = useState(false)
   const [showEndTimePicker, setShowEndTimePicker] = useState(false)
-  const [showPicker, setShowPicker] = useState(false);
 
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
@@ -574,25 +572,9 @@ export default function Calendar() {
               <div className='space-y-3 max-w-[800px] mx-auto w-full'>
                 <button disabled={true} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("date")} {format(selectedDay, 'MMM dd, yyy')}</button>
                 <button onClick={() => { setShowStartTimePicker(!showStartTimePicker); setShowEndTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("start_time")} {formatTimeToHours(startTime)}</button>
-                {showStartTimePicker && (
-                  <WheelPicker
-                    setDate={setStartTime}
-                    time={startTime}
-                    onClose={() => setShowStartTimePicker(false)}
-                  />
-                )}
-
-
+                {showStartTimePicker && <WheelPicker setDate={setStartTime} time={startTime} />}
                 <button onClick={() => { setShowEndTimePicker(!showEndTimePicker); setShowStartTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("end_time")} {formatTimeToHours(endTime)}</button>
-                {showEndTimePicker && (
-                  <WheelPicker
-                    setDate={setEndTime}
-                    isEndTime={true}
-                    time={endTime}
-                    onClose={() => setShowEndTimePicker(false)}
-                  />
-                )}
-
+                {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime} />}
                 <div className='pt-8 max-w-[800px] mx-auto w-full'>
                   {isEditPopUp ?
                     <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_lot")}</button>

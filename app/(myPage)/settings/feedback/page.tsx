@@ -15,7 +15,7 @@ function Feedback() {
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [rating, setRating] = useState(0);
   const t = useTranslations('MyPage.settings.feedback');
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const emojis = [
     '😥', // 1 - Very sad
@@ -31,45 +31,63 @@ function Feedback() {
 
   const handleSendFeedback = async () => {
     try {
+      if (!feedbackText.trim()) {
+        toast({
+          title: "Feedback Required",
+          description: "Please write something before submitting.",
+          variant: "destructive"
+        });
+        return;
+      }
+      if (!rating) {
+        toast({
+          title: "Rating Required",
+          description: "Please select an emoji rating before submitting.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: "include",
-        body: JSON.stringify({ text:feedbackText,rating }),
+        body: JSON.stringify({ text: feedbackText, rating }),
       });
-  
+
+      const data = await res.json();
+
       if (res.status === 201) {
         toast({
           title: "Success",
-          description: `Feedback has been sent successfully.`,
+          description: data.message || "Feedback has been sent successfully.",
           variant: "success"
-        })
-      }
-  
-      else if (res.status === 401) {
-        const data = await res.json()
+        });
+        setFeedbackSent(true); // ✅ ONLY here
+      } else if (res.status === 401) {
         toast({
           title: "Error",
           description: `${data.message}: ${data?.error}`,
           variant: "destructive"
-        })
-      }
-  
-      else {
+        });
+      } else {
         toast({
-          title: "Internal server error",
-          description: `Server internal error please try after some time`,
+          title: "Error",
+          description: data.message || "Server internal error, please try again later.",
           variant: "destructive"
-        })
+        });
       }
-    } catch (error) {
-      
-    } finally{
-      setFeedbackSent(true);
+    } catch (error: any) {
+      toast({
+        title: "Unexpected Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive"
+      });
     }
-  }
+  };
+
 
   const handleGoToLink = (route: string) => {
     router.push(route)

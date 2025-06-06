@@ -7,10 +7,10 @@ interface WheelPickerProps {
 }
 
 const WheelPicker: React.FC<WheelPickerProps> = ({ setDate, isEndTime = false, time }) => {
-    const initialDate = time ? new Date(time) : new Date();
-    if (!time && isEndTime) {
-      initialDate.setHours(initialDate.getHours() + 1);
-    }
+  const initialDate = time ? new Date(time) : new Date();
+  if (!time && isEndTime) {
+    initialDate.setHours(initialDate.getHours() + 1);
+  }
 
   const [selectedHour, setSelectedHour] = useState(initialDate.getHours());
   const [selectedMinute, setSelectedMinute] = useState(initialDate.getMinutes());
@@ -48,7 +48,7 @@ const WheelPicker: React.FC<WheelPickerProps> = ({ setDate, isEndTime = false, t
 
     scrollToValue(hourRef, selectedHour, hours);
     scrollToValue(minuteRef, selectedMinute, minutes);
-  }, [selectedHour, selectedMinute,hours,minutes]); 
+  }, [selectedHour, selectedMinute, hours, minutes]);
 
   return (
     <div className="flex justify-center items-center space-x-4 p-4">
@@ -62,9 +62,8 @@ const WheelPicker: React.FC<WheelPickerProps> = ({ setDate, isEndTime = false, t
           {hours.map((hour) => (
             <div
               key={hour}
-              className={`snap-center py-2 text-lg cursor-pointer ${
-                hour === selectedHour ? "text-blue-500 font-bold" : "text-gray-500"
-              }`}
+              className={`snap-center py-2 text-lg cursor-pointer ${hour === selectedHour ? "text-blue-500 font-bold" : "text-gray-500"
+                }`}
             >
               {hour.toString().padStart(2, "0")}
             </div>
@@ -84,9 +83,8 @@ const WheelPicker: React.FC<WheelPickerProps> = ({ setDate, isEndTime = false, t
           {minutes.map((minute) => (
             <div
               key={minute}
-              className={`snap-center py-2 text-lg cursor-pointer ${
-                minute === selectedMinute ? "text-blue-500 font-bold" : "text-gray-500"
-              }`}
+              className={`snap-center py-2 text-lg cursor-pointer ${minute === selectedMinute ? "text-blue-500 font-bold" : "text-gray-500"
+                }`}
             >
               {minute.toString().padStart(2, "0")}
             </div>

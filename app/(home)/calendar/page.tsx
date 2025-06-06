@@ -29,7 +29,8 @@ import { cn } from '@/lib/utils'
 import { locationIcon } from '@/constants/icons'
 import UserSlot from '@/components/common/userSlot';
 import { Loader2 } from 'lucide-react';
-import WheelPicker from '@/components/common/wheelPicker';
+//import WheelPicker from '@/components/common/wheelPicker';
+import WheelPicker from '@/components/WheelPicker';
 import { useToast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
 import { useTranslations } from 'next-intl'
@@ -70,6 +71,7 @@ export default function Calendar() {
   });
   const [showStartTimePicker, setShowStartTimePicker] = useState(false)
   const [showEndTimePicker, setShowEndTimePicker] = useState(false)
+  const [showPicker, setShowPicker] = useState(false);
 
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
@@ -160,40 +162,40 @@ export default function Calendar() {
 
     try {
 
-    const res_slots = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot?month=${month}&year=${year}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: "include",
-    });
+      const res_slots = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slot?month=${month}&year=${year}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: "include",
+      });
 
-    if (res_slots.status === 200) {
-      const data_slots = await res_slots.json();
-      setSlots(data_slots.slots)
-    }
-    else if (res_slots.status === 401) {
-      toast({
-        title: "Error",
-        description: t("unauthorizedText"),
-        variant: "destructive"
-      })
-      logout();
-    }
-    else {
-      toast({
-        title: t("serverError"),
-        description: t("serverError"),
-        variant: "destructive"
-      })
-    }
-
-    } catch (error:any) {
+      if (res_slots.status === 200) {
+        const data_slots = await res_slots.json();
+        setSlots(data_slots.slots)
+      }
+      else if (res_slots.status === 401) {
         toast({
-          title: t("serverError"),
-          description: error?.message,
+          title: "Error",
+          description: t("unauthorizedText"),
           variant: "destructive"
         })
+        logout();
+      }
+      else {
+        toast({
+          title: t("serverError"),
+          description: t("serverError"),
+          variant: "destructive"
+        })
+      }
+
+    } catch (error: any) {
+      toast({
+        title: t("serverError"),
+        description: error?.message,
+        variant: "destructive"
+      })
     }
   }
 
@@ -572,9 +574,25 @@ export default function Calendar() {
               <div className='space-y-3 max-w-[800px] mx-auto w-full'>
                 <button disabled={true} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("date")} {format(selectedDay, 'MMM dd, yyy')}</button>
                 <button onClick={() => { setShowStartTimePicker(!showStartTimePicker); setShowEndTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("start_time")} {formatTimeToHours(startTime)}</button>
-                {showStartTimePicker && <WheelPicker setDate={setStartTime} time={startTime} />}
+                {showStartTimePicker && (
+                  <WheelPicker
+                    setDate={setStartTime}
+                    time={startTime}
+                    onClose={() => setShowStartTimePicker(false)}
+                  />
+                )}
+
+
                 <button onClick={() => { setShowEndTimePicker(!showEndTimePicker); setShowStartTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("end_time")} {formatTimeToHours(endTime)}</button>
-                {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime} />}
+                {showEndTimePicker && (
+                  <WheelPicker
+                    setDate={setEndTime}
+                    isEndTime={true}
+                    time={endTime}
+                    onClose={() => setShowEndTimePicker(false)}
+                  />
+                )}
+
                 <div className='pt-8 max-w-[800px] mx-auto w-full'>
                   {isEditPopUp ?
                     <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_lot")}</button>

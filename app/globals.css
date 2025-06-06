@@ -201,3 +201,13 @@
   /* Optional: Add orange border around the white thumb */
 
 }
+
+/* global.css or tailwind.config.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

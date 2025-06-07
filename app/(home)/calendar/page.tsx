@@ -29,7 +29,8 @@ import { cn } from '@/lib/utils'
 import { locationIcon } from '@/constants/icons'
 import UserSlot from '@/components/common/userSlot';
 import { Loader2 } from 'lucide-react';
-import WheelPicker from '@/components/common/wheelPicker';
+//import WheelPicker from '@/components/common/wheelPicker';
+import WheelPicker from '@/components/WheelPicker';
 import { useToast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
 import { useTranslations } from 'next-intl'

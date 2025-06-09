@@ -6,9 +6,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import {format} from 'date-fns'
+import { useTranslations } from 'next-intl';
 
 function Finance() {
     const router = useRouter();
+    const t = useTranslations("MyPage.financePage")
     const [offset, setOffset] = useState(100);
     const [percentage, setPercentage] = useState(0);
     const [finalPercentage, setFinalPercentage] = useState(0);
@@ -106,7 +108,7 @@ function Finance() {
         <div className='flex flex-col h-full overflow-y-scroll no-scrollbar'>
             <header className="sticky z-10 top-0 w-full flex-shrink-0 h-[72px] flex items-center justify-center bg-white shadow-lg">
                 <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-                <span className="text-[16px] leading-[24px] text-center font-semibold">Finance</span>
+                <span className="text-[16px] leading-[24px] text-center font-semibold">{t("finance")}</span>
             </header>
             <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] md:w-full my-8 space-y-8'>
 
@@ -118,21 +120,21 @@ function Finance() {
                     </svg>
 
                     <div className="absolute w-[80%] flex flex-col top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                        <span className='text-center text-[12px] leading-[30px] text-[#999999] font-semibold'>Available funds</span>
+                        <span className='text-center text-[12px] leading-[30px] text-[#999999] font-semibold'>{t("availableFunds")}</span>
                         <span className="text-center text-[26px] font-bold text-[#1C1C1C] leading-[30px]">￥ {" "} {fundsAvailable.toLocaleString()}</span>
                     </div>
                 </div>
 
                 <div className='flex items-center flex-wrap gap-2 justify-between'>
-                    <div className='flex items-center justify-center flex-col gap-3 w-[90px]'> <button onClick={() => handleGoToLink("/finance/wallet")} className='h-[76px] w-[76px] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 active:scale-90'>{walletIcon}</button> <span className='block text-center text-[13px] font-medium'>My Wallet</span></div>
-                    <div className='flex items-center justify-center flex-col gap-3 w-[90px]'> <button onClick={() => handleGoToLink("/finance/statistics")} className='h-[76px] w-[76px] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 active:scale-90'>{graphIcon}</button> <span className='block text-center text-[13px] font-medium'>Statistics</span></div>
-                    <div className='flex items-center justify-center flex-col gap-3 w-[90px]'> <button onClick={() => handleGoToLink("/finance/request-payment")} className='h-[76px] w-[76px] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 active:scale-90'>{airplanIcon}</button> <span className='block text-center text-[13px] font-medium'>Send Request</span></div>
+                    <div className='flex items-center justify-center flex-col gap-3 w-[90px]'> <button onClick={() => handleGoToLink("/finance/wallet")} className='h-[76px] w-[76px] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 active:scale-90'>{walletIcon}</button> <span className='block text-center text-[13px] font-medium'>{t("myWallet")}</span></div>
+                    <div className='flex items-center justify-center flex-col gap-3 w-[90px]'> <button onClick={() => handleGoToLink("/finance/statistics")} className='h-[76px] w-[76px] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 active:scale-90'>{graphIcon}</button> <span className='block text-center text-[13px] font-medium'>{t("statistics")}</span></div>
+                    <div className='flex items-center justify-center flex-col gap-3 w-[90px]'> <button onClick={() => handleGoToLink("/finance/request-payment")} className='h-[76px] w-[76px] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-all duration-300 active:scale-90'>{airplanIcon}</button> <span className='block text-center text-[13px] font-medium'>{t("sendRequest")}</span></div>
                 </div>
 
                 <div className='space-y-4 py-4'>
                 <div className='flex items-center justify-between'>
-                    <span className='text-[16px] font-medium'>Recent</span>
-                    <Link className='text-[13px] font-medium text-[#999999] underline' href={'/finance/wallet/transfer-history'}>View all</Link>
+                    <span className='text-[16px] font-medium'>{t("recent")}</span>
+                    <Link className='text-[13px] font-medium text-[#999999] underline' href={'/finance/wallet/transfer-history'}>{t("viewAll")}</Link>
                 </div>
                 {
                     loading ?
@@ -183,8 +185,8 @@ function Finance() {
                         return (
                         <div key={index} className='shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-4 gap-4 rounded-lg flex flex-wrap items-center justify-between'>
                             <div className='flex flex-col items-start gap-2'>
-                            <span className='text-[14px] font-semibold'>Amount Transfered</span>
-                            <span className='text-[11px] font-normal text-[#999999]'>Transfer money to bank</span>
+                            <span className='text-[14px] font-semibold'>{t("amountTransfered")}</span>
+                            <span className='text-[11px] font-normal text-[#999999]'>{t("transferMoneyToBank")}</span>
                             </div>
                             <div className='flex flex-col items-end gap-2'>
                             <span className={`text-[14px] font-semibold ${item.type === "credit" ? "text-[#2EC4B6]" : "text-[#E6492D]"}`}>￥ {item.amount}</span>

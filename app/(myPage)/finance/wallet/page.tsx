@@ -13,9 +13,12 @@ import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 import { useLogout } from '@/lib/logout';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslations } from 'next-intl';
+import { format } from 'date-fns';
 
 function Wallet() {
   const router = useRouter();
+  const t = useTranslations("MyPage.financePage.walletPage")
   const logout = useLogout();
   const {toast} = useToast();
   const [loading, setLoading] = useState(true);
@@ -146,7 +149,7 @@ function Wallet() {
     <div className='h-full overflow-scroll no-scrollbar'>
       <header className="sticky top-0 z-10 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">My Wallet</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("myWallet")}</span>
       </header>
       <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] my-8 space-y-8'>
         <div className="mx-auto min-w-52 space-y-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.15)] rounded-xl">
@@ -185,7 +188,7 @@ function Wallet() {
                 ￥ {fundsAvailable?.toLocaleString()}
               </span>
             )}
-            <span className='text-center text-[12px] leading-[30px] text-[#999999] font-semibold'>Available Balance</span>
+            <span className='text-center text-[12px] leading-[30px] text-[#999999] font-semibold'>{t("availableFunds")}</span>
           </div>
           <div className='flex items-center justify-around'>
             {/* <div className="flex flex-col px-4">
@@ -197,7 +200,7 @@ function Wallet() {
               <span className="text-center text-[15px] font-bold text-secondary">￥ {totalFunds.toLocaleString()}</span>
             </div> */}
             <div className="flex flex-col px-4">
-              <span className='text-center text-[12px] text-[#999999] font-semibold'>Transfered</span>
+              <span className='text-center text-[12px] text-[#999999] font-semibold'>{t("transfered")}</span>
               {loading ? (
                 <span className="h-[15px] w-24 bg-gray-200 animate-pulse rounded-lg"></span>
               ) : (
@@ -206,7 +209,7 @@ function Wallet() {
             </div>
 
             <div className="flex flex-col">
-              <span className='text-center text-[12px] text-[#999999] font-semibold'>Total</span>
+              <span className='text-center text-[12px] text-[#999999] font-semibold'>{t("total")}</span>
               {loading ? (
                 <span className="h-[15px] w-24 bg-gray-200 animate-pulse rounded-lg"></span>
               ) : (
@@ -217,8 +220,8 @@ function Wallet() {
         </div>
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>
-            <span className='text-[16px] font-medium'>History</span>
-            <Link className='text-[13px] font-medium text-[#999999] underline' href={'/finance/wallet/transfer-history'}>View all</Link>
+            <span className='text-[16px] font-medium'>{t("history")}</span>
+            <Link className='text-[13px] font-medium text-[#999999] underline' href={'/finance/wallet/transfer-history'}>{t("viewAll")}</Link>
           </div>
           <div className='space-y-4 py-4'>
             {
@@ -270,12 +273,12 @@ function Wallet() {
                   return (
                     <div key={index} className='shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-4 gap-4 rounded-lg flex flex-wrap items-center justify-between'>
                       <div className='flex flex-col items-start gap-2'>
-                        <span className='text-[14px] font-semibold'>Amount Transfered</span>
-                        <span className='text-[11px] font-normal text-[#999999]'>Transfer money to bank</span>
+                        <span className='text-[14px] font-semibold'>{t("amountTransfered")}</span>
+                        <span className='text-[11px] font-normal text-[#999999]'>{t("transferMoneyToBank")}</span>
                       </div>
                       <div className='flex flex-col items-end gap-2'>
                         <span className={`text-[14px] font-semibold ${item.type === "credit" ? "text-[#2EC4B6]" : "text-[#E6492D]"}`}>￥ {item.amount}</span>
-                        <span className='text-[12px] font-normal text-[#999999]'>{item.date}</span>
+                        <span className='text-[12px] font-normal text-[#999999]'>{format(item.date, 'yyyy-MMM-dd')}</span>
                       </div>
                     </div>
                   )

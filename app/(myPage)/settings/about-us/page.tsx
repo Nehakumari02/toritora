@@ -4,9 +4,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import feedbackHeroImage from '@/public/images/common/feedbackHeroImage.png';
+import { useTranslations } from 'next-intl';
 
 function AboutUs() {
   const router = useRouter();
+  const t = useTranslations("MyPage.settings.aboutToritoraPage")
 
   const handleGoBack = ()=>{
     router.back();
@@ -20,7 +22,7 @@ function AboutUs() {
     <div className=''>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">About Us</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("aboutUs")}</span>
       </header>
       
       <div className='h-full flex flex-col items-center justify-center gap-32'>
@@ -28,7 +30,7 @@ function AboutUs() {
           <Image src={feedbackHeroImage} alt='Success' className='w-[220px] aspect-square'/>
         </div>
         <div className='text-center'>
-          <span className='font-semibold text-[40px] leading-[64px] text-secondary'>Coming soon</span>
+          <span className='font-semibold text-[40px] leading-[64px] text-secondary'>{t("comingSoon")}</span>
         </div>
       </div>
     </div>

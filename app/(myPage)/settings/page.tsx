@@ -13,10 +13,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useTranslations } from 'next-intl';
 
 function Settings() {
   const router = useRouter();
   const [langPopup, setLangPopup] = useState(false);
+  const t = useTranslations("MyPage.settings");
 
   const [locale, setLocale] = useState<string>("");
 
@@ -70,16 +72,62 @@ function Settings() {
     router.push(route)
   }
 
+  const accountSettings = [
+    {
+      name:t("changeUserInformation"),
+      link:"/editProfile",
+      icon:profileIcon
+    },
+    {
+      name:t("shootingSettings"),
+      link:"/settings/shooting-settings",
+      icon:locationIcon
+    },
+    {
+      name:t("notificationSettings"),
+      link:"/settings/notification-settings",
+      icon:bellIcon
+    },
+  ]
+  
+  const otherSettings = [
+    {
+      name:t("aboutToritora"),
+      link:"/settings/about-us",
+      icon:infoIcon
+    },
+    {
+      name:t("termsOfService"),
+      link:"/terms-of-use",
+      icon:fileIcon
+    },
+    {
+      name:t("privacyPolicy"),
+      link:"/help/privacy",
+      icon:shieldIcon
+    },
+    {
+      name:t("help"),
+      link:"/help",
+      icon:questionMarkIcon
+    },
+    {
+      name:t("giveFeedback"),
+      link:"/settings/feedback",
+      icon:feedbackIcon
+    },
+  ]
+
   return (
     <div className='bg-[#f8fcfd] h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">My Settings</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("mySettings")}</span>
       </header>
 
       <div className='md:grid md:grid-cols-2 md:max-w-[800px] mx-auto'>
         <div className='space-y-4 mx-4 mt-8'>
-          <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>ACCOUNT</span>
+          <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>{t("account")}</span>
           <div className='flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {accountSettings.map((item,index)=>{
               return(
@@ -94,14 +142,14 @@ function Settings() {
             <Dialog open={langPopup} onOpenChange={setLangPopup}>
               <DialogTrigger asChild>
                 <button className='w-full h-8 flex items-center justify-between'>
-                  <span className='flex items-center justify-center gap-4 font-normal text-[12px] leading-[18px] text-[#111111]'>{langIcon} Change Language</span>
+                  <span className='flex items-center justify-center gap-4 font-normal text-[12px] leading-[18px] text-[#111111]'>{langIcon} {t("changeLanguage")}</span>
 
                   {rightArrowIcon}
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px] rounded-md">
                 <DialogHeader>
-                  <DialogTitle>Choose Language</DialogTitle>
+                  <DialogTitle>{t("chooseLanguage")}</DialogTitle>
                   <DialogDescription>
 
                   </DialogDescription>
@@ -118,7 +166,7 @@ function Settings() {
         </div>
 
         <div className='space-y-4 mx-4 mt-8'>
-          <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>OTHER</span>
+          <span className='font-medium text-[12px] leading-[18px] text-[#999999]'>{t("other")}</span>
           <div className='flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             {otherSettings.map((item,index)=>{
               return(
@@ -130,7 +178,7 @@ function Settings() {
               )
             })}
             <button className='w-full h-8 flex items-center justify-between' onClick={logout}>
-              <span className='flex items-center justify-center gap-4 font-normal text-[12px] leading-[18px] text-[#111111]'>{logoutIcon} Log Out</span>
+              <span className='flex items-center justify-center gap-4 font-normal text-[12px] leading-[18px] text-[#111111]'>{logoutIcon} {t("logout")}</span>
 
               {rightArrowIcon}
             </button>
@@ -195,50 +243,3 @@ const logoutIcon = <svg width="22" height="18" viewBox="0 0 22 18" fill="none" x
 const rightArrowIcon = <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10.25 7.5L14.75 12L10.25 16.5" stroke="#999999" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
-
-
-const accountSettings = [
-  {
-    name:"Change user information",
-    link:"/editProfile",
-    icon:profileIcon
-  },
-  {
-    name:"Shooting Settings",
-    link:"/settings/shooting-settings",
-    icon:locationIcon
-  },
-  {
-    name:"Notification Settings",
-    link:"/settings/notification-settings",
-    icon:bellIcon
-  },
-]
-
-const otherSettings = [
-  {
-    name:"About Toritora",
-    link:"/settings/about-us",
-    icon:infoIcon
-  },
-  {
-    name:"Terms of Service",
-    link:"/terms-of-use",
-    icon:fileIcon
-  },
-  {
-    name:"Privacy Policy",
-    link:"/help/privacy",
-    icon:shieldIcon
-  },
-  {
-    name:"Help / Enquiry",
-    link:"/help",
-    icon:questionMarkIcon
-  },
-  {
-    name:"Give Feedback",
-    link:"/settings/feedback",
-    icon:feedbackIcon
-  },
-]

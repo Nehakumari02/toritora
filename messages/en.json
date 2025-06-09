@@ -370,6 +370,20 @@
             "enterTwitter": "Enter Twitter username"
         },
         "settings": {
+            "mySettings":"My Settings",
+            "account":"ACCOUNT",
+            "changeUserInformation":"Change user information",
+            "shootingSettings":"Shooting Settings",
+            "notificationSettings":"Notification Settings",
+            "changeLanguage":"Change Language",
+            "chooseLanguage":"Choose Language",
+            "other":"OTHER",
+            "aboutToritora":"About Toritora",
+            "termsOfService":"Terms of Service",
+            "privacyPolicy":"Privacy Policy",
+            "help":"Help / Enquiry",
+            "giveFeedback":"Give Feedback",
+            "logout":"Logout",
             "feedback": {
                 "giveFeedback": "Give Feedback",
                 "successMessage": "Your feedback is sent successfully.",
@@ -379,12 +393,128 @@
                 "additionalComments": "Additional Comments",
                 "feedbackPlaceholder": "Enter characters up to 0 to 100 words",
                 "send": "SEND"
+            },
+            "aboutToritoraPage":{
+                "aboutUs":"About Us",
+                "comingSoon":"Coming Soon"
+            },
+            "termsOfServicePage":{
+                "":""
+            },
+            "privacyPolicyPage":{
+                "privacy":"Privacy"
+            },
+            "shootingSettingsPage":{
+                "shootingSettings":"Shooting Settings",
+                "comingSoon":"Coming Soon"
+            },
+            "notificationSettingsPage":{
+                "notificationSettings":"Notification Settings",
+                "comingSoon":"Coming Soon"
             }
         },
         "shooting": {
             "upcoming": {},
             "requestList": {},
             "kikaku": {}
+        },
+        "helpPage":{
+            "help":"Help / How to use Toritora",
+            "help1":"What is 'Toritai / Toraretai?'",
+            "help1_description":"'Toritai / Toraretai' is a feature that allows you to express your desire to either take photos or be photographed in advance. You can only send it once to the same user, so please think carefully and send a thoughtful message.",
+            "help2":"Contact",
+            "help2_description":"Please note that it may take several days for us to respond to your inquiry."
+        },
+        "shootingRequestListPage":{
+            "shootingRequestList":"Shooting request list",
+            "requestSent":"Request sent",
+            "requestRecieved":"Request Received",
+            "showDetails":"Show details",
+            "hideDetails":"Hide Details",
+            "accepted":"Accepted",
+            "rejected":"Rejected",
+            "cancelled":"Cancelled",
+            "normalOccasion":"Normal Occasion",
+            "rainyOccasion":"Rainy Occasion",
+            "shootingPlace":"Shooting Place",
+            "shootingLocation":"Shooting Location",
+            "meetingPoint":"Meeting Point",
+            "shootingConcept":"Shooting Concept",
+            "clothingType":"Clothing Type",
+            "shoesType":"Shoes Type",
+            "itemsType":"Items Type",
+            "makeupType":"Makeup Type",
+            "noReceivedRequests":"No received requests.",
+            "noSentRequests":"No sent requests."
+        },
+        "toritaiToraretaiPage":{
+            "toritaiToraretai":"Toritai Toraretai",
+            "toritai":"Toritai",
+            "toraretai":"Toraretai",
+            "gaveThanks":"gave you TORITAI",
+            "thanks":"Thanks",
+            "youSentToraretai":"You sent TORARETAI"
+        },
+        "myFavouritesPage":{
+            "favourites":"Favourites",
+            "loadMore":"Load more",
+            "showing":"Showing"
+        },
+        "toritoraCollegePage":{
+
+        },
+        "manageKikakuPage":{
+
+        },
+        "financePage":{
+            "finance":"Finance",
+            "availableFunds":"Available funds",
+            "myWallet":"My Wallet",
+            "statistics":"Statistics",
+            "sendRequest":"Send Request",
+            "recent":"Recent",
+            "viewAll":"View All",
+            "amountTransfered":"Amount Transfered",
+            "transferMoneyToBank":"Transfer money to bank",
+            "walletPage":{
+                "myWallet":"My Wallet",
+                "availableFunds":"Available funds",
+                "transfered":"Transfered",
+                "total":"Total",
+                "history":"History",
+                "viewAll":"View All",
+                "amountTransfered":"Amount Transfered",
+                "transferMoneyToBank":"Transfer money to bank"
+            },
+            "transferHistoryPage":{
+                "transferHistory":"Transfer History",
+                "history":"History",
+                "amountTransfered":"Amount Transfered",
+                "transferMoneyToBank":"Transfer money to bank",
+                "loadMore":"Load more"
+            },
+            "sendRequestPage":{
+                "sendRequest":"Send Request",
+                "warn":"Please read before proceeding",
+                "warn1":"One more free time is available for this month.",
+                "warn2":"You will be responsible for the transfer fee.",
+                "availableBalance":"Available Balance",
+                "transferAmount":"Transfer Amount",
+                "transferWarn":"Up to 1,000,000 yen can be transferred.",
+                "remittanceRequest":"Remittance Request",
+                "confirmSendRequest":"Do you want to send request?",
+                "cancelSendRequest":"If not, please click on &quot;NO&quot; button.",
+                "no":"NO",
+                "yes":"YES",
+                "requestSentSuccess":"Request sent successfully",
+                "requestSentMessage":"Your request was sent to Toritora Management",
+                "paymentInfo":"You will receive the payment within 14 business days."
+            },
+            "statisticsPage":{
+                "statistics":"Statistics",
+                "graphicalRepresentaion":"Graphical Representation",
+                "totalEarnings":"Total Earnings"
+            }
         }
     }
 }

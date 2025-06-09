@@ -7,6 +7,7 @@ import { useLogout } from '@/lib/logout';
 import { toast } from '@/hooks/use-toast';
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import Ghost from '@/public/images/mypage/ghost.gif'
+import { useTranslations } from 'next-intl';
 
 export interface SentToritai {
   _id: string;
@@ -41,6 +42,7 @@ export interface RecToritai {
 
 function Toritai() {
   const router = useRouter();
+  const t = useTranslations("MyPage.toritaiToraretaiPage")
   const [selectedMode,setSelectedMode] = useState(0);
   const [loading, setLoading] = useState(true);
   const [sentToritai,setSentToritai] = useState<{ [date: string]: SentToritai[] }>({});
@@ -120,15 +122,15 @@ function Toritai() {
     <div className='flex flex-col h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Shooting request list</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("toritaiToraretai")}</span>
       </header>
 
       <div className='pb-6 overflow-y-scroll max-w-[800px] w-full mx-auto flex-1 bg-[#f8fcfd] no-scrollbar'>
         {/* Tab selector */}
         <div className='bg-primary-foreground my-4'>
           <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
-            <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Toritai</button>
-            <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Toraretai</button>
+            <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{t("toritai")}</button>
+            <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{t("toraretai")}</button>
           </div>
         </div>
 
@@ -146,10 +148,10 @@ function Toritai() {
                   </div>
                   <div className='flex flex-col items-start justify-center'>
                     <span className='text-[12px] leading-[18px] font-semibold text-[#111111]'>{record.user_id?.firstName} {record.user_id?.lastName}</span>
-                    <span className='text-[12px] leading-[18px] font-semibold text-[#999999]'>{record.user_id?.firstName} gave you TORITAI</span>
+                    <span className='text-[12px] leading-[18px] font-semibold text-[#999999]'>{record.user_id?.firstName} {t("gaveThanks")}</span>
                   </div>
 
-                  <button className='ml-auto font-semibold text-[11px] leading-[17px] text-white bg-secondary text-center w-[94px] h-[32px] rounded-sm'>Thanks</button>
+                  <button className='ml-auto font-semibold text-[11px] leading-[17px] text-white bg-secondary text-center w-[94px] h-[32px] rounded-sm'>{t("thanks")}</button>
                   </div>
                   <div className='flex flex-col items-start justify-center w-full'>
                     <span className='text-[12px] leading-[18px] font-semibold text-[#111111]'>{record.question1}</span>
@@ -174,7 +176,7 @@ function Toritai() {
                   </div>
                   <div className='flex flex-col items-start justify-center'>
                     <span className='text-[12px] leading-[18px] font-semibold text-[#111111]'>{record.user_id_2?.firstName} {record.user_id_2?.lastName}</span>
-                    <span className='text-[12px] leading-[18px] font-semibold text-[#999999]'>You sent TORARETAI</span>
+                    <span className='text-[12px] leading-[18px] font-semibold text-[#999999]'>{t("youSentToraretai")}</span>
                   </div>
                 </div>
               ))}

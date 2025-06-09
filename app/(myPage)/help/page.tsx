@@ -1,10 +1,12 @@
 "use client"
 import { backIcon } from '@/constants/icons';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
 function Help() {
   const router = useRouter();
+  const t = useTranslations("MyPage.helpPage")
 
   const handleGoBack = ()=>{
     router.back();
@@ -14,11 +16,44 @@ function Help() {
     router.push(route)
   }
 
+  const helpMenuList = [
+    // {
+    //   name:"Features",
+    //   link:"/help/features",
+    //   icon:questionIcon
+    // },
+    // {
+    //   name:"Safety",
+    //   link:"/help/safety",
+    //   icon:questionIcon
+    // },
+    // {
+    //   name:"Privacy",
+    //   link:"/help/privacy",
+    //   icon:questionIcon
+    // },
+    // {
+    //   name:"Copyright",
+    //   link:"/help/copy-right",
+    //   icon:questionIcon
+    // },
+    {
+      name:t("help1"),
+      link:"/help/what-is-toritai",
+      icon:questionIcon
+    },
+    {
+      name:t("help2"),
+      link:"/help/contact",
+      icon:questionIcon
+    },
+  ]
+
   return (
     <div className=''>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Help / How to use Toritora</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("help")}</span>
       </header>
 
       <div className='flex flex-col items-center justify-center gap-6 p-4 mx-4 mt-4 bg-white rounded-lg shadow-md md:max-w-[800px] md:mx-auto'>
@@ -46,26 +81,3 @@ const questionIcon = <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
 const rightArrowIcon = <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10.25 7.5L14.75 12L10.25 16.5" stroke="#999999" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
-
-const helpMenuList = [
-  {
-    name:"Features",
-    link:"/help/features",
-    icon:questionIcon
-  },
-  {
-    name:"Safety",
-    link:"/help/safety",
-    icon:questionIcon
-  },
-  {
-    name:"Privacy",
-    link:"/help/privacy",
-    icon:questionIcon
-  },
-  {
-    name:"Copyright",
-    link:"/help/copy-right",
-    icon:questionIcon
-  },
-]

@@ -4,11 +4,13 @@ import { toast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
 import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 function TransferHistory() {
   const router = useRouter();
+  const t = useTranslations("MyPage.financePage.transferHistoryPage")
   const logout = useLogout();
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -141,7 +143,7 @@ function TransferHistory() {
     <div className='overflow-y-scroll no-scrollbar h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Transfer History</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("transferHistory")}</span>
       </header>
       <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] my-4 space-y-4'>
 
@@ -149,7 +151,7 @@ function TransferHistory() {
         <div className="mx-auto min-w-52 space-y-4 py-4">
           <div className='space-y-4'>
             <div className='flex items-center justify-between'>
-              <span className='text-[16px] font-medium'>History</span>
+              <span className='text-[16px] font-medium'>{t("history")}</span>
             </div>
             <div className='space-y-4 py-4'>
               {
@@ -201,8 +203,8 @@ function TransferHistory() {
                     return (
                       <div key={index} className='shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-4 gap-4 rounded-lg flex flex-wrap items-center justify-between'>
                         <div className='flex flex-col items-start gap-2'>
-                          <span className='text-[14px] font-semibold'>Amount Transfered</span>
-                          <span className='text-[11px] font-normal text-[#999999]'>Transfer money to bank</span>
+                          <span className='text-[14px] font-semibold'>{t("amountTransfered")}</span>
+                          <span className='text-[11px] font-normal text-[#999999]'>{t("transferMoneyToBank")}</span>
                         </div>
                         <div className='flex flex-col items-end gap-2'>
                           <span className={`text-[14px] font-semibold ${item.type === "credit" ? "text-[#2EC4B6]" : "text-[#E6492D]"}`}>￥ {item.amount}</span>
@@ -279,7 +281,7 @@ function TransferHistory() {
               </div> */}
             </div>
             <div>
-              {!loading && hasMore && <button disabled={loadingMore} onClick={loadMore} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingMore ? <Loader2 className='animate-spin' /> : "Load more"}</button>}
+              {!loading && hasMore && <button disabled={loadingMore} onClick={loadMore} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingMore ? <Loader2 className='animate-spin' /> : t("loadMore")}</button>}
             </div>
           </div>
         </div>

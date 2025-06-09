@@ -9,9 +9,11 @@ import { useLogout } from '@/lib/logout';
 import TileSkeleton from '@/components/common/tileSkeleton';
 import { UserTile } from '@/components/common/tile';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 function Favourites() {
   const router = useRouter();
+  const t = useTranslations("MyPage.myFavouritesPage")
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [favUser, setFavUser] = useState<any>([]);
@@ -150,7 +152,7 @@ function Favourites() {
     <div className='overflow-y-scroll no-scrollbar h-full bg-[#F0F0F1]'>
       <header className="sticky z-50 top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Favourites</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("favourites")}</span>
       </header>
       
       {/* <div className='h-full flex flex-col items-center justify-center gap-32'>
@@ -179,8 +181,8 @@ function Favourites() {
               }
             </div>
             <div>
-              <span>Showing {hasMore?`${pageSize*(pageNo-1)}`:`${totalCount}`} of {totalCount} </span>
-              {!loading && hasMore && <button disabled={loadingMore} onClick={loadMore} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingMore ? <Loader2 className='animate-spin' /> : "Load more"}</button>}
+              <span>{t("showing")} {hasMore?`${pageSize*(pageNo-1)}`:`${totalCount}`} / {totalCount} </span>
+              {!loading && hasMore && <button disabled={loadingMore} onClick={loadMore} className='w-full h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingMore ? <Loader2 className='animate-spin' /> : t("loadMore")}</button>}
             </div>
           </div>
         </div>

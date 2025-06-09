@@ -9,6 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useTranslations } from 'next-intl';
 
 const chartData = [
   { month: "January", desktop: 186 },
@@ -27,6 +28,7 @@ const chartConfig = {
 
 function Statistics() {
   const router = useRouter();
+  const t = useTranslations("MyPage.financePage.statisticsPage")
   const [fundsAvailable, setFundsAvailable] = useState(0);
   const [totalFundsAvailable, setTotalFundsAvailable] = useState(1615720);
 
@@ -57,14 +59,14 @@ function Statistics() {
     <div className=''>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Statistics</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("statistics")}</span>
       </header>
       <div className='mx-4 md:mx-auto md:px-4 md:max-w-[800px] my-8 space-y-8'>
-        <span className='text-[16px] font-medium'>Graphical Representation</span>
+        <span className='text-[16px] font-medium'>{t("graphicalRepresentaion")}</span>
         <div className='space-y-4'>
           <div className='shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-4 rounded-lg flex flex-wrap items-center justify-between'>
             <div className='flex flex-col items-start gap-2'>
-              <span className='text-[12px] font-semibold text-[#999999]'>Total Earnings</span>
+              <span className='text-[12px] font-semibold text-[#999999]'>{t("totalEarnings")}</span>
               <span className='text-[10px] font-normal text-[#999999]'>Jan 2023</span>
             </div>
             <div className='flex flex-col items-end gap-2'>

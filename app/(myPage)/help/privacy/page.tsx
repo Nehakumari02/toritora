@@ -1,10 +1,12 @@
 "use client"
 import { backIcon } from '@/constants/icons';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
 function Help() {
   const router = useRouter();
+  const t = useTranslations("MyPage.settings.privacyPolicyPage")
 
   const handleGoBack = ()=>{
     router.back();
@@ -21,7 +23,27 @@ function Help() {
         <span className="text-[16px] leading-[24px] text-center font-semibold">Privacy</span>
       </header>
 
-      <div className='mx-8 py-8 space-y-8 md:max-w-[800px] md:mx-auto'>
+      {/* <div className='mx-8 py-8 space-y-8 md:max-w-[800px] md:mx-auto'>
+        {privacyList.map((feature,index)=>{
+          return(
+            <div className='space-y-4' key={index}>
+              <span className='font-semibold text-[18px] leading-[24px] text-[#111111]'>{feature.name}</span>
+              <div className='pl-4 space-y-2'>
+                {feature.subItems.map((item,index)=>{
+                  return(
+                    <div className='' key={index}>
+                      <span className='font-semibold text-[16px] leading-[20px] text-[#333333]'>{item.name} : </span>
+                      <span className='font-normal text-[14px] leading-[20px] text-[#333333]'>{item.description}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
+      </div> */}
+
+<div className='mx-8 py-8 space-y-8 md:max-w-[800px] md:mx-auto'>
         {privacyList.map((feature,index)=>{
           return(
             <div className='space-y-4' key={index}>

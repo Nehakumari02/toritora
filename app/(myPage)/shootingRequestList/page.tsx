@@ -9,6 +9,7 @@ import { Check, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import Ghost from '@/public/images/mypage/ghost.gif'
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
+import { useTranslations } from 'use-intl';
 
 interface User {
   _id: string;
@@ -85,6 +86,7 @@ interface BookingRequestSent {
 
 function ShootingRequestList() {
   const router = useRouter();
+  const t = useTranslations("MyPage.shootingRequestListPage")
   const [selectedMode,setSelectedMode] = useState(0);
   const [loading, setLoading] = useState(true);
   const [sentRequests,setSentRequests] = useState<BookingRequestSent[]>([]);
@@ -214,14 +216,14 @@ function ShootingRequestList() {
     <div className='flex flex-col h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">Shooting request list</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("shootingRequestList")}</span>
       </header>
 
       {/* Tab selector */}
       <div className='bg-primary-foreground my-4'>
         <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
-          <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Request recieved</button>
-          <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Request sent</button>
+          <button onClick={()=>setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{t("requestRecieved")}</button>
+          <button onClick={()=>setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{t("requestSent")}</button>
         </div>
       </div>
 
@@ -288,36 +290,36 @@ function ShootingRequestList() {
                           </button>
                         </>
                       }
-                      {request.status === "approved" && <span className='text-right font-semibold text-[16px] leading-[24px] text-green-500'>Accepted</span>}
-                      {request.status === "rejected" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>Rejected</span>}
-                      {request.status === "cancelled_by_sender" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>Cancelled</span>}
+                      {request.status === "approved" && <span className='text-right font-semibold text-[16px] leading-[24px] text-green-500'>{t("accepted")}</span>}
+                      {request.status === "rejected" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>{t("rejected")}</span>}
+                      {request.status === "cancelled_by_sender" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>{t("cancelled")}</span>}
                     </div>
 
                       <div className='w-full flex justify-end'>
-                        <button onClick={() => handleToggleExpand(request._id)} className='underline'>{isExpanded?"Hide details":"Show details"}</button>
+                        <button onClick={() => handleToggleExpand(request._id)} className='underline'>{isExpanded?t("hideDetails"):t("showDetails")}</button>
                       </div>
                       <div className={`w-full p-4 border-t space-y-4 border-gray-200 ${isExpanded?"":"hidden"}`}>
                         <div className=''>
-                          <span className='text-[14px] font-semibold'>Normal Occasion</span>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Place:</span> {request?.shootingPlace || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Location:</span> {request?.shootingLocation || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Meeting Point:</span> {request?.meetingPoint || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Concept:</span> {request?.shootingConcept || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Clothing Type:</span> {request?.clothingType || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shoes Type:</span> {request?.shoesType || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Items Type:</span> {request?.itemsType || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Makeup Type:</span> {request?.makeUpType || "N/A" }</p>
+                          <span className='text-[14px] font-semibold'>{t("normalOccasion")}</span>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingPlace")}:</span> {request?.shootingPlace || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingLocation")}:</span> {request?.shootingLocation || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("meetingPoint")}:</span> {request?.meetingPoint || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingConcept")}:</span> {request?.shootingConcept || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("clothingType")}:</span> {request?.clothingType || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shoesType")}:</span> {request?.shoesType || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("itemsType")}:</span> {request?.itemsType || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("makeupType")}:</span> {request?.makeUpType || "N/A" }</p>
                         </div>
                         <div className=''>
-                          <span className='text-[14px] font-semibold'>Rainy Occasion</span>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Place:</span> {request?.shootingPlaceRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Location:</span> {request?.shootingLocationRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Meeting Point:</span> {request?.meetingPointRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shooting Concept:</span> {request?.shootingConceptRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Clothing Type:</span> {request?.clothingTypeRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Shoes Type:</span> {request?.shoesTypeRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Items Type:</span> {request?.itemsTypeRainy || "N/A" }</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>Makeup Type:</span> {request?.makeUpTypeRainy || "N/A" }</p>
+                          <span className='text-[14px] font-semibold'>{t("rainyOccasion")}</span>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingPlace")}:</span> {request?.shootingPlaceRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingLocation")}:</span> {request?.shootingLocationRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("meetingPoint")}:</span> {request?.meetingPointRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingConcept")}:</span> {request?.shootingConceptRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("clothingType")}:</span> {request?.clothingTypeRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shoesType")}:</span> {request?.shoesTypeRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("itemsType")}:</span> {request?.itemsTypeRainy || "N/A" }</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("makeupType")}:</span> {request?.makeUpTypeRainy || "N/A" }</p>
                         </div>
                       </div>
 
@@ -328,7 +330,7 @@ function ShootingRequestList() {
           ) : (
             <div className="text-gray-500 text-center flex flex-col items-center justify-center">
               <Image height={150} width={150} src={Ghost} alt='' className=''/>
-              <span>No received requests.</span>
+              <span>{t("noReceivedRequests")}</span>
             </div>
           )}
         </div>
@@ -387,9 +389,9 @@ function ShootingRequestList() {
                         </button>
                       </>
                     }
-                    {request.status === "approved" && <span className='text-right font-semibold text-[16px] leading-[24px] text-green-500'>Accepted</span>}
-                    {request.status === "rejected" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>Rejected</span>}
-                    {request.status === "cancelled_by_sender" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>Cancelled</span>}
+                    {request.status === "approved" && <span className='text-right font-semibold text-[16px] leading-[24px] text-green-500'>{t("accepted")}</span>}
+                    {request.status === "rejected" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>{t("rejected")}</span>}
+                    {request.status === "cancelled_by_sender" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>{t("cancelled")}</span>}
                   </div>
                 </div>);
               })}
@@ -397,7 +399,7 @@ function ShootingRequestList() {
           ) : (
             <div className="text-gray-500 text-center flex flex-col items-center justify-center">
               <Image height={150} width={150} src={Ghost} alt='' className=''/>
-              <span>No sent requests.</span>
+              <span>{t("noSentRequests")}</span>
             </div>
           )}
         </div>

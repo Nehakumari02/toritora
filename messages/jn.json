@@ -370,6 +370,20 @@
             "enterTwitter": "Twitterユーザー名を入力してください"
         },
         "settings": {
+            "mySettings": "マイ設定",
+            "account": "アカウント",
+            "changeUserInformation": "ユーザー情報を変更する",
+            "shootingSettings": "撮影設定",
+            "notificationSettings": "通知設定",
+            "changeLanguage": "言語を変更する",
+            "chooseLanguage": "言語を選択",
+            "other": "その他",
+            "aboutToritora": "トリトラについて",
+            "termsOfService": "利用規約",
+            "privacyPolicy": "プライバシーポリシー",
+            "help": "ヘルプ / お問い合わせ",
+            "giveFeedback": "フィードバックを送る",
+            "logout": "ログアウト",
             "feedback": {
                 "giveFeedback": "フィードバックを送る",
                 "successMessage": "フィードバックが正常に送信されました",
@@ -379,6 +393,127 @@
                 "additionalComments": "追加のコメント",
                 "feedbackPlaceholder": "0～100文字以内で入力してください",
                 "send": "送信"
+            },
+            "aboutToritoraPage": {
+                "aboutUs": "私たちについて",
+                "comingSoon": "近日公開"
+            },
+            "termsOfServicePage":{
+                "":""
+            },
+            "privacyPolicyPage":{
+                "privacy":"Privacy"
+            },
+            "shootingSettingsPage": {
+                "shootingSettings": "撮影設定",
+                "comingSoon": "近日公開"
+            },
+            "notificationSettingsPage": {
+                "notificationSettings": "通知設定",
+                "comingSoon": "近日公開"
+            }
+        },
+        "shooting": {
+            "upcoming": {},
+            "requestList": {},
+            "kikaku": {}
+        },
+        "helpPage":{
+            "help":"ヘルプ / トリトラの使い方",
+            "help1":"撮りたい・撮られたいとはなんですか?",
+            "help1_description":"撮りたい・撮られたいとは、撮影を行いたい気持ちを、事前に伝えることができる機能です。同じユーザーには1度きりしか送ることができないため、よく内容を考えてメッセージを送信してみてください。コンタクト",
+            "help2":"コンタクト",
+            "help2_description":"お問い合わせには日数を要する場合がございます。"
+        },
+        "shootingRequestListPage": {
+            "shootingRequestList": "撮影リクエスト一覧",
+            "requestSent": "送信済みリクエスト",
+            "requestRecieved": "受信したリクエスト",
+            "showDetails": "詳細を表示",
+            "hideDetails": "詳細を非表示",
+            "accepted": "承認済み",
+            "rejected": "拒否済み",
+            "cancelled": "キャンセル済み",
+            "normalOccasion": "通常のシーン",
+            "rainyOccasion": "雨の日のシーン",
+            "shootingPlace": "撮影場所",
+            "shootingLocation": "撮影ロケーション",
+            "meetingPoint": "集合場所",
+            "shootingConcept": "撮影コンセプト",
+            "clothingType": "服装の種類",
+            "shoesType": "靴の種類",
+            "itemsType": "持ち物の種類",
+            "makeupType": "メイクの種類",
+            "noReceivedRequests": "受信したリクエストはありません。",
+            "noSentRequests": "送信したリクエストはありません。"
+        },
+        "toritaiToraretaiPage": {
+            "toritaiToraretai": "撮りたい・撮られたい",
+            "toritai": "撮りたい",
+            "toraretai": "撮られたい",
+            "gaveThanks": "あなたに『撮りたい』を送りました",
+            "thanks": "ありがとう",
+            "youSentToraretai": "あなたが『撮られたい』を送りました"
+        },
+        "myFavouritesPage": {
+            "favourites": "お気に入り",
+            "loadMore": "もっと見る",
+            "showing": "表示中"
+        },
+        "toritoraCollegePage":{
+
+        },
+        "manageKikakuPage":{
+
+        },
+        "financePage": {
+            "finance": "ファイナンス",
+            "availableFunds": "利用可能残高",
+            "myWallet": "マイウォレット",
+            "statistics": "統計",
+            "sendRequest": "リクエストを送信",
+            "recent": "最近",
+            "viewAll": "すべて見る",
+            "amountTransfered": "送金額",
+            "transferMoneyToBank": "銀行に送金",
+            "walletPage": {
+                "myWallet": "マイウォレット",
+                "availableFunds": "利用可能残高",
+                "transfered": "送金済み",
+                "total": "合計",
+                "history": "履歴",
+                "viewAll": "すべて見る",
+                "amountTransfered": "送金額",
+                "transferMoneyToBank": "銀行に送金"
+            },
+            "transferHistoryPage": {
+                "transferHistory": "送金履歴",
+                "history": "履歴",
+                "amountTransfered": "送金額",
+                "transferMoneyToBank": "銀行に送金",
+                "loadMore": "もっと見る"
+            },
+            "sendRequestPage": {
+                "sendRequest": "リクエストを送信",
+                "warn": "送信する前にお読みください",
+                "warn1": "今月はもう1回無料の時間があります。",
+                "warn2": "送金手数料はお客様のご負担となります。",
+                "availableBalance": "利用可能残高",
+                "transferAmount": "送金額",
+                "transferWarn": "最大1,000,000円まで送金可能です。",
+                "remittanceRequest": "送金リクエスト",
+                "confirmSendRequest": "リクエストを送信しますか？",
+                "cancelSendRequest": "もし送信しない場合は、「いいえ」ボタンをクリックしてください。",
+                "no": "いいえ",
+                "yes": "はい",
+                "requestSentSuccess": "リクエストが正常に送信されました",
+                "requestSentMessage": "リクエストはToritora Managementに送信されました",
+                "paymentInfo": "お支払いは14営業日以内に受け取ることができます。"
+            },
+            "statisticsPage": {
+                "statistics": "統計",
+                "graphicalRepresentaion": "グラフ表示",
+                "totalEarnings": "総収益"
             }
         }
     }

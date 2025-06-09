@@ -77,7 +77,7 @@ export default function UserDetailsSkeleton() {
           {/* Model details section */}
           <div className='max-w-[800px] mx-auto mt-4 bg-white p-4 space-y-4 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
             <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Name</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("userName")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -89,7 +89,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Id</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("userId")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -101,7 +101,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Self Introduction</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("selfIntroduction")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -113,7 +113,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Main area</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("address")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -125,7 +125,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Genre of expertise</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("genres")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -137,7 +137,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             <div className='flex flex-row gap-4 flex-wrap items-start justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Achievements</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("achievements")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -157,7 +157,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Shooting price per hours</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("shootingPrice")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -169,7 +169,7 @@ export default function UserDetailsSkeleton() {
             </div>
 
             {user?.snsUsername && <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>SNS Username</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("snsUsername")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -181,7 +181,7 @@ export default function UserDetailsSkeleton() {
             </div>}
 
             {user?.instagram && <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Instagram</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("instagram")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -193,7 +193,7 @@ export default function UserDetailsSkeleton() {
             </div>}
 
             {user?.twitter && <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>X</span>
+              <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("twitter")}</span>
               {loading ?
                 <>
                   <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>

@@ -183,20 +183,16 @@ function EditProfile() {
       //   {} as Partial<FormValues>
       // );
 
-      const changes = (Object.keys(formValues) as (keyof FormValues)[]).reduce(
-        (acc, key) => {
-          const currentValue = formValues[key];
-          const initialValue = initialValues[key];
+      const changes: Partial<FormValues> = {};
+
+      for (const key of Object.keys(formValues) as (keyof FormValues)[]) {
+        const currentValue = formValues[key];
+        const initialValue = initialValues[key];
       
-          if (!isEqual(currentValue, initialValue)) {
-            // ✅ Safely assert that we're assigning the correct value type
-            acc[key] = currentValue as FormValues[typeof key];
-          }
-      
-          return acc;
-        },
-        {} as Partial<FormValues>
-      );
+        if (!isEqual(currentValue, initialValue)) {
+          changes[key] = currentValue as string & string[];;
+        }
+      }
 
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/user`, {
@@ -235,8 +231,8 @@ function EditProfile() {
 
     } catch (error) {
       toast({
-        title: "Error",
-        description: `t("internalServerError") : ${error}`,
+        title: t("error"),
+        description: `${t("internalServerError")} : ${error}`,
         variant: "destructive"
       })
     } finally {
@@ -799,7 +795,7 @@ function EditProfile() {
                     <div className="w-4 h-4 mr-1 rounded-full border-2 border-black-600 relative">
                       <div className={`w-2 h-2 bg-[#2EC4B6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formValues.gender === gender ? 'block' : 'hidden'}`}></div>
                     </div>
-                    {gender}
+                    {gender==="Male" ? t("male") : t("female")}
                   </label>
                 ))}
               </div>

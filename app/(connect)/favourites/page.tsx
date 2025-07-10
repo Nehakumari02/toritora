@@ -64,8 +64,8 @@ function Favourites() {
           }
           else if(res.status === 401){
             toast({
-              title:"Error",
-              description:"Unauthorized request",
+              title:t("error"),
+              description:t("unauthorizedRequest"),
               variant:"destructive"
             })
             logout();
@@ -73,15 +73,15 @@ function Favourites() {
           else {
             const data = await res.json();
             toast({
-              title:"Internal server error",
-              description:`Error: ${data.message}`,
+              title:t("serverInternalError"),
+              description:`${t("error")}: ${data.message}`,
               variant:"destructive"
             })
           }
         } catch (error:any) {
           toast({
-            title:"Error",
-            description: `Error during fetch: ${error.message}`,
+            title:t("error"),
+            description: `${t("error")}: ${error.message}`,
             variant: "destructive"
           })
           setHasMore(false);
@@ -91,7 +91,11 @@ function Favourites() {
       }
       fetchNewUsers();
     } catch (error) {
-      console.log("Error", error)
+      toast({
+        title:t("error"),
+        description: `${t("error")}: ${error}`,
+        variant: "destructive"
+      })
     }
   }, [])
 
@@ -123,7 +127,7 @@ function Favourites() {
   }
   else if(res.status === 401){
     toast({
-      title:"Error",
+      title:t("error"),
       description:"Unauthorized request",
       variant:"destructive"
     })
@@ -132,15 +136,15 @@ function Favourites() {
   else {
     const data = await res.json();
     toast({
-      title:"Internal server error",
-      description:`Error: ${data.message}`,
+      title:t("serverInternalError"),
+      description:`${t("error")}: ${data.message}`,
       variant:"destructive"
     })
   }
   } catch (error:any) {
   toast({
-    title:"Error",
-    description: `Error during fetch: ${error.message}`,
+    title:t("error"),
+    description: `${t("error")}: ${error.message}`,
     variant: "destructive"
   })
   } finally {

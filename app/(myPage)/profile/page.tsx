@@ -1,15 +1,17 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { use, useEffect, useMemo, useState } from 'react'
 import userAvatar from "@/public/images/mypage/profileImageDefault.avif"
 import Image from 'next/image';
 import { backIcon } from '@/constants/icons';
 import Link from 'next/link';
 import { toast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
+import { useTranslations } from 'next-intl';
 
 function Profile() {
   const router = useRouter();
+  const t = useTranslations('MyPage.profile');
   const logout = useLogout();
   const [progressBarStep, setProgressBarStep] = useState(2);
   const [name,setName] = useState("")
@@ -65,23 +67,23 @@ function Profile() {
             }
             else if(res.status === 401){
               toast({
-                title:"Error",
-                description:"Unauthorized request",
+                title:t("error"),
+                description:t("unauthorizedRequest"),
                 variant:"destructive"
               })
               logout();
             }
             else {
               toast({
-                title:"Internal server error",
-                description:`Error: ${data.message}`,
+                title:t("serverInternalError"),
+                description:`${t("error")}: ${data.message}`,
                 variant:"destructive"
               })
             }
           } catch (error) {
             toast({
-              title:"Server internal error",
-              description:`Error : ${error}`,
+              title:t("serverInternalError"),
+              description:`${t("error")} : ${error}`,
               variant:"destructive"
             })
             // console.error("error",error)
@@ -97,8 +99,8 @@ function Profile() {
     <div className='flex flex-col h-full'>
       <header className="sticky top-0 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">My Profile</span>
-        <Link href={'/editProfile'} className="absolute right-4 text-[16px] leading-[30px] text-[#FF9F1C] text-center font-medium">Edit</Link>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{t("profile")}</span>
+        <Link href={'/editProfile'} className="absolute right-4 text-[16px] leading-[30px] text-[#FF9F1C] text-center font-medium">{t("edit")}</Link>
       </header>
 
       <div className='bg-[#f8fcfd] p-4 py-6 overflow-y-scroll flex-1 no-scrollbar'>
@@ -122,7 +124,7 @@ function Profile() {
               <span className='font-medium text-[10px] leading-[15px] text-[#999999]'>{userName}</span>
               </>              
               }
-              <Link className='font-medium text-[10px] leading-[15px] text-[#E10101] flex items-center justify-center ' href={'/points-history'}>POINTS HISTORY {rightArrowIcon}</Link>
+              <Link className='font-medium text-[10px] leading-[15px] text-[#E10101] flex items-center justify-center ' href={'/points-history'}>{t("pointsHistory")} {rightArrowIcon}</Link>
             </div>
             <div className='flex flex-col items-center justify-center text-[10px] leading-[15px] font-normal text-[#111111]'>
               {yellowBadgeIcon}
@@ -176,12 +178,12 @@ function Profile() {
         </div>
 
         <div className='max-w-[800px] mx-auto'>
-          <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>Professional Information</span>
+          <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>{t("professionalInfo")}</span>
         </div>
 
         <div className='max-w-[800px] mx-auto mt-4 bg-white p-4 space-y-4 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
           <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Name</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("userName")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -193,7 +195,7 @@ function Profile() {
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Id</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("userId")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -205,7 +207,7 @@ function Profile() {
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Self Introduction</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("selfIntroduction")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -217,7 +219,7 @@ function Profile() {
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Main area</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("mainArea")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -229,7 +231,7 @@ function Profile() {
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Genre of expertise</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("genreOfExpertise")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -241,7 +243,7 @@ function Profile() {
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap items-start justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Achievements</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("achievements")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -261,7 +263,7 @@ function Profile() {
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>Shooting price per hours</span>
+            <span className='flex-1 min-w-[150px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("shootingPrice")}</span>
               {loading ?
               <>
               <div className='h-4 min-w-[180px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>

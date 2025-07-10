@@ -72,36 +72,44 @@ function Toritai() {
   useEffect(() => {
       try {
         const fetchToritai = async () => {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/toritai`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials:"include",
-          });
-  
-          const data = await res.json();
-  
-          if(res.status===200){
-            const { sentToritai, receivedToritai } = data;
+          try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/toritai`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials:"include",
+            });
+    
+            const data = await res.json();
+    
+            if(res.status===200){
+              const { sentToritai, receivedToritai } = data;
 
-            setSentToritai(groupByDate(sentToritai));
-            setReceivedToritai(groupByDate(receivedToritai));
-            console.log(data)
-  
-          }
-          else if(res.status === 401){
+              setSentToritai(groupByDate(sentToritai));
+              setReceivedToritai(groupByDate(receivedToritai));
+              console.log(data)
+    
+            }
+            else if(res.status === 401){
+              toast({
+                title:t("error"),
+                description: t("unauthorizedRequest"),
+                variant:"destructive"
+              })
+              logout();
+            }
+            else {
+              toast({
+                title:t("serverInternalError"),
+                description:`${t("error")}: ${data.message}`,
+                variant:"destructive"
+              })
+            }
+          } catch (error) {
             toast({
-              title:"Error",
-              description:"Unauthorized request",
-              variant:"destructive"
-            })
-            logout();
-          }
-          else {
-            toast({
-              title:"Internal server error",
-              description:`Error: ${data.message}`,
+              title:t("error"),
+              description:`${t("error")}: ${error}`,
               variant:"destructive"
             })
           }

@@ -123,13 +123,13 @@ function ShootingRequestList() {
             )
           );
           toast ({
-            title:"Success",
+            title:t("success"),
             description:`${data?.message}`,
             variant:"success"
           })
         } else {
           toast ({
-            title:"Error",
+            title:t("error"),
             description:`${data?.message}`,
             variant:"destructive"
           })
@@ -144,13 +144,13 @@ function ShootingRequestList() {
             )
           );
           toast ({
-            title:"Success",
+            title:t("success"),
             description:`${data?.message}`,
             variant:"success"
           })
         } else {
           toast ({
-            title:"Error",
+            title:t("error"),
             description:`${data?.message}`,
             variant:"destructive"
           })
@@ -165,13 +165,13 @@ function ShootingRequestList() {
             )
           );
           toast ({
-            title:"Success",
+            title:t("success"),
             description:`${data?.message}`,
             variant:"success"
           })
         } else {
           toast ({
-            title:"Error",
+            title:t("error"),
             description:`${data?.message}`,
             variant:"destructive"
           })
@@ -179,7 +179,7 @@ function ShootingRequestList() {
       }
     } catch (error) {
       toast({
-        title:"Server internal error",
+        title:t("serverInternalError"),
         description:`Error: ${error}`,
         variant:"destructive"
       })
@@ -199,8 +199,8 @@ function ShootingRequestList() {
           } catch (error:any) {
               // console.error("Error fetching booking requests:", error);
               toast({
-                title: "Error",
-                description: `Error fetching booking requests: ${error?.message}`,
+                title: t("error"),
+                description: `${t("errorFetchingRequests")}: ${error?.message}`,
                 variant: "destructive"
               })
           } finally {

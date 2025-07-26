@@ -25,7 +25,7 @@ function Profile() {
   const [shootingPrice, setShootingPrice] = useState("")
   const [loading, setLoading] = useState(true)
   const [profileImage, setProfileImage] = useState("");
-  const t = useTranslations('shooting');
+  const t = useTranslations('MyPage.myProfile');
 
   const progressBarWidth: { [key: number]: string } = useMemo(() => ({
     1: "0",

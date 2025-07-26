@@ -93,6 +93,7 @@ export default function Page() {
   );
 }
 
+
 const greenTickIcon = <svg width="114" height="120" viewBox="0 0 114 120" fill="none" xmlns="http://www.w3.org/2000/svg">
   <mask id="mask0_153_186375" maskUnits="userSpaceOnUse" x="0" y="0" width="114" height="120">
     <path d="M56.9991 10L70.1028 19.559L86.3246 19.5291L91.3062 34.9652L104.447 44.4743L99.4059 59.8904L104.447 75.3065L91.3062 84.8157L86.3246 100.252L70.1028 100.222L56.9991 109.781L43.8953 100.222L27.6735 100.252L22.6919 84.8157L9.55078 75.3065L14.5922 59.8904L9.55078 44.4743L22.6919 34.9652L27.6735 19.5291L43.8953 19.559L56.9991 10Z" fill="white" stroke="white" strokeWidth="19.0059" strokeLinecap="round" strokeLinejoin="round" />

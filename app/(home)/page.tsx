@@ -298,6 +298,7 @@ function Home() {
               dateOfJoining: new Date(user.createdAt) // Convert to Date object
             }));
             setModelsNew(transformedModels)
+            console.log("Models New", transformedModels)
           }
           else {
             // toast({

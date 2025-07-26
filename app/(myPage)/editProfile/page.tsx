@@ -834,7 +834,7 @@ function EditProfile() {
                       <SelectLabel>{t("selectLocation")}</SelectLabel>
                       {prefectures.map((prefecture) => (
                         <SelectItem key={prefecture} value={prefecture}>
-                          {prefecture}
+                          {t(prefecture)}
                         </SelectItem>
                       ))}
                     </SelectGroup>

@@ -1,4 +1,5 @@
 import { parseISO, format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 interface SlotProps {
   _id: string;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 function UserSlot({ slot, index, handleEditSlot, handleDeleteSlot }: Props) {
+  const t = useTranslations("Calendar");
   let startDateTime = parseISO(slot.startTime);
   let endDateTime = parseISO(slot.endTime);
 
@@ -47,10 +49,10 @@ function UserSlot({ slot, index, handleEditSlot, handleDeleteSlot }: Props) {
 
         <div className={`grow pt-0.5 pb-4 mb-8 px-2 rounded-md border-l-8 ${border} ${textColor} ${bgColor}`}>
           <h3 className="flex gap-x-1.5 font-semibold dark:text-white">
-            Ichi session
+            {t("ichiSession")}
           </h3>
           <p className="mt-1 text-sm text-black dark:text-neutral-400">
-            {format(startDateTime, "h:mm a")} - {format(endDateTime, "h:mm a")}
+            {format(startDateTime, "HH:mm")} - {format(endDateTime, "HH:mm")}
           </p>
           {slot.status === "booked" ?
             <span className="flex  gap-2 flex-wrap">
@@ -69,14 +71,14 @@ function UserSlot({ slot, index, handleEditSlot, handleDeleteSlot }: Props) {
               disabled={slot.status === "booked"}
               className={`mt-2 text-sm px-3 py-1 rounded bg-secondary text-white`}
             >
-              Edit Slot
+              {t("edit_slot_list")}
             </button>
             <button
               onClick={() => handleDeleteSlot(slot)}
               disabled={slot.status === "booked"}
               className={`mt-2 text-sm px-3 py-1 rounded bg-red-500 text-white`}
             >
-              Delete Slot
+              {t("delete_slot")}
             </button>
             </span>
           }

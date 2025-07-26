@@ -15,6 +15,20 @@ import {
   startOfDay,
   startOfToday,
 } from 'date-fns'
+import { ja, enUS } from 'date-fns/locale';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   Drawer,
   DrawerClose,
@@ -33,7 +47,8 @@ import { Loader2 } from 'lucide-react';
 import WheelPicker from '@/components/WheelPicker';
 import { useToast } from '@/hooks/use-toast';
 import { useLogout } from '@/lib/logout';
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
+import Calendar from '@/components/common/calendar';
 
 interface SlotProps {
   _id: string;
@@ -46,12 +61,13 @@ interface SlotProps {
   updatedAt: string;
 }
 
-export default function Calendar() {
+export default function CalendarPage() {
   const t = useTranslations('Calendar');
+  const locale = useLocale();
   const { toast } = useToast()
   const logout = useLogout()
   let today = startOfToday()
-  let [selectedDay, setSelectedDay] = useState(today)
+  let [selectedDay, setSelectedDay] = useState<Date>(today)
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
   let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
   let [previousMonthDisabled, setPreviousMonthDisabled] = useState(true)
@@ -71,6 +87,7 @@ export default function Calendar() {
   });
   const [showStartTimePicker, setShowStartTimePicker] = useState(false)
   const [showEndTimePicker, setShowEndTimePicker] = useState(false)
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
@@ -332,7 +349,7 @@ export default function Calendar() {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ slot_id: editSlot?._id, startTime: newSlot?.startTime, endTime: newSlot?.endTime }),
+        body: JSON.stringify({ slot_id: editSlot?._id, date:newSlot.date, startTime: newSlot?.startTime, endTime: newSlot?.endTime }),
       });
 
       const data = await res.json()
@@ -398,6 +415,12 @@ export default function Calendar() {
     });
   }
 
+  const formatDate = (date: Date) => {
+    return (locale === 'jn'
+      ? format(selectedDay, 'yyyy年M月d日', { locale: ja })
+      : format(selectedDay, 'MMM dd, yyyy', { locale: enUS }))
+  }
+
   useEffect(() => {
     const todayMonth = format(today, 'MMM-yyyy');
     const isSameMonth = currentMonth === todayMonth;
@@ -420,7 +443,7 @@ export default function Calendar() {
             <div className="md:pr-14">
               <div className="flex items-center">
                 <h2 className="flex-auto font-semibold text-gray-900">
-                  {format(firstDayCurrentMonth, 'MMMM yyyy')}
+                  {format(firstDayCurrentMonth, locale === 'jn' ? 'yyyy年M月' : 'MMMM yyyy', { locale: locale === 'jn' ? ja : enUS })}
                 </h2>
                 <button
                   type="button"
@@ -514,10 +537,22 @@ export default function Calendar() {
             <div className=''>
               <section className="mt-6 md:mt-0 md:pl-4">
                 <h2 className="font-semibold text-gray-900 pl-4">
-                  {t("scheduleFor")}{' '}
-                  <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
+                  {
+                    locale === 'jn' ?
+                      <time>
+                        {formatDate(selectedDay)}
+                        {' (月) '}{t("scheduleFor")}
+                      </time>
+                      :
+                      <time>
+                        {t("scheduleFor")}{' '}
+                        {formatDate(selectedDay)}
+                      </time>
+                  }
+                  {/* {t("scheduleFor")}{' '}
+                  <time>
                     {format(selectedDay, 'MMM dd, yyy')}
-                  </time>
+                  </time> */}
                 </h2>
                 <ol className="mt-4 space-y-3 text-sm leading-6 text-gray-500 md:overflow-y-scroll md:h-[40vh] md:no-scrollbar">
                   {slots?.length > 0 ? (
@@ -541,55 +576,103 @@ export default function Calendar() {
       </div>
 
       <div className='sticky bottom-0 pb-4 bg-white pt-4 z-10'>
-        <Drawer open={slotDrawer} onOpenChange={setSlotDrawer}>
-          <DrawerTrigger onClick={() => { setIsEditPopUp(false); setPopUpMode(0); setEditSlot(null); setSlotDrawer(true); }} className='w-[90%] md:w-[800px] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("add_available_time")}</DrawerTrigger>
-          <DrawerContent aria-describedby={undefined}>
-            <DrawerHeader className='flex items-center justify-between '>
-              <DialogTitle className='hidden'></DialogTitle>
-              <div className='w-full max-w-[800px] mx-auto'>
-                <div className='w-full mt-4 text-[16px] leading-[24px] font-semibold text-center'>
-                  {t("add_time_on")}
-                  <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-                    {" "}{format(selectedDay, 'MMM dd, yyy')}
-                  </time>
-                </div>
-              </div>
-              <DrawerClose className='text-[12px] leading-[18px] font-medium text-[#E10101]'>{t("close")}</DrawerClose>
-            </DrawerHeader>
-            <span className='text-sm text-gray-500 max-w-[800px] pb-3 px-4 mx-auto w-full'>{t("appear_on_profile")}</span>
-            <hr className='pb-3' />
-            {popUpMode === 0 &&
-              <div className='space-y-3 max-w-[800px] mx-auto w-full'>
-                {/* <span className='text-xs text-gray-500 px-4'>Add from history</span> */}
-                {/* <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>10:00-15:00</button>
-              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>12:00-17:30</button>
-              <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>15:00-16:00</button> */}
-                <div className='pt-8 max-w-[800px] mx-auto w-full'>
-                  <button onClick={() => setPopUpMode(1)} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{t("choose_new_slot")}</button>
-                </div>
-              </div>
-            }
-            {popUpMode === 1 &&
-              <div className='space-y-3 max-w-[800px] mx-auto w-full'>
-                <button disabled={true} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("date")} {format(selectedDay, 'MMM dd, yyy')}</button>
-                <button onClick={() => { setShowStartTimePicker(!showStartTimePicker); setShowEndTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("start_time")} {formatTimeToHours(startTime)}</button>
-                {showStartTimePicker && <WheelPicker setDate={setStartTime} time={startTime} />}
-                <button onClick={() => { setShowEndTimePicker(!showEndTimePicker); setShowStartTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("end_time")} {formatTimeToHours(endTime)}</button>
-                {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime} />}
-                <div className='pt-8 max-w-[800px] mx-auto w-full'>
-                  {isEditPopUp ?
-                    <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_slot")}</button>
-                    :
-                    <button onClick={() => handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("add_to_calendar")}</button>
-                  }
-                </div>
-              </div>
-            }
-            <DrawerFooter className=''>
 
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
+        <Dialog open={slotDrawer} onOpenChange={setSlotDrawer}>
+          <form>
+            <DialogTrigger asChild>
+              <Button onClick={() => { setIsEditPopUp(false); setPopUpMode(1); setEditSlot(null); setSlotDrawer(true); }} className='w-[90%] md:w-[800px] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center hover:bg-secondary text-white rounded-md'>{t("add_available_time")}</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] p-2 md:p-4">
+              <DialogHeader>
+                <DialogTitle className='hidden'>Edit profile</DialogTitle>
+                <div className='w-full max-w-[800px] mx-auto'>
+                  <div className='w-full mt-4 text-[16px] leading-[24px] font-semibold text-center'>
+                    {
+                      !isEditPopUp && (locale === 'jn' ?
+                        <time>
+                          {formatDate(selectedDay)}
+                          {' '}{t("add_time_on")}
+                        </time>
+                        :
+                        <time>
+                          {t("add_time_on")}{' '}
+                          {formatDate(selectedDay)}
+                        </time>)
+                    }
+                    {
+                      isEditPopUp && 
+                      <span>{t("edit_slot")}</span>
+                    }
+                  </div>
+                </div>
+              </DialogHeader>
+              {!isEditPopUp && <span className='text-sm text-center text-gray-500 max-w-[800px] pb-3 px-4 mx-auto w-full'>{t("appear_on_profile")}</span>}
+              {isEditPopUp && <span className='text-sm text-center text-gray-500 max-w-[800px] pb-3 px-4 mx-auto w-full'>{t("appear_on_profile_edit")}</span>}
+              <hr className='pb-3' />
+              {popUpMode === 0 &&
+                <div className='space-y-3 max-w-[800px] mx-auto w-full'>
+                  <div className='pt-8 max-w-[800px] mx-auto w-full'>
+                    <button onClick={() => setPopUpMode(1)} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{t("choose_new_slot")}</button>
+                  </div>
+                </div>
+              }
+              {popUpMode === 1 &&
+                <div className='space-y-3 max-w-[800px] mx-auto w-full'>
+                  {/* <button disabled={true} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("date")} {format(selectedDay, 'MMM dd, yyy')}</button> */}
+                  <div className='space-y-2'>
+                    <div className='w-[90%] mx-auto flex flex-col justify-center gap-2'>
+                      <span className='font-medium text-[14px] leading-[21px]'>{t("select_date")}</span>
+                      <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                        <Popover modal={true} open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                'w-[100%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md',
+                                !selectedDay && "text-muted-foreground"
+                              )}
+                            > 
+                              {t("select_date")}{"   "}
+                              {selectedDay ? format(selectedDay, locale === 'jn' ?  '  yyyy年M月d日 (EEE)' : 'MMM dd, yyyy' , { locale: locale === 'jn' ? ja : enUS }) : <span>{t("pickDate")}</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              selectedDay={selectedDay}
+                              setSelectedDay={(date: Date) => {
+                                setSelectedDay(date);
+                                setIsCalendarOpen(false);
+                              }}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='w-[90%] mx-auto flex flex-col justify-center gap-2'>
+                    <span className='font-medium text-[14px] leading-[21px]'>{t("select_date")}</span>
+                    <Button variant={"outline"} onClick={() => { setShowStartTimePicker(!showStartTimePicker); setShowEndTimePicker(false) }} className='w-[100%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("start_time")} {formatTimeToHours(startTime)}</Button>
+                    {showStartTimePicker && <WheelPicker setDate={setStartTime} time={startTime} />}
+                  </div>
+                  <div className='w-[90%] mx-auto flex flex-col justify-center gap-2'>
+                    <span className='font-medium text-[14px] leading-[21px]'>{t("select_date")}</span>
+                    <Button variant={"outline"} onClick={() => { setShowEndTimePicker(!showEndTimePicker); setShowStartTimePicker(false) }} className='w-[100%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("end_time")} {formatTimeToHours(endTime)}</Button>
+                    {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime} />}
+                  </div>
+                  <div className='pt-8 max-w-[800px] mx-auto w-full'>
+                    {isEditPopUp ?
+                      <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_slot")}</button>
+                      :
+                      <button onClick={() => handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("add_to_calendar")}</button>
+                    }
+                  </div>
+                </div>
+              }
+              <DialogFooter>
+              </DialogFooter>
+            </DialogContent>
+          </form>
+        </Dialog>
       </div>
     </>
   )
@@ -604,3 +687,71 @@ let colStartClasses = [
   'col-start-6',
   'col-start-7',
 ]
+
+const CalendarIcon = ({ fill = "text-[#999999]" }) => {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-colors duration-300 fill-current text-[${fill}]`}>
+      <path d="M6.445 11.688V6.354H5.812C5.35864 6.59567 4.92049 6.86484 4.5 7.16V7.855C4.875 7.598 5.469 7.235 5.758 7.078H5.77V11.688H6.445ZM7.633 10.383C7.68 11.023 8.227 11.789 9.336 11.789C10.594 11.789 11.336 10.723 11.336 8.918C11.336 6.984 10.555 6.25 9.383 6.25C8.457 6.25 7.586 6.922 7.586 8.059C7.586 9.219 8.41 9.829 9.262 9.829C10.008 9.829 10.492 9.453 10.645 9.039H10.672C10.668 10.355 10.211 11.203 9.367 11.203C8.703 11.203 8.359 10.753 8.317 10.383H7.633ZM10.586 8.066C10.586 8.762 10.027 9.246 9.402 9.246C8.801 9.246 8.258 8.863 8.258 8.046C8.258 7.223 8.84 6.836 9.426 6.836C10.059 6.836 10.586 7.234 10.586 8.066Z" fill="currentColor" />
+      <path d="M3.5 0C3.63261 0 3.75979 0.0526784 3.85355 0.146447C3.94732 0.240215 4 0.367392 4 0.5V1H12V0.5C12 0.367392 12.0527 0.240215 12.1464 0.146447C12.2402 0.0526784 12.3674 0 12.5 0C12.6326 0 12.7598 0.0526784 12.8536 0.146447C12.9473 0.240215 13 0.367392 13 0.5V1H14C14.5304 1 15.0391 1.21071 15.4142 1.58579C15.7893 1.96086 16 2.46957 16 3V14C16 14.5304 15.7893 15.0391 15.4142 15.4142C15.0391 15.7893 14.5304 16 14 16H2C1.46957 16 0.960859 15.7893 0.585786 15.4142C0.210714 15.0391 0 14.5304 0 14V3C0 2.46957 0.210714 1.96086 0.585786 1.58579C0.960859 1.21071 1.46957 1 2 1H3V0.5C3 0.367392 3.05268 0.240215 3.14645 0.146447C3.24021 0.0526784 3.36739 0 3.5 0V0ZM1 4V14C1 14.2652 1.10536 14.5196 1.29289 14.7071C1.48043 14.8946 1.73478 15 2 15H14C14.2652 15 14.5196 14.8946 14.7071 14.7071C14.8946 14.5196 15 14.2652 15 14V4H1Z" fill="currentColor" />
+    </svg>
+  );
+};
+
+
+  // < Drawer open = { slotDrawer } onOpenChange = { setSlotDrawer } >
+  //         <DrawerTrigger onClick={() => { setIsEditPopUp(false); setPopUpMode(0); setEditSlot(null); setSlotDrawer(true); }} className='w-[90%] md:w-[800px] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("add_available_time")}</DrawerTrigger>
+  //         <DrawerContent aria-describedby={undefined}>
+  //           <DrawerHeader className='flex items-center justify-between '>
+  //             <DialogTitle className='hidden'></DialogTitle>
+  //             <div className='w-full max-w-[800px] mx-auto'>
+  //               <div className='w-full mt-4 text-[16px] leading-[24px] font-semibold text-center'>
+  //                 {
+  //                   locale === 'jn' ?
+  //                     <time>
+  //                       {formatDate(selectedDay)}
+  //                       {' '}{t("add_time_on")}
+  //                     </time>
+  //                     :
+  //                     <time>
+  //                       {t("add_time_on")}{' '}
+  //                       {formatDate(selectedDay)}
+  //                     </time>
+  //                 }
+  //               </div>
+  //             </div>
+  //             <DrawerClose className='text-[12px] leading-[18px] font-medium text-[#E10101]'>{t("close")}</DrawerClose>
+  //           </DrawerHeader>
+  //           <span className='text-sm text-gray-500 max-w-[800px] pb-3 px-4 mx-auto w-full'>{t("appear_on_profile")}</span>
+  //           <hr className='pb-3' />
+  //           {popUpMode === 0 &&
+  //             <div className='space-y-3 max-w-[800px] mx-auto w-full'>
+  //               {/* <span className='text-xs text-gray-500 px-4'>Add from history</span>
+  //               <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>10:00-15:00</button>
+  //             <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>12:00-17:30</button>
+  //             <button className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>15:00-16:00</button> */}
+  //               <div className='pt-8 max-w-[800px] mx-auto w-full'>
+  //                 <button onClick={() => setPopUpMode(1)} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{t("choose_new_slot")}</button>
+  //               </div>
+  //             </div>
+  //           }
+  //           {popUpMode === 1 &&
+  //             <div className='space-y-3 max-w-[800px] mx-auto w-full'>
+  //               <button disabled={true} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("date")} {format(selectedDay, 'MMM dd, yyy')}</button>
+  //               <button onClick={() => { setShowStartTimePicker(!showStartTimePicker); setShowEndTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("start_time")} {formatTimeToHours(startTime)}</button>
+  //               {showStartTimePicker && <WheelPicker setDate={setStartTime} time={startTime} />}
+  //               <button onClick={() => { setShowEndTimePicker(!showEndTimePicker); setShowStartTimePicker(false) }} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("end_time")} {formatTimeToHours(endTime)}</button>
+  //               {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime} />}
+  //               <div className='pt-8 max-w-[800px] mx-auto w-full'>
+  //                 {isEditPopUp ?
+  //                   <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_slot")}</button>
+  //                   :
+  //                   <button onClick={() => handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("add_to_calendar")}</button>
+  //                 }
+  //               </div>
+  //             </div>
+  //           }
+  //           <DrawerFooter className=''>
+
+  //           </DrawerFooter>
+  //         </DrawerContent>
+  //       </Drawer >

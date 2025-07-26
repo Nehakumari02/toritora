@@ -101,7 +101,7 @@ function RegistrationInfo() {
 
           <div onClick={() => setProfession("modelling")} className={`flex items-center gap-8 relative shadow-[rgba(0,0,0,0.25)_0px_5px_15px] rounded-lg ${profession === "modelling" ? "border-primary border-[2px]" : " border-[2px] border-white"}`}>
             <Image src={modellingImage} alt='modelling' height={95} width={95} className='h-[95px] w-[95px]' />
-            <span className=' text-[16px] leading-[24px] font-semibold text-[#555555]'>{t("model")}</span>
+            <span className=' text-[16px] leading-[24px] font-semibold text-[#555555]'>{t("modelling")}</span>
             <span className='absolute top-3 right-4'>{profession === "modelling" ? primaryTickIcon : grayedTickIcon}</span>
             <Drawer>
               <DrawerTrigger className='absolute bottom-3 right-4 text-[10px] leading-[15px] font-medium text-[#999999]'>{t("viewInfo")}</DrawerTrigger>

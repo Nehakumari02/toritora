@@ -23,11 +23,12 @@ import {
   startOfDay,
   startOfToday,
 } from 'date-fns'
+import { ja, enUS } from 'date-fns/locale';
 import { cn } from '@/lib/utils'
 import UserDetailsSkeleton from '@/components/skeleton/userDetailsSkeleton';
 import BookingSlot from '@/components/common/bookingSlot';
 import { addRequest } from '@/lib/requestHandler';
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 
 import {
   Drawer,
@@ -52,6 +53,7 @@ interface SlotProps {
 
 function UserDetails() {
   const router = useRouter();
+  const locale = useLocale();
   const logout = useLogout();
   const { toast } = useToast();
   const [profession, setProfession] = useState("modelling");
@@ -689,7 +691,7 @@ function UserDetails() {
               <div className="md:pr-14">
                 <div className="flex items-center">
                   <h2 className="flex-auto font-semibold text-gray-900">
-                    {format(firstDayCurrentMonth, 'MMMM yyyy')}
+                    {format(firstDayCurrentMonth, locale === 'jn' ?  'yyyy年M月' : 'MMMM yyyy' , { locale: locale === 'jn' ? ja : enUS })}
                   </h2>
                   <button
                     type="button"
@@ -783,10 +785,8 @@ function UserDetails() {
               <div className=''>
                 <section className="mt-6 md:mt-0 md:pl-4">
                   <h2 className="font-semibold text-gray-900 pl-4">
-                    Slots for{' '}
-                    <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-                      {format(selectedDay, 'MMM dd, yyy')}
-                    </time>
+                    {t("slotsFor")} {' '}
+                    {format(selectedDay, locale === 'jn' ?  'yyyy年M月d日' : 'MMM dd, yyyy' , { locale: locale === 'jn' ? ja : enUS })}
                   </h2>
                   <ol className="mt-4 space-y-3 text-sm leading-6 text-gray-500 md:overflow-y-scroll md:h-[40vh] md:no-scrollbar">
                     {slots.length > 0 ? (

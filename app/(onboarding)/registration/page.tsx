@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 
-import { backIcon, emailIcon, eyeBlockedIcon, greenTickIcon, lockIcon, redCircleIcon } from '@/constants/icons'
+import { backIcon, emailIcon, eyeBlockedIcon, greenTickIcon, lockIcon, redCircleIcon, userIcon } from '@/constants/icons'
 import { useRouter } from 'next/navigation'
 import OtpInput from '@/components/otpInput';
 
@@ -14,7 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import LoginImage from '@/public/images/onboard/login.svg'
 import Link from 'next/link';
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 
 type AuthResult = {
   code: string;
@@ -27,11 +27,14 @@ type ErrorResponse = Pick<CodeResponse, "error" | "error_description" | "error_u
 
 function Register() {
   const router = useRouter();
+  const locale = useLocale();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const [timeRemaining, setTimeRemaining] = useState(120);
 
@@ -108,7 +111,7 @@ function Register() {
         'Content-Type': 'application/json',
       },
       credentials: "include",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, locale, lastName, firstName }),
     });
 
     if (res.status === 200) {
@@ -162,7 +165,7 @@ function Register() {
         'Content-Type': 'application/json',
       },
       credentials: "include",
-      body: JSON.stringify({ email, password, otp }),
+      body: JSON.stringify({ email, password, otp, locale }),
     });
     console.log(otp)
 
@@ -207,7 +210,7 @@ function Register() {
         // Handle success case (has 'code')
         const code = authResult.code;
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/signup?code=${code}&locale=${locale}`,
           {},
           {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -297,11 +300,27 @@ function Register() {
                 </div>
 
                 <div className='space-y-4'>
+                  {/* <div className='space-y-2'>
+                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("lastName")}</span>
+                    <div className={`relative h-[48px] border-[1px] rounded-md`}>
+                      <span className='absolute top-[50%] translate-y-[-50%] left-2'>{userIcon}</span>
+                      <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" placeholder={t("enterLastName")} className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
+                    </div>
+                  </div>
+
+                  <div className='space-y-2'>
+                    <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("firstName")}</span>
+                    <div className={`relative h-[48px] border-[1px] rounded-md`}>
+                      <span className='absolute top-[50%] translate-y-[-50%] left-2'>{userIcon}</span>
+                      <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" placeholder={t("enterFirstName")} className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
+                    </div>
+                  </div> */}
+
                   <div className='space-y-2'>
                     <span className='text-[14px] leading-[21px] font-medium text-[#333333]'>{t("email")}</span>
                     <div className={`relative h-[48px] border-[1px] ${emailError ? "border-[#E10101]" : ""} rounded-md`}>
                       <span className='absolute top-[50%] translate-y-[-50%] left-2'>{emailIcon}</span>
-                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder={t("enterName")} className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
+                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder={t("enterEmail")} className='h-full pl-8 pr-4 w-full outline-none rounded-md text-[#333333]' />
                     </div>
                   </div>
 

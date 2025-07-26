@@ -9,9 +9,11 @@ import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import LoginImage from '@/public/images/onboard/login.svg'
+import { useLocale } from 'next-intl';
 
 function ForgotPassword() {
   const router = useRouter();
+  const locale = useLocale();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -50,7 +52,7 @@ function ForgotPassword() {
         'Content-Type': 'application/json',
       },
       credentials: "include",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, locale }),
     });
 
     if (res.status === 200) {

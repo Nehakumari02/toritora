@@ -2,7 +2,7 @@
 import { backIcon, locationIcon, searchIcon } from '@/constants/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, use } from 'react';
 import location from '../../../public/images/photographer_reg/location.png'
 import {
   Drawer,
@@ -18,7 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from '@/lib/utils';
 import { format, formatDate, startOfToday } from 'date-fns';
 import Calendar from '@/components/common/calendar';
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import {
   Select,
   SelectContent,
@@ -33,11 +33,13 @@ import { UserTile } from '@/components/common/tile';
 import TileSkeleton from '@/components/common/tileSkeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import {ja, enUS} from 'date-fns/locale';
 
 const genres = ["Cool", "Pretty", "Dark", "Natural", "Art", "Clean", "Cute", "All"]
 
 function Search() {
   const router = useRouter();
+  const locale = useLocale();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
@@ -305,19 +307,19 @@ function Search() {
                   <hr />
 
                   <div className='space-y-2'>
-                    <span className='font-medium text-[14px] leading-[21px]'>Location</span>
+                    <span className='font-medium text-[14px] leading-[21px]'>{t("location")}</span>
                     <div className="flex items-center border rounded p-2">
                       <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
                       <Select value={locationSearch} onValueChange={handleLocationSearch}>
                         <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
-                          <SelectValue placeholder="Select location" />
+                          <SelectValue placeholder={t("selectLocation")} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>{t("location")}</SelectLabel>
                             {prefectures.map((prefecture) => (
                               <SelectItem key={prefecture} value={prefecture}>
-                                {prefecture}
+                                {t(prefecture)}
                               </SelectItem>
                             ))}
                           </SelectGroup>
@@ -339,7 +341,7 @@ function Search() {
                             )}
                           >
                             <CalendarIcon fill='#2EC4B6' />
-                            {shootingDate ? format(shootingDate, "PPP") : <span>{t("pickDate")}</span>}
+                            {shootingDate ? format(shootingDate, locale === 'jn' ?  'yyyy年M月d日' : 'MMM dd, yyyy' , { locale: locale === 'jn' ? ja : enUS }) : <span>{t("pickDate")}</span>}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">

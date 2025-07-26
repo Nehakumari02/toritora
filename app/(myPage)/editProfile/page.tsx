@@ -106,41 +106,41 @@ function EditProfile() {
 
   const handleArrayInputChange = (field: keyof FormValues, index: number, newValue: string) => {
     const prevArray = formValues[field] as string[];
-  
+
     if (!Array.isArray(prevArray)) return;
-  
+
     const updatedArray = [...prevArray];
     updatedArray[index] = newValue;
-  
-    const updatedFormValues = { ...formValues, [field]: updatedArray };
-    setFormValues(updatedFormValues);
-    setIsChanged(JSON.stringify(updatedFormValues) !== JSON.stringify(initialValues));
-  };
-  
-  const addEmptyStringToEnd = (field: keyof FormValues) => {
-    const prevArray = formValues[field];
-  
-    if (!Array.isArray(prevArray)) return;
-  
-    const updatedArray = [...prevArray, ""];
-  
+
     const updatedFormValues = { ...formValues, [field]: updatedArray };
     setFormValues(updatedFormValues);
     setIsChanged(JSON.stringify(updatedFormValues) !== JSON.stringify(initialValues));
   };
 
-  
-  const removeStringAtIndex = (field: keyof FormValues, index: number) => {
-    const prevArray = formValues[field] as string[];
+  const addEmptyStringToEnd = (field: keyof FormValues) => {
+    const prevArray = formValues[field];
+
     if (!Array.isArray(prevArray)) return;
-  
-    const updatedArray = prevArray.filter((_, i) => i !== index);
-  
+
+    const updatedArray = [...prevArray, ""];
+
     const updatedFormValues = { ...formValues, [field]: updatedArray };
     setFormValues(updatedFormValues);
     setIsChanged(JSON.stringify(updatedFormValues) !== JSON.stringify(initialValues));
   };
-  
+
+
+  const removeStringAtIndex = (field: keyof FormValues, index: number) => {
+    const prevArray = formValues[field] as string[];
+    if (!Array.isArray(prevArray)) return;
+
+    const updatedArray = prevArray.filter((_, i) => i !== index);
+
+    const updatedFormValues = { ...formValues, [field]: updatedArray };
+    setFormValues(updatedFormValues);
+    setIsChanged(JSON.stringify(updatedFormValues) !== JSON.stringify(initialValues));
+  };
+
 
   const handleGoBack = () => {
     router.back();
@@ -172,13 +172,13 @@ function EditProfile() {
 
       // const changes = Object.keys(formValues).reduce(
       //   (acc, key) => {
-          // if (
-          //   formValues[key as keyof FormValues] !==
-          //   initialValues[key as keyof FormValues]
-          // ) {
-          //   acc[key as keyof FormValues] = formValues[key as keyof FormValues];
-          // }
-          // return acc;
+      // if (
+      //   formValues[key as keyof FormValues] !==
+      //   initialValues[key as keyof FormValues]
+      // ) {
+      //   acc[key as keyof FormValues] = formValues[key as keyof FormValues];
+      // }
+      // return acc;
       //   },
       //   {} as Partial<FormValues>
       // );
@@ -188,7 +188,7 @@ function EditProfile() {
       for (const key of Object.keys(formValues) as (keyof FormValues)[]) {
         const currentValue = formValues[key];
         const initialValue = initialValues[key];
-      
+
         if (!isEqual(currentValue, initialValue)) {
           changes[key] = currentValue as string & string[];;
         }
@@ -420,12 +420,12 @@ function EditProfile() {
                 {/* <LocationIcon fill={"#2EC4B6"} /> */}
                 <Select value={formValues.genres} onValueChange={(value) => handleInputChange("genres", value)}>
                   <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
-                    <SelectValue placeholder="Select location" />
+                    <SelectValue placeholder={t("selectLocation")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>{t("selectGenre")}</SelectLabel>
-                      {["Portrait","Landscape","Wedding","Fashion","Nature","Event","Product"].map((genre) => (
+                      {["Portrait", "Landscape", "Wedding", "Fashion", "Nature", "Event", "Product"].map((genre) => (
                         <SelectItem key={genre} value={genre}>
                           {t(genre)}
                         </SelectItem>
@@ -442,7 +442,7 @@ function EditProfile() {
 
                 <button
                   type="button"
-                  onClick={()=>addEmptyStringToEnd("achievements")}
+                  onClick={() => addEmptyStringToEnd("achievements")}
                   className="absolute top-2 right-2 p-1  text-[#2EC4B6] rounded-full"
                   aria-label="Add Achievement"
                 >
@@ -456,15 +456,15 @@ function EditProfile() {
                   <div key={index} className="flex items-center gap-2 mb-2">
                     <input
                       type="text"
-                      placeholder={`Achievement ${index + 1}`}
+                      placeholder={`${t("pAchievement")} ${index + 1}`}
                       value={achievement}
-                      onChange={(e) => handleArrayInputChange("achievements",index, e.target.value)}
+                      onChange={(e) => handleArrayInputChange("achievements", index, e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
                     />
                     {formValues.achievements.length > 2 && (
                       <button
                         type="button"
-                        onClick={() => removeStringAtIndex("achievements",index)}
+                        onClick={() => removeStringAtIndex("achievements", index)}
                         className="p-2 bg-[#FF9F1C] text-white rounded hover:bg-red-600 text-[12px]"
                         aria-label="Remove Achievement"
                       >
@@ -795,7 +795,7 @@ function EditProfile() {
                     <div className="w-4 h-4 mr-1 rounded-full border-2 border-black-600 relative">
                       <div className={`w-2 h-2 bg-[#2EC4B6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formValues.gender === gender ? 'block' : 'hidden'}`}></div>
                     </div>
-                    {gender==="Male" ? t("male") : t("female")}
+                    {gender === "Male" ? t("male") : t("female")}
                   </label>
                 ))}
               </div>
@@ -827,7 +827,7 @@ function EditProfile() {
                 <LocationIcon fill={"#2EC4B6"} />
                 <Select value={formValues.location} onValueChange={(value) => handleInputChange("location", value)}>
                   <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
-                    <SelectValue placeholder="Select location" />
+                    <SelectValue placeholder={t("selectLocation")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -989,25 +989,25 @@ const CalendarIcon = ({ fill = "text-[#999999]" }) => {
 };
 
 const InstagramIcon = ({ fill = "text-[#999999]" }) => {
-  return(
+  return (
     <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-colors duration-300 fill-current text-[${fill}]`}>
-    <path d="M5.14 0H11.86C14.42 0 16.5 2.08 16.5 4.64V11.36C16.5 12.5906 16.0111 13.7708 15.141 14.641C14.2708 15.5111 13.0906 16 11.86 16H5.14C2.58 16 0.5 13.92 0.5 11.36V4.64C0.5 3.4094 0.988856 2.22919 1.85902 1.35902C2.72919 0.488856 3.9094 0 5.14 0ZM4.98 1.6C4.21618 1.6 3.48364 1.90343 2.94353 2.44353C2.40343 2.98364 2.1 3.71618 2.1 4.48V11.52C2.1 13.112 3.388 14.4 4.98 14.4H12.02C12.7838 14.4 13.5164 14.0966 14.0565 13.5565C14.5966 13.0164 14.9 12.2838 14.9 11.52V4.48C14.9 2.888 13.612 1.6 12.02 1.6H4.98ZM12.7 2.8C12.9652 2.8 13.2196 2.90536 13.4071 3.09289C13.5946 3.28043 13.7 3.53478 13.7 3.8C13.7 4.06522 13.5946 4.31957 13.4071 4.50711C13.2196 4.69464 12.9652 4.8 12.7 4.8C12.4348 4.8 12.1804 4.69464 11.9929 4.50711C11.8054 4.31957 11.7 4.06522 11.7 3.8C11.7 3.53478 11.8054 3.28043 11.9929 3.09289C12.1804 2.90536 12.4348 2.8 12.7 2.8ZM8.5 4C9.56087 4 10.5783 4.42143 11.3284 5.17157C12.0786 5.92172 12.5 6.93913 12.5 8C12.5 9.06087 12.0786 10.0783 11.3284 10.8284C10.5783 11.5786 9.56087 12 8.5 12C7.43913 12 6.42172 11.5786 5.67157 10.8284C4.92143 10.0783 4.5 9.06087 4.5 8C4.5 6.93913 4.92143 5.92172 5.67157 5.17157C6.42172 4.42143 7.43913 4 8.5 4ZM8.5 5.6C7.86348 5.6 7.25303 5.85286 6.80294 6.30294C6.35286 6.75303 6.1 7.36348 6.1 8C6.1 8.63652 6.35286 9.24697 6.80294 9.69706C7.25303 10.1471 7.86348 10.4 8.5 10.4C9.13652 10.4 9.74697 10.1471 10.1971 9.69706C10.6471 9.24697 10.9 8.63652 10.9 8C10.9 7.36348 10.6471 6.75303 10.1971 6.30294C9.74697 5.85286 9.13652 5.6 8.5 5.6Z" fill="currentColor"/>
+      <path d="M5.14 0H11.86C14.42 0 16.5 2.08 16.5 4.64V11.36C16.5 12.5906 16.0111 13.7708 15.141 14.641C14.2708 15.5111 13.0906 16 11.86 16H5.14C2.58 16 0.5 13.92 0.5 11.36V4.64C0.5 3.4094 0.988856 2.22919 1.85902 1.35902C2.72919 0.488856 3.9094 0 5.14 0ZM4.98 1.6C4.21618 1.6 3.48364 1.90343 2.94353 2.44353C2.40343 2.98364 2.1 3.71618 2.1 4.48V11.52C2.1 13.112 3.388 14.4 4.98 14.4H12.02C12.7838 14.4 13.5164 14.0966 14.0565 13.5565C14.5966 13.0164 14.9 12.2838 14.9 11.52V4.48C14.9 2.888 13.612 1.6 12.02 1.6H4.98ZM12.7 2.8C12.9652 2.8 13.2196 2.90536 13.4071 3.09289C13.5946 3.28043 13.7 3.53478 13.7 3.8C13.7 4.06522 13.5946 4.31957 13.4071 4.50711C13.2196 4.69464 12.9652 4.8 12.7 4.8C12.4348 4.8 12.1804 4.69464 11.9929 4.50711C11.8054 4.31957 11.7 4.06522 11.7 3.8C11.7 3.53478 11.8054 3.28043 11.9929 3.09289C12.1804 2.90536 12.4348 2.8 12.7 2.8ZM8.5 4C9.56087 4 10.5783 4.42143 11.3284 5.17157C12.0786 5.92172 12.5 6.93913 12.5 8C12.5 9.06087 12.0786 10.0783 11.3284 10.8284C10.5783 11.5786 9.56087 12 8.5 12C7.43913 12 6.42172 11.5786 5.67157 10.8284C4.92143 10.0783 4.5 9.06087 4.5 8C4.5 6.93913 4.92143 5.92172 5.67157 5.17157C6.42172 4.42143 7.43913 4 8.5 4ZM8.5 5.6C7.86348 5.6 7.25303 5.85286 6.80294 6.30294C6.35286 6.75303 6.1 7.36348 6.1 8C6.1 8.63652 6.35286 9.24697 6.80294 9.69706C7.25303 10.1471 7.86348 10.4 8.5 10.4C9.13652 10.4 9.74697 10.1471 10.1971 9.69706C10.6471 9.24697 10.9 8.63652 10.9 8C10.9 7.36348 10.6471 6.75303 10.1971 6.30294C9.74697 5.85286 9.13652 5.6 8.5 5.6Z" fill="currentColor" />
     </svg>
   )
 }
 
-const TwitterIcon = ({ fill = "text-[#999999]" }) =>{
-  return(
+const TwitterIcon = ({ fill = "text-[#999999]" }) => {
+  return (
     <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-colors duration-300 fill-current text-[${fill}]`}>
-    <path d="M18.1192 2.45095C18.0481 2.27959 17.9277 2.13319 17.7733 2.03028C17.6189 1.92736 17.4375 1.87257 17.252 1.87283H15.0489C14.5755 1.13308 13.8751 0.566646 13.0528 0.258417C12.2304 -0.0498126 11.3303 -0.0832416 10.4873 0.163139C9.64432 0.40952 8.90389 0.922442 8.37695 1.62504C7.85002 2.32764 7.56496 3.18208 7.56449 4.06033V4.12283C4.65042 3.22439 2.31449 0.919701 2.29105 0.896264C2.16977 0.775056 2.01758 0.689428 1.85103 0.648695C1.68448 0.607962 1.50995 0.613685 1.34643 0.665239C1.1829 0.716794 1.03665 0.812207 0.923573 0.941097C0.810499 1.06999 0.734938 1.22742 0.70511 1.39626C0.00198531 5.27126 1.17386 7.88064 2.27542 9.38064C2.763 10.0443 3.34159 10.6361 3.99417 11.1385C2.86917 12.2635 1.31449 12.865 1.29886 12.8728C1.16628 12.9205 1.04653 12.9982 0.948953 13.0999C0.851376 13.2015 0.778617 13.3244 0.73636 13.4588C0.693541 13.5939 0.681142 13.7368 0.700052 13.8773C0.718961 14.0177 0.768711 14.1523 0.845735 14.2713C0.994173 14.4978 1.89261 15.6228 4.75199 15.6228C10.3848 15.6228 15.1035 11.3181 15.6348 5.74783L17.916 3.47439C18.0457 3.34201 18.134 3.1747 18.1701 2.99293C18.2062 2.81116 18.1885 2.62282 18.1192 2.45095ZM14.0723 4.6697C13.9067 4.82726 13.8087 5.04291 13.7989 5.27126C13.4942 10.0213 9.51761 13.7478 4.75199 13.7478C4.4254 13.7499 4.09908 13.729 3.77542 13.6853C4.58792 13.1619 5.5098 12.4275 6.15824 11.4588C6.23204 11.3472 6.28134 11.2213 6.30289 11.0894C6.32444 10.9574 6.31774 10.8223 6.28324 10.6931C6.2498 10.5652 6.18924 10.446 6.10566 10.3436C6.02209 10.2411 5.91745 10.1578 5.79886 10.0994C5.64261 10.0135 2.23636 8.20876 2.36917 3.42751C3.71292 4.45095 5.8848 5.82595 8.34574 6.2322C8.47996 6.25489 8.61751 6.24808 8.74883 6.21223C8.88015 6.17639 9.0021 6.11238 9.10618 6.02465C9.21027 5.93692 9.294 5.82758 9.35156 5.70422C9.40912 5.58086 9.43912 5.44645 9.43949 5.31033V4.06033C9.44567 3.47666 9.68241 2.91913 10.0981 2.50933C10.5137 2.09954 11.0745 1.87073 11.6582 1.87283C12.079 1.87829 12.4893 2.00502 12.8399 2.23782C13.1905 2.47062 13.4665 2.7996 13.6348 3.18533C13.7069 3.35314 13.8269 3.49599 13.9798 3.59602C14.1326 3.69606 14.3115 3.74886 14.4942 3.74783H14.9864L14.0723 4.6697Z" fill="currentColor"/>
+      <path d="M18.1192 2.45095C18.0481 2.27959 17.9277 2.13319 17.7733 2.03028C17.6189 1.92736 17.4375 1.87257 17.252 1.87283H15.0489C14.5755 1.13308 13.8751 0.566646 13.0528 0.258417C12.2304 -0.0498126 11.3303 -0.0832416 10.4873 0.163139C9.64432 0.40952 8.90389 0.922442 8.37695 1.62504C7.85002 2.32764 7.56496 3.18208 7.56449 4.06033V4.12283C4.65042 3.22439 2.31449 0.919701 2.29105 0.896264C2.16977 0.775056 2.01758 0.689428 1.85103 0.648695C1.68448 0.607962 1.50995 0.613685 1.34643 0.665239C1.1829 0.716794 1.03665 0.812207 0.923573 0.941097C0.810499 1.06999 0.734938 1.22742 0.70511 1.39626C0.00198531 5.27126 1.17386 7.88064 2.27542 9.38064C2.763 10.0443 3.34159 10.6361 3.99417 11.1385C2.86917 12.2635 1.31449 12.865 1.29886 12.8728C1.16628 12.9205 1.04653 12.9982 0.948953 13.0999C0.851376 13.2015 0.778617 13.3244 0.73636 13.4588C0.693541 13.5939 0.681142 13.7368 0.700052 13.8773C0.718961 14.0177 0.768711 14.1523 0.845735 14.2713C0.994173 14.4978 1.89261 15.6228 4.75199 15.6228C10.3848 15.6228 15.1035 11.3181 15.6348 5.74783L17.916 3.47439C18.0457 3.34201 18.134 3.1747 18.1701 2.99293C18.2062 2.81116 18.1885 2.62282 18.1192 2.45095ZM14.0723 4.6697C13.9067 4.82726 13.8087 5.04291 13.7989 5.27126C13.4942 10.0213 9.51761 13.7478 4.75199 13.7478C4.4254 13.7499 4.09908 13.729 3.77542 13.6853C4.58792 13.1619 5.5098 12.4275 6.15824 11.4588C6.23204 11.3472 6.28134 11.2213 6.30289 11.0894C6.32444 10.9574 6.31774 10.8223 6.28324 10.6931C6.2498 10.5652 6.18924 10.446 6.10566 10.3436C6.02209 10.2411 5.91745 10.1578 5.79886 10.0994C5.64261 10.0135 2.23636 8.20876 2.36917 3.42751C3.71292 4.45095 5.8848 5.82595 8.34574 6.2322C8.47996 6.25489 8.61751 6.24808 8.74883 6.21223C8.88015 6.17639 9.0021 6.11238 9.10618 6.02465C9.21027 5.93692 9.294 5.82758 9.35156 5.70422C9.40912 5.58086 9.43912 5.44645 9.43949 5.31033V4.06033C9.44567 3.47666 9.68241 2.91913 10.0981 2.50933C10.5137 2.09954 11.0745 1.87073 11.6582 1.87283C12.079 1.87829 12.4893 2.00502 12.8399 2.23782C13.1905 2.47062 13.4665 2.7996 13.6348 3.18533C13.7069 3.35314 13.8269 3.49599 13.9798 3.59602C14.1326 3.69606 14.3115 3.74886 14.4942 3.74783H14.9864L14.0723 4.6697Z" fill="currentColor" />
     </svg>
   )
 }
 
-const LocationIcon = ({ fill = "text-[#999999]" }) =>{
-  return(
+const LocationIcon = ({ fill = "text-[#999999]" }) => {
+  return (
     <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-colors duration-300 fill-current text-[${fill}]`}>
-    <path d="M6.84524 1.52381C8.52143 1.52381 9.89286 2.89524 9.89286 4.57143C9.89286 6.17143 8.29286 8.7619 6.84524 10.5905C5.39762 8.68571 3.79762 6.17143 3.79762 4.57143C3.79762 2.89524 5.16905 1.52381 6.84524 1.52381ZM6.84524 0C4.33095 0 2.27381 2.05714 2.27381 4.57143C2.27381 8 6.84524 12.9524 6.84524 12.9524C6.84524 12.9524 11.4167 7.92381 11.4167 4.57143C11.4167 2.05714 9.35952 0 6.84524 0ZM6.84524 3.04762C6.00714 3.04762 5.32143 3.73333 5.32143 4.57143C5.32143 5.40952 6.00714 6.09524 6.84524 6.09524C7.68333 6.09524 8.36905 5.40952 8.36905 4.57143C8.36905 3.73333 7.68333 3.04762 6.84524 3.04762ZM12.9405 12.9524C12.9405 14.6286 10.1976 16 6.84524 16C3.49286 16 0.75 14.6286 0.75 12.9524C0.75 11.9619 1.66429 11.1238 3.1119 10.5143L3.56905 11.2C2.80714 11.581 2.27381 12.0381 2.27381 12.5714C2.27381 13.6381 4.33095 14.4762 6.84524 14.4762C9.35952 14.4762 11.4167 13.6381 11.4167 12.5714C11.4167 12.0381 10.8833 11.581 10.0452 11.2L10.5024 10.5143C12.0262 11.1238 12.9405 11.9619 12.9405 12.9524Z" fill="currentColor"/>
+      <path d="M6.84524 1.52381C8.52143 1.52381 9.89286 2.89524 9.89286 4.57143C9.89286 6.17143 8.29286 8.7619 6.84524 10.5905C5.39762 8.68571 3.79762 6.17143 3.79762 4.57143C3.79762 2.89524 5.16905 1.52381 6.84524 1.52381ZM6.84524 0C4.33095 0 2.27381 2.05714 2.27381 4.57143C2.27381 8 6.84524 12.9524 6.84524 12.9524C6.84524 12.9524 11.4167 7.92381 11.4167 4.57143C11.4167 2.05714 9.35952 0 6.84524 0ZM6.84524 3.04762C6.00714 3.04762 5.32143 3.73333 5.32143 4.57143C5.32143 5.40952 6.00714 6.09524 6.84524 6.09524C7.68333 6.09524 8.36905 5.40952 8.36905 4.57143C8.36905 3.73333 7.68333 3.04762 6.84524 3.04762ZM12.9405 12.9524C12.9405 14.6286 10.1976 16 6.84524 16C3.49286 16 0.75 14.6286 0.75 12.9524C0.75 11.9619 1.66429 11.1238 3.1119 10.5143L3.56905 11.2C2.80714 11.581 2.27381 12.0381 2.27381 12.5714C2.27381 13.6381 4.33095 14.4762 6.84524 14.4762C9.35952 14.4762 11.4167 13.6381 11.4167 12.5714C11.4167 12.0381 10.8833 11.581 10.0452 11.2L10.5024 10.5143C12.0262 11.1238 12.9405 11.9619 12.9405 12.9524Z" fill="currentColor" />
     </svg>
 
   )

@@ -561,7 +561,7 @@ function Home() {
                 <UserTile key={index} user={item} />
               ))}
               {
-                !loading && !availableModel.length && <span className='text-sm font-semibold text-[#999999]'>{t("no")} {profession === "modelling" ? "Photographers" : profession === "photographer" ? "Models" : "Users"} {t("available")}</span>
+                !loading && !availableModel.length && <span className='text-sm font-semibold text-[#999999]'>{t("no")} {profession === "modelling" ? t("photographer") : profession === "photographer" ? t("model") : "Users"} {t("available")}</span>
               }
             </div>
 

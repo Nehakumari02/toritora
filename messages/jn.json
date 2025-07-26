@@ -640,7 +640,17 @@
             "Sa": "土",
             "scheduleFor": "のスケジュール",
             "share": "共有",
-            "addToFavourite": "お気に入りに追加"
+            "addToFavourite": "お気に入りに追加",
+            "pquestion1": "1. あなたの撮影スタイルや得意ジャンルを教えて ください。（任意）",
+            "pquestion2": "2. 撮影時に大切にしていることを教えてくださ い。（任意） ",
+            "pquestion3": "3. 印象に残っている撮影エピソードがあれば教え てください。（任意）",
+            "pquestion4": "4. 趣味や好きなことを教えてください。（任意）",
+            "pplaceholder1": "例：ポートレート、自然光、フィルム風など",
+            "pplaceholder2": "例：リラックスした雰囲気づくり、自然な表 情の引き出し",
+            "pplaceholder3": "楽しかったエピソードなどでもOKです",
+            "pplaceholder4": "例：旅行、カフェ巡り、映画鑑賞など",
+            "pAchievement": "例：XX写真展出展",
+            "mAchievement": "例：XX主催の写真教室出演"
         },
         "profile": {
             "profile": "マイプロフィール",

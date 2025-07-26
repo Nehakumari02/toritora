@@ -643,7 +643,17 @@
             "Sa": "Sa",
             "scheduleFor": "Schedule For",
             "share": "Share",
-            "addToFavourite": "Add to Favourites"
+            "addToFavourite": "Add to Favourites",
+            "pquestion1": "Tell us about your photography style or preferred genres. (Optional)",
+            "pquestion2": "What do you value most during a photoshoot? (Optional)",
+            "pquestion3": "If you have any memorable shooting episodes, please share. (Optional)",
+            "pquestion4": "Tell us about your hobbies or things you enjoy. (Optional)",
+            "pplaceholder1": "Example: Portraits, natural light, film-like style, etc.",
+            "pplaceholder2": "Example: Creating a relaxed atmosphere, drawing out natural expressions",
+            "pplaceholder3": "Fun or interesting stories are also welcome",
+            "pplaceholder4": "Example: Traveling, cafe hopping, watching movies, etc.",
+            "pAchievement": "Example: Exhibited in XX Photo Exhibition",
+            "mAchievement": "Example: Appeared in photography class hosted by XX"
         },
         "profile": {
             "profile": "My Profile",

@@ -313,13 +313,13 @@ function RequestList() {
                             </button>
                           </>
                         }
-                        {request.status === "approved" && <span className='text-right font-semibold text-[16px] leading-[24px] text-green-500'>A{t("accepted")}</span>}
+                        {request.status === "approved" && <span className='text-right font-semibold text-[16px] leading-[24px] text-green-500'>{t("accepted")}</span>}
                         {request.status === "rejected" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>{t("rejected")}</span>}
                         {request.status === "cancelled_by_sender" && <span className='text-right font-semibold text-[16px] leading-[24px] text-red-500'>{t("cancelled")}</span>}
                       </div>
 
                       <div className='w-full flex justify-end'>
-                        <button onClick={() => handleToggleExpand(request._id)} className='underline'>{isExpanded ? "Hide details" : "Show details"}</button>
+                        <button onClick={() => handleToggleExpand(request._id)} className='underline'>{isExpanded ? t("hideDetails") : t("showDetails")}</button>
                       </div>
                       <div className={`w-full p-4 border-t space-y-4 border-gray-200 ${isExpanded ? "" : "hidden"}`}>
                         <div className=''>
@@ -329,7 +329,7 @@ function RequestList() {
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("meetingPoint")}:</span> {request?.meetingPoint || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingConcept")}:</span> {request?.shootingConcept || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("clothingType")}:</span> {request?.clothingType || "N/A"}</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shoeType")}:</span> {request?.shoesType || "N/A"}</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shoesType")}:</span> {request?.shoesType || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("itemsType")}:</span> {request?.itemsType || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("makeupType")}:</span> {request?.makeUpType || "N/A"}</p>
                         </div>
@@ -340,7 +340,7 @@ function RequestList() {
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("meetingPoint")}:</span> {request?.meetingPointRainy || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shootingConcept")}:</span> {request?.shootingConceptRainy || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("clothingType")}:</span> {request?.clothingTypeRainy || "N/A"}</p>
-                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shoeType")}:</span> {request?.shoesTypeRainy || "N/A"}</p>
+                          <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("shoesType")}:</span> {request?.shoesTypeRainy || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("itemsType")}:</span> {request?.itemsTypeRainy || "N/A"}</p>
                           <p className='text-[12px] text-[#777777] font-normal'><span className='text-[14px] text-[#111111] font-medium'>{t("makeupType")}:</span> {request?.makeUpTypeRainy || "N/A"}</p>
                         </div>

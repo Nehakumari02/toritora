@@ -304,7 +304,7 @@ function UserDetails() {
     <div className='no-scrollbar flex flex-col h-full'>
       <header className="sticky top-0 z-10 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">{profession === "modelling" ? t("modelDetails") : "Photographer Details"}</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{profession === "modelling" ? t("modelDetails") : t("photographerDetail")}</span>
         <button onClick={() => { setIsOptionMenuOpen(!isOptionMenuOpen) }} className='absolute top-[50%] translate-y-[-50%] right-4'>{threeDotsIcon}</button>
       </header>
 
@@ -529,7 +529,7 @@ function UserDetails() {
             {/* Photographer details section */}
             <div className='max-w-[800px] mx-auto mt-4 bg-white p-4 space-y-4 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.15)]'>
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>User Name</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("userName")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -541,7 +541,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Camera Type</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("cameraType")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -553,7 +553,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Photography Experience</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("photographyExperience")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -565,7 +565,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Main area</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("mainArea")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -577,7 +577,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Genre of expertise</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("genres")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -589,7 +589,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-start justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Achievements</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("achievements")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -609,7 +609,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Shooting price per hours</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("shootingPrice")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -621,7 +621,7 @@ function UserDetails() {
               </div>
 
               <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Transportation fee</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("transportationFee")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -633,7 +633,7 @@ function UserDetails() {
               </div>
 
               {user?.snsUsername && <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>SNS Username</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("snsUsername")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -645,7 +645,7 @@ function UserDetails() {
               </div>}
 
               {user?.instagram && <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>Instagram</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("instagram")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -657,7 +657,7 @@ function UserDetails() {
               </div>}
 
               {user?.twitter && <div className='flex flex-row gap-4 flex-wrap items-center justify-between'>
-                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>X</span>
+                <span className='flex-1 min-w-[140px] font-medium text-[14px] leading-[25px] text-[#111111]'>{t("twitter")}</span>
                 {loading ?
                   <>
                     <div className='h-4 min-w-[140px] flex-1 bg-gray-200 animate-pulse rounded-md'></div>
@@ -697,7 +697,7 @@ function UserDetails() {
                     disabled={previousMonthDisabled}
                     className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
                   >
-                    <span className="sr-only">Previous month</span>
+                    <span className="sr-only">{t("previousMonth")}</span>
                     {leftIcon}
                   </button>
                   <button
@@ -705,18 +705,18 @@ function UserDetails() {
                     type="button"
                     className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
                   >
-                    <span className="sr-only">Next month</span>
+                    <span className="sr-only">{t("nextMonth")}</span>
                     {rightIcon}
                   </button>
                 </div>
                 <div className="grid grid-cols-7 mt-10 font-semibold text-center text-[15px] leading-[25px] text-[#111111]">
-                  <div>Su</div>
-                  <div>Mo</div>
-                  <div>Tu</div>
-                  <div>We</div>
-                  <div>Th</div>
-                  <div>Fr</div>
-                  <div>Sat</div>
+                  <div>{t("Su")}</div>
+                  <div>{t("Mo")}</div>
+                  <div>{t("Tu")}</div>
+                  <div>{t("We")}</div>
+                  <div>{t("Th")}</div>
+                  <div>{t("Fr")}</div>
+                  <div>{t("Sa")}</div>
                 </div>
                 <div className="grid grid-cols-7 mt-2 text-sm">
                   {days.map((day, dayIdx) => (
@@ -800,7 +800,7 @@ function UserDetails() {
                           <BookingSlot handleSlotBooking={handleSlotBooking} user={{ name: user?.firstName + " " + user?.lastName, _id: user?._id, shootingPrice: user?.shootingPrice, profileImage: user?.profilePicture }} slot={slot} index={index} key={index} />
                         ))
                     ) : (
-                      <p>No slots for today.</p>
+                      <p>{t("noSlots")}</p>
                     )}
                   </ol>
                 </section>
@@ -826,9 +826,9 @@ function UserDetails() {
           </DrawerHeader>
           <DrawerFooter className='pb-12'>
             <div className='flex flex-col items-center justify-center gap-4'>
-              <button disabled={favButtonDisabled} onClick={handleFavourite} className='text-[#121212] font-semibold text-[16px] flex items-center justify-center gap-1'>{isFavourite ? favFillIcon : favIcon} Add to Favourite</button>
+              <button disabled={favButtonDisabled} onClick={handleFavourite} className='text-[#121212] font-semibold text-[16px] flex items-center justify-center gap-1'>{isFavourite ? favFillIcon : favIcon} {t("addToFavourite")}</button>
               <hr className='w-full' />
-              <button onClick={handleFavourite} className='text-[#121212] font-semibold text-[16px] flex items-center justify-center gap-1'>{shareIcon} Share</button>
+              <button onClick={handleFavourite} className='text-[#121212] font-semibold text-[16px] flex items-center justify-center gap-1'>{shareIcon} {t("share")}</button>
             </div>
           </DrawerFooter>
         </DrawerContent>

@@ -25,12 +25,12 @@ import { useTranslations } from 'next-intl';
 function RegistrationInfo() {
   const router = useRouter();
   const [profession, setProfession] = useState("");
-  const t = useTranslations('RegistrationInfo');
   const { toast } = useToast();
 
   const handleGoBack = () => {
     router.back();
   }
+  const t = useTranslations('RegisterProfile');
 
 
   const handleProceed = async () => {
@@ -47,16 +47,16 @@ function RegistrationInfo() {
 
     if (res.status === 200) {
       toast({
-        title: "Success",
-        description: "Profession updated sucessfully",
+        title: t("success"),
+        description: t("sdesc"),
         variant: "success"
       })
       router.push('/completeInfo')
     }
     else if (res.status === 500) {
       toast({
-        title: "Internal error",
-        description: `Server internal error please try after again`,
+        title: t("error"),
+        description: t("edesc"),
         variant: "destructive"
       })
     }

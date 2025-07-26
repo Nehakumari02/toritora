@@ -31,7 +31,8 @@
         "loading": "Loading...",
         "error": "Error",
         "unauthorized": "Unauthorized request",
-        "serverError": "Server internal error"
+        "serverError": "Server internal error",
+        "user": "Users"
     },
     "Onboard": {
         "letsGetStarted": "Let's get started",
@@ -40,6 +41,38 @@
         "joinNow": "Join now",
         "login": "Login",
         "useAsVisitor": "Use Toritora as Visitor users"
+    },
+    "Search": {
+        "search": "Search",
+        "searchFilters": "Search Filters",
+        "date": "Shooting Date",
+        "pickDate": "Pick a Date",
+        "genres": "Select Genre",
+        "modellingExperience": "Modelling Experience (Years)",
+        "results": "Show Results",
+        "clear": "Clear",
+        "searchResults": "Search Results",
+        "noResult": "No Search Result Found",
+        "location": "Location",
+        "favourite": "Find your favourite Model"
+    },
+    "RegisterProfile": {
+        "chooseProfession": "Choose Profession",
+        "profession": "What's your Profession?",
+        "role": "Please select your role of profession in these following two fields",
+        "photographer": "Photographer",
+        "pInfo": "Photographer Info",
+        "pquote": "Real photographers don't go with the trend, they set the trend.",
+        "modelling": "Modelling",
+        "view": "View info",
+        "mInfo": "Model Info",
+        "close": "Close",
+        "mquote": "Real models don't go with the trend, they set the trend.",
+        "proceed": "Proceed",
+        "success": "Success",
+        "error": "Internal error",
+        "sdesc": "Profession updated sucessfully",
+        "edesc": "Server internal error please try after again"
     },
     "Registration": {
         "error1": "Error",
@@ -82,7 +115,10 @@
         "userAlreadyRegistered": "user already exists, redirecting to homepage",
         "userRegistered": "User exists, Kindly login with credentials",
         "regiterSucess": "User registered successfully",
-        "profilePending": "Profile pending, redirecting..."
+        "profilePending": "Profile pending, redirecting...",
+        "verifyCode": "Verify Code",
+        "register1": "Register",
+        "view": "View"
     },
     "Login": {
         "error": "Error",
@@ -112,9 +148,9 @@
         "userNotFound1": "No user found with this email",
         "credentialLogin": "Kindly Login with credentials"
     },
-    "RegistrationInfo":{
+    "RegistrationInfo": {
         "chooseProfession": "Choose Profession",
-        "professionText":"What&apos;s your Profession ?",
+        "professionText": "What&apos;s your Profession ?",
         "professionSelect": "Please select your role of profession in these following two fields",
         "photographer": "Photographer",
         "model": "Modelling",
@@ -153,8 +189,6 @@
         "step4": "Questionnaires",
         "age": "Age",
         "gender": "Gender",
-        "male":"Male",
-        "female":"Female",
         "mobile": "Mobile Number",
         "postalCode": "Postal Code",
         "location": "Location",
@@ -230,7 +264,21 @@
         "photgrapherDo": "3. What do you think photographers have to do in a photo session? Do you need any assistance",
         "back": "Back",
         "next": "Next",
-        "submit": "Submit"
+        "submit": "Submit",
+        "male": "Male",
+        "female": "Female",
+        "address1": "Select Address",
+        "achievements1": "Achievements",
+        "pquestion1": "Tell us about your photography style or preferred genres. (Optional)",
+        "pquestion2": "What do you value most during a photoshoot? (Optional)",
+        "pquestion3": "If you have any memorable shooting episodes, please share. (Optional)",
+        "pquestion4": "Tell us about your hobbies or things you enjoy. (Optional)",
+        "pplaceholder1": "Example: Portraits, natural light, film-like style, etc.",
+        "pplaceholder2": "Example: Creating a relaxed atmosphere, drawing out natural expressions",
+        "pplaceholder3": "Fun or interesting stories are also welcome",
+        "pplaceholder4": "Example: Traveling, cafe hopping, watching movies, etc.",
+        "pAchievement": "Example: Exhibited in XX Photo Exhibition",
+        "mAchievement": "Example: Appeared in photography class hosted by XX"
     },
     "Calendar": {
         "unauthorized": "Unauthorized request",
@@ -251,13 +299,45 @@
         "start_time": "Start time",
         "end_time": "End time",
         "update_slot": "Update slot",
-        "add_to_calendar": "Add to your calendar"
+        "add_to_calendar": "Add to your calendar",
+        "Su": "Su",
+        "Mo": "Mo",
+        "Tu": "Tu",
+        "We": "We",
+        "Th": "Th",
+        "Fr": "Fr",
+        "Sa": "Sa",
+        "scheduleFor": "Schedule For"
     },
     "Shooting": {
         "shooting": "Shooting",
         "upcoming": "Upcoming",
         "requestList": "Request List",
-        "kikaku": "Kikaku"
+        "kikaku": "Kikaku",
+        "comingSoon": "Coming Soon",
+        "editRequest": "Edit Request",
+        "shootingLocation": "This is Shooting Location",
+        "paymentStatus": "Payment Status",
+        "useShootMode": "Use Shoot Mode",
+        "noReservation": "No Reservations",
+        "normalOccasion": "Normal Occasion",
+        "rainyOccasion": "Rainy Occasion",
+        "shootingPlace": "Shooting Place",
+        "shootingLocation1": "Shooting Location",
+        "meetingPoint": "Meeting Point",
+        "shootingConcept": "Shooting Concept",
+        "clothingType": "Clothing Type",
+        "shoesType": "Shoes Type",
+        "itemsType": "Items Type",
+        "makeupType": "Makeup Type",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "cancelled": "Cancelled",
+        "noReceivedRequests": "No received requests.",
+        "noSentRequests": "No sent requests.",
+        "requestSent": "Request sent",
+        "requestReceived": "Request Received",
+        "requestType": "Request Type"
     },
     "MyPage": {
         "unauthorized": "Unauthorized request",
@@ -285,7 +365,15 @@
             "sendButton": "SEND",
             "feedbackSuccessMessage1": "Your feedback is sent successfully.",
             "feedbackSuccessMessage2": "Thank you for giving time for Toritora.",
-            "goToHome": "Go to Home"
+            "goToHome": "Go to Home",
+            "success": "Success",
+            "successMessage": "Feedback has been sent successfully.",
+            "error1": "Feedback Required",
+            "edesc1": "Please write something before submitting.",
+            "error2": "error",
+            "edesc2": "Something went wrong.",
+            "error3": "Unexpected Error",
+            "edesc3": "An unexpected error occurred."
         },
         "points": {
             "yourPoint": "Your Points",
@@ -299,6 +387,26 @@
             "silver_description": "10 or more times/use of shooting mode 10 or more times",
             "diamond_name": "Diamond",
             "diamond_description": "50 or more times/use of shooting mode 50 or more times"
+        },
+        "myProfile": {
+            "myProfile": "My Profile",
+            "pointHistory": "POINT HISTORY",
+            "bronze": "Bronze",
+            "gold": "Gold",
+            "platinum": "Platinum",
+            "goldUser": "Gold User",
+            "100": "100PTS",
+            "800": ">800PTS",
+            "1500": ">1500PTS",
+            "edit": "Edit",
+            "ProfessionalInformation": "Professional Information",
+            "userName": "User name",
+            "userId": "User ID",
+            "selfIntroduction": "Self Introduction",
+            "mainArea": "Main Area",
+            "genres": "Genres",
+            "achievements": "Achievements",
+            "shootingPrice": "Shooting Price Per Hour"
         },
         "editProfile": {
             "noChangesDetected": "No changes detected",
@@ -344,8 +452,8 @@
             "save": "SAVE",
             "error": "Error",
             "gender": "Gender",
-            "male":"Male",
-            "female":"Female",
+            "male": "Male",
+            "female": "Female",
             "postalCode": "Postal Code",
             "location": "Location",
             "address": "Address",
@@ -384,7 +492,11 @@
             "enterHeight": "Enter height",
             "enterModellingExperiance": "Enter Modelling experience",
             "enterInstagram": "Enter Instagram username",
-            "enterTwitter": "Enter Twitter username"
+            "enterTwitter": "Enter Twitter username",
+            "gallery": "Gallery",
+            "noPhotos": "No Photos to show",
+            "bookNow": "Book Now",
+            "toritai": "Toritai"
         },
         "profile": {
             "profile": "My Profile",
@@ -403,20 +515,20 @@
             "serverInternalError": "Server internal error"
         },
         "settings": {
-            "mySettings":"My Settings",
-            "account":"ACCOUNT",
-            "changeUserInformation":"Change user information",
-            "shootingSettings":"Shooting Settings",
-            "notificationSettings":"Notification Settings",
-            "changeLanguage":"Change Language",
-            "chooseLanguage":"Choose Language",
-            "other":"OTHER",
-            "aboutToritora":"About Toritora",
-            "termsOfService":"Terms of Service",
-            "privacyPolicy":"Privacy Policy",
-            "help":"Help / Enquiry",
-            "giveFeedback":"Give Feedback",
-            "logout":"Logout",
+            "mySettings": "My Settings",
+            "account": "ACCOUNT",
+            "changeUserInformation": "Change user information",
+            "shootingSettings": "Shooting Settings",
+            "notificationSettings": "Notification Settings",
+            "changeLanguage": "Change Language",
+            "chooseLanguage": "Choose Language",
+            "other": "OTHER",
+            "aboutToritora": "About Toritora",
+            "termsOfService": "Terms of Service",
+            "privacyPolicy": "Privacy Policy",
+            "help": "Help / Enquiry",
+            "giveFeedback": "Give Feedback",
+            "logout": "Logout",
             "feedback": {
                 "giveFeedback": "Give Feedback",
                 "successMessage": "Your feedback is sent successfully.",
@@ -427,12 +539,12 @@
                 "feedbackPlaceholder": "Enter characters up to 0 to 100 words",
                 "send": "SEND"
             },
-            "aboutToritoraPage":{
-                "aboutUs":"About Us",
-                "comingSoon":"Coming Soon"
+            "aboutToritoraPage": {
+                "aboutUs": "About Us",
+                "comingSoon": "Coming Soon"
             },
-            "termsOfServicePage":{
-                "termsOfService":"Terms of Service",
+            "termsOfServicePage": {
+                "termsOfService": "Terms of Service",
                 "purpose_of_terms": "Purpose of These Terms",
                 "purpose_of_terms_text": "These TORITORA Terms of Use (hereinafter referred to as 'these Terms') set forth the conditions for using all services related to 'TORITORA (Toritora)' provided by TORITORA (hereinafter referred to as 'TORITORA'). These Terms apply to all customers who use the services (hereinafter referred to as 'Members').",
                 "agreement_to_terms": "Agreement to Terms",
@@ -448,15 +560,15 @@
                 "membership_eligibility_d6": "TORITORA may, at any time, conduct a criminal background check on the Member using available public records or publicly disclosed information, but is not obligated to do so.",
                 "membership_restriction_conditions": "Conditions for Refusal, Restriction, or Termination of Membership",
                 "membership_restriction_conditions_d": "TORITORA may refuse membership registration if the member falls under any of the following circumstances. If any of the following circumstances are discovered after membership registration, TORITORA may restrict, suspend, or forcibly terminate the membership.",
-                "membership_restriction_conditions_list1":"If TORITORA determines that the member has violated or may violate these Terms",
-                "membership_restriction_conditions_list2":"If the member’s age cannot be confirmed to be 18 or older",
-                "membership_restriction_conditions_list3":"If the member attempts to register for the service using another person’s identity, such as by using a third party’s phone number for SMS login",
-                "membership_restriction_conditions_list4":"If any part of the registration information provided by the member contains errors, omissions, or falsehoods",
-                "membership_restriction_conditions_list5":"If the member has previously been restricted or forcibly removed due to violation of these Terms",
-                "membership_restriction_conditions_list6":"If the member is an adult ward, person under curatorship, or person under assistance and does not have the consent of a legal representative, guardian, curator, or assistant",
-                "membership_restriction_conditions_list7":"If TORITORA determines that the member is part of or associated with antisocial forces (e.g., organized crime groups, gang members, associate members, related companies, etc.)",
-                "membership_restriction_conditions_list8":"If TORITORA determines that the member uses or supports antisocial forces or engages in interactions or involvement with such groups in any way",
-                "membership_restriction_conditions_list9":"If TORITORA determines for any other reason that the registration is inappropriate",
+                "membership_restriction_conditions_list1": "If TORITORA determines that the member has violated or may violate these Terms",
+                "membership_restriction_conditions_list2": "If the member’s age cannot be confirmed to be 18 or older",
+                "membership_restriction_conditions_list3": "If the member attempts to register for the service using another person’s identity, such as by using a third party’s phone number for SMS login",
+                "membership_restriction_conditions_list4": "If any part of the registration information provided by the member contains errors, omissions, or falsehoods",
+                "membership_restriction_conditions_list5": "If the member has previously been restricted or forcibly removed due to violation of these Terms",
+                "membership_restriction_conditions_list6": "If the member is an adult ward, person under curatorship, or person under assistance and does not have the consent of a legal representative, guardian, curator, or assistant",
+                "membership_restriction_conditions_list7": "If TORITORA determines that the member is part of or associated with antisocial forces (e.g., organized crime groups, gang members, associate members, related companies, etc.)",
+                "membership_restriction_conditions_list8": "If TORITORA determines that the member uses or supports antisocial forces or engages in interactions or involvement with such groups in any way",
+                "membership_restriction_conditions_list9": "If TORITORA determines for any other reason that the registration is inappropriate",
                 "service_provision": "Provision of Services",
                 "service_provision_d1": "TORITORA makes no guarantees that the service is free of defects in fact or law, including but not limited to safety, reliability, accuracy, completeness, effectiveness, fitness for a particular purpose, security, errors or bugs, or infringement of rights.",
                 "service_provision_d2": "TORITORA does not guarantee that the service is compatible with all PCs, smartphones, tablets, operating systems, etc.",
@@ -467,11 +579,11 @@
                 "service_provision_d7": "TORITORA may review a member's profile before publication to determine whether it violates these Terms and may choose not to publish it if it deems it inappropriate. However, TORITORA is not obligated to check the content of all members' profiles.",
                 "service_suspension_conditions": "Conditions for Service Suspension or Interruption",
                 "service_suspension_conditions_d": "TORITORA may suspend or interrupt all or part of the service without prior notice to the members under the following circumstances:",
-                "service_suspension_conditions_list1":"When performing regular or emergency inspections or maintenance of systems related to the service",
-                "service_suspension_conditions_list2":"When computers, communication lines, etc., stop functioning due to accidents",
-                "service_suspension_conditions_list3":"When the operation of the service becomes impossible due to force majeure such as fire, power outage, earthquake, natural disasters, terrorism, or war",
-                "service_suspension_conditions_list4":"When there are troubles, service interruptions, suspensions, or specification changes related to the SMS login service",
-                "service_suspension_conditions_list5":"Any other cases where TORITORA deems suspension or interruption necessary",
+                "service_suspension_conditions_list1": "When performing regular or emergency inspections or maintenance of systems related to the service",
+                "service_suspension_conditions_list2": "When computers, communication lines, etc., stop functioning due to accidents",
+                "service_suspension_conditions_list3": "When the operation of the service becomes impossible due to force majeure such as fire, power outage, earthquake, natural disasters, terrorism, or war",
+                "service_suspension_conditions_list4": "When there are troubles, service interruptions, suspensions, or specification changes related to the SMS login service",
+                "service_suspension_conditions_list5": "Any other cases where TORITORA deems suspension or interruption necessary",
                 "member_responsibilities": "Responsibilities and Duties of Members",
                 "member_responsibilities_d1": "Members bear full legal responsibility for their own actions on the service, and TORITORA assumes no liability.",
                 "member_responsibilities_d2": "If a member causes a dispute or any trouble with a third party due to use of copyrighted materials or any other actions, the member shall be solely responsible and ensure that TORITORA suffers no damage. If damage is caused to TORITORA, the member must compensate for it.",
@@ -529,19 +641,15 @@
                 "prohibited_content_sexual_inducement": "Content that directly or indirectly induces other members to sexual intercourse or similar acts",
                 "prohibited_content_sexual_expression": "Content that mentions sexual intercourse, genitals, sex toy names, sexual preferences or evokes these, or other sexual expressions",
                 "prohibited_content_other_inappropriate": "Other acts judged inappropriate by the company",
-                
                 "response_to_prohibited_acts_intro": "If TORITORA determines that a member has committed or may commit prohibited acts described above, TORITORA may take the following actions. However, TORITORA is not obligated to suspend or delete such data, nor is it required to explain its actions regarding deletion or usage restrictions.",
-                
                 "response_to_prohibited_acts_delete_without_notice": "Delete the relevant data or content without notifying the member who committed the act",
                 "response_to_prohibited_acts_warn_member": "Display a warning to the member who committed the act",
                 "response_to_prohibited_acts_suspend_or_expulse": "Suspend, permanently freeze, or forcibly withdraw the member's account who committed the act",
                 "response_to_prohibited_acts_no_liability": "The company assumes no responsibility for any damages incurred by the member due to actions taken based on the preceding paragraph.",
-                
                 "cancel_section_title": "Cancellation",
                 "cancel_clause_1": "1. Members making payments and members receiving payments shall perform cancellations (meaning termination of the service provision contract) after the shooting reservation is confirmed in the manner prescribed by TORITORA.",
                 "cancel_clause_2": "2. Notwithstanding the preceding paragraph, if the receiving member does not respond to the paying member even after the prescribed period after the shooting reservation is confirmed, cancellation of the reservation shall be deemed tacitly agreed upon by both parties, and neither party shall object.",
                 "cancel_clause_3": "3. Members making payments and members receiving payments may communicate details of the service and demand performance of the service provision contract within the talk room.",
-                
                 "payment_application_and_fee_section_title": "Payment Application and Fees",
                 "payment_clause_1": "1. Payment from the paying member to the receiving member shall be made by TORITORA receiving the amount on behalf of the receiving member and transferring it to the receiving member, or by other methods designated by TORITORA, and payment shall be deemed complete when TORITORA receives the amount or at the designated time.",
                 "payment_clause_2": "2. When making payments in this service, the paying member shall pay TORITORA a fee calculated by multiplying the amount by the fee rate set by TORITORA, using the prescribed method. Likewise, the receiving member shall pay TORITORA a fee calculated by multiplying the amount by the fee rate set by TORITORA when receiving payments.",
@@ -556,10 +664,8 @@
                 "payment_clause_11": "11. If there is an error in the registered bank account, TORITORA will generally deduct the return fee from the transfer amount before payment.",
                 "payment_clause_12": "12. If the transfer amount is below the TORITORA-specified standard (the 'minimum transfer amount'), transfer applications are generally not accepted. However, in case of membership cancellation or expiration, applications are allowed if the amount after deducting fees is 1 yen or more.",
                 "payment_clause_13": "13. If there is an amount available for transfer at the time of cancellation or expiration, members must apply for transfer within one month of the cancellation or expiration.",
-
                 "rights_ownership_title": "(Ownership of Rights)",
                 "rights_ownership_content": "All intellectual property rights related to the TORITORA website, application, and this service belong to TORITORA or legitimate rights holders including members, and permission to register as a member does not grant other members the right to use the intellectual property rights included in the TORITORA website, application, and this service held by TORITORA or legitimate rights holders including members.",
-
                 "portrait_rights_agreement_title": "(Agreement on Portrait Rights etc. Between TORITORA and Members)",
                 "portrait_rights_agreement_clause_1": "1. Members agree in advance that TORITORA may publish members’ photos, names (including pseudonyms such as pen names; the same applies hereinafter in this article), career details, and other registered information (hereinafter referred to as “Seller Profile Information”) on the TORITORA website, application, partner media, and any other media regardless of online or offline. TORITORA may use member profile information free of charge for any purpose (including public transmission, broadcasting, advertising, and promotion of our services, but not limited thereto) regardless of period or method, including granting usage rights to third parties.",
                 "portrait_rights_agreement_clause_2": "2. TORITORA shall not be liable for any damages suffered by members in connection with the use of member profile information as stipulated in the preceding paragraph, except in cases where the cause is attributable to TORITORA.",
@@ -579,10 +685,8 @@
                 "portrait_rights_agreement_clause_4_5": "(5) Location and storage of the portrait rights claimed to be infringed",
                 "portrait_rights_agreement_clause_4_6": "(6) Details of the location where the portrait rights content is posted",
                 "portrait_rights_agreement_clause_4_note": "Even if a written notice is sent based on the preceding paragraph, TORITORA does not guarantee that it will take any action. Infringement of rights other than portrait rights shall be handled in accordance with the provisions of this article.",
-
                 "portrait_rights_between_members_title": "(Agreement on Portrait Rights etc. Between Members)",
                 "portrait_rights_between_members_content": "Unless otherwise agreed upon, for all photography activities conducted within the Service, the copyright of the photographs belongs to the photographer, and the portrait rights of the photographs belong to the portrait model. When posting photographs taken by the photographer or photographs taken by the photographer posted by the model on websites or SNS, please obtain posting permission between the parties involved. If the poster determines that either party infringes on copyrights or portrait rights, they should immediately resolve the dispute by deleting the posts among themselves.",
-
                 "warranty_of_rights_title": "(Warranty of Rights)",
                 "warranty_of_rights_clause_1": "1. Members guarantee that their use of the Service, exercise of rights, or fulfillment of obligations under these Terms will not violate laws, regulations of industry organizations to which the member belongs, contracts between the member and third parties, nor infringe on intellectual property rights, personal rights, honor rights, privacy rights, publicity rights, or any other rights of third parties.",
                 "warranty_of_rights_clause_2": "2. Members guarantee the following concerning their own copyrighted works, etc.:",
@@ -595,26 +699,20 @@
                 "warranty_of_rights_clause_2_7": "(7) It does not contain discriminatory expressions.",
                 "warranty_of_rights_clause_2_8": "(8) Publication of the seller’s copyrighted works, etc., does not constitute a criminal act.",
                 "warranty_of_rights_clause_3": "3. If a seller discovers any fact contradicting the previous two clauses, they shall immediately notify TORITORA. In case of objections, complaints, requests for actual costs or compensation, or claims for damages from third parties related to the previous two clauses or the member’s use of the Service, the seller shall immediately notify TORITORA and handle the matter at their own expense and responsibility, including attorney fees.",
-
                 "point_grant_title": "(Granting of Points)",
                 "point_grant_clause_1": "1. TORITORA grants points when a user utilizes the Service or when TORITORA otherwise deems it appropriate.",
                 "point_grant_clause_2": "2. The services and transactions subject to point grants (hereinafter “eligible transactions”), point grant rates, and other conditions for granting, holding, and using points are determined by TORITORA and notified to users on the announcement site. Whether points are granted, the rate of point grants, and expiration periods may vary depending on the member, type of transaction, or type of service used.",
                 "point_grant_clause_3": "3. Points are granted after a certain period defined by TORITORA has elapsed since the eligible transaction. If TORITORA judges that a cancellation or other reason justifies revoking the point grant during this period, no points will be granted for that transaction.",
                 "point_grant_clause_4": "4. TORITORA makes the final decision on whether to grant points for a transaction, the number of points granted, and other matters related to point grants. Users shall comply with these decisions.",
-
                 "point_non_redeemable_title": "(Points Cannot Be Redeemed for Cash)",
                 "point_non_redeemable_content": "Members cannot redeem points for cash under any circumstances.",
-
                 "tax_and_costs_title": "(Taxes and Costs)",
                 "tax_and_costs_content": "Members shall bear any taxes and incidental costs arising from income, including income earned through the Service.",
-
                 "loss_of_membership_title": "(Loss of Membership)",
                 "loss_of_membership_content": "If a member loses their membership status, they lose all rights related to held points and other point usage and shall not acquire any claim against the Company due to such loss of status.",
-
                 "equipment_and_environment_title": "(Equipment and Environment)",
                 "equipment_and_environment_clause_1": "1. Members shall prepare, at their own expense and responsibility, all communication devices, software, SNS accounts, and other equipment and usage environments necessary to use the Service, and maintain the Service in an available state. TORITORA shall not be held responsible if the Service cannot be used due to the usage environment selected by the member.",
                 "equipment_and_environment_clause_2": "2. Members shall, at their own expense and responsibility, connect to the Service's usage environment via any telecommunications service of their choosing, and use the Service accordingly.",
-
                 "confidentiality_title": "(Confidentiality)",
                 "confidentiality_clause_1": "1. In these Terms, 'Confidential Information' refers to information (including personal information), technical data, or know-how related to the Service that is provided to the Member by TORITORA through tangible means such as writing, oral communication, email, or electronic/optical media, regardless of whether it is before or after registration. This includes but is not limited to information related to services, users, markets, designs, and marketing.",
                 "confidentiality_clause_2": "2. Members shall not disclose or leak any Confidential Information to third parties without prior written consent from TORITORA. However, the following information shall be excluded from Confidential Information:\n(1) Information already possessed by the Member at the time of disclosure by TORITORA\n(2) Information that was public or otherwise generally available at the time of disclosure by TORITORA\n(3) Information that became public or generally available without the Member’s responsibility after disclosure by TORITORA\n(4) Information lawfully obtained from a third party without a confidentiality obligation after disclosure by TORITORA\n(5) Information independently developed without reference to the disclosed information\n(6) Information that TORITORA notifies the Member is excluded from being treated as Confidential Information",
@@ -628,7 +726,6 @@
                 "confidentiality_clause_4": "4. Members shall manage and use the Confidential Information strictly with the care of a good administrator.",
                 "confidentiality_clause_5": "5. Upon request from TORITORA, Members shall promptly return all Confidential Information or dispose of it in a manner that sufficiently considers the prevention of leaks, according to TORITORA's instructions.",
                 "confidentiality_clause_6": "6. Disclosure in response to legal requirements or requests from courts, police, or other public agencies is exempt from the confidentiality obligations herein. However, Members must promptly notify TORITORA of such disclosure requests.",
-
                 "personal_information_title": "(Personal Information)",
                 "personal_information_clause_1": "1. Members shall strictly manage any personal information of other members obtained through the Service and shall not disclose or leak it to third parties.",
                 "personal_information_clause_2": "2. Members shall not use personal information obtained through the Service for any purpose other than fulfilling explicitly requested tasks from the Member or other purposes specified separately by TORITORA, unless the Member has given prior consent.",
@@ -636,20 +733,16 @@
                 "personal_information_clause_4": "4. When requested by TORITORA, Members shall promptly report the acquisition and management status of personal information.",
                 "personal_information_clause_5": "5. If a Member becomes aware of or suspects any violation of this article, they shall immediately report the matter to TORITORA and follow TORITORA's instructions.",
                 "personal_information_clause_6": "6. If it is discovered that personal information managed by the Member has been leaked to others, the Member shall immediately notify TORITORA. If objections, complaints, or claims (including expenses or damages) arise from this situation, the Member shall immediately inform TORITORA and handle the matter at their own expense and responsibility, including legal fees.",
-
                 "representation_title": "(Representation)",
                 "representation_clause_1": "Members shall obtain prior approval from TORITORA for the use of TORITORA’s name or relationship in any advertising, business cards, mail, or other media, unless following a previously approved method and content of display. Members shall also follow any instructions attached to such approval.",
-
                 "prohibition_of_assignment_title": "(Prohibition of Assignment of Rights and Obligations)",
                 "prohibition_of_assignment_clause_1": "Members shall not assign, pledge, or transfer their contractual status or any rights or obligations under these Terms to any third party without prior written consent from TORITORA.",
-
                 "username_password_management_title": "(Username and Password Management)",
                 "username_password_clause_1": "1. Members shall manage and use their username and password with the care of a good administrator when using the Service.",
                 "username_password_clause_2": "2. Members shall not license, lend, transfer, sell, change the name, set a pledge, or use their username and password as collateral for any third party.",
                 "username_password_clause_3": "3. Members shall bear all responsibility for damages resulting from inadequate management, misuse, or third-party use of their username and password, except where TORITORA is at fault.",
                 "username_password_clause_4": "4. If a Member discovers loss, theft, or third-party use of their username or password, they must immediately notify TORITORA and follow its instructions.",
                 "username_password_clause_5": "5. If a Member forgets their username or password, they shall inquire via the designated contact screen, and TORITORA shall notify the Member by the means it deems appropriate.",
-
                 "death_handling_heading": "Handling Upon Death",
                 "death_clause_1": "1. If a Member dies, the Member shall lose their membership status.",
                 "death_clause_2": "2. In the case described in the preceding paragraph, at the time of the Member’s death, all information managed by the Member on our service (including, but not limited to, username and password), related rights, rights to use the service, and all other rights arising under these Terms shall be forfeited. However, if TORITORA becomes aware of the Member’s death, it may pay an amount equivalent to what the Member would have received by transferring it to the registered bank account. If TORITORA cannot transfer the funds due to lack of a registered bank account, the heir may, within 120 days of TORITORA's awareness of the death, apply for payment in accordance with these Terms. The heir must provide documentation requested by TORITORA to prove heirship at the time of the payment application.",
@@ -675,7 +768,6 @@
                 "disclaimer_4": "4. TORITORA does not warrant that SNS integration features will function or continue to function as expected. Such integrations may end upon termination of these Terms.",
                 "disclaimer_5": "5. If a Member is deemed inactive for a certain period, TORITORA may delete or alter part or all information posted by the Member.",
                 "disclaimer_6": "6. TORITORA will make its best efforts to operate the service based on the technical standards at the time, but does not guarantee that failures or issues will not occur.",
-
                 "disclaimer": {
                     "disclaimer": "Disclaimer",
                     "disclaimer_1": "Members shall make their own decision, at their own responsibility, as to whether or not to receive services from other members. TORITORA shall not be liable for any damages incurred by the member due to failure to assess risks or any violations of laws or other regulations.",
@@ -683,8 +775,7 @@
                     "disclaimer_3": "When there are links from TORITORA's website or application to other websites, or links from third parties to TORITORA's website or application, TORITORA takes no responsibility for such external websites or any information obtained from them.",
                     "disclaimer_4": "TORITORA shall not be held responsible, for any reason, for information displayed on SNS when the SNS linkage function is used in this service.",
                     "disclaimer_5": "TORITORA shall not be liable for any damages caused by system interruption, delays, stoppage, data loss, unauthorized access to data due to communication line or computer failures, or any damages incurred in connection with this service, except when such damages are attributable to TORITORA."
-                  },
-
+                },
                 "anti_social_forces": "Elimination of Anti-Social Forces",
                 "anti_social_1": "Members and service applicants affirm that they do not and will not belong to any anti-social forces such as organized crime groups, their former members within five years, quasi-members, related companies, corporate extortionists, political racketeers, violent intellectual groups, terrorists, or any persons designated by the Japanese or foreign governments as subject to economic sanctions. They also affirm that they will not engage in unjust demands, threats, violence, dissemination of rumors, fraudulent acts, or any acts that damage the company's credibility or hinder its operations.",
                 "anti_social_2": "If TORITORA suspects or determines that a user violates the above, it may, without prior notice, reject membership, cancel registration, deny access, suspend service usage, delete related content, or take other necessary actions.",
@@ -696,75 +787,65 @@
                 "anti_social_4_4": "A person recognized as providing funds or convenience to organized crime members.",
                 "anti_social_4_5": "A person recognized as having a socially condemnable relationship with organized crime members.",
                 "anti_social_4_6": "A person who uses the power, information, or financial resources of organized crime members to gain personal benefit.",
-
                 "damage_compensation_heading": "(Damage Compensation)",
                 "damage_compensation_clause_1": "1. If a member causes damage to TORITORA by violating these Terms or through the use of the Service, the member shall compensate TORITORA for such damage. This also applies when the damage is caused indirectly through third parties.",
                 "damage_compensation_clause_2": "2. If a member engages in any of the prohibited acts described in Article 6, TORITORA may claim compensation for damages from that member.",
                 "damage_compensation_clause_3": "3. If a member receives claims or becomes involved in a dispute with other users or third parties in relation to the use of the Service, the member shall immediately notify TORITORA and resolve the matter at their own cost and responsibility, and report the outcome to TORITORA.",
                 "damage_compensation_clause_4": "4. If TORITORA receives a claim for damages from a third party due to the member’s use of the Service, the member shall compensate TORITORA for the full amount TORITORA is required to pay to the third party, as well as any and all costs and damages incurred (including attorney fees, but not limited to them).",
                 "damage_compensation_clause_5": "5. If fraudulent use of a credit card by a member is discovered, TORITORA may, without the paying member's consent, pay the receiving member a compensation amount equivalent to the contract amount. This compensation amount will be deemed TORITORA's damage, and TORITORA may claim the same amount as damages from the paying member. The decision to pay such compensation is at TORITORA’s discretion and not guaranteed.",
-
                 "liability_cap_heading": "(Limitation of Liability)",
                 "liability_cap_clause": "Even if TORITORA is liable for damages to a member, the amount shall be limited to the actual direct damage incurred by the member, except in cases of willful misconduct or gross negligence by TORITORA.",
-
                 "terms_change_heading": "(Changes to the Terms)",
                 "terms_change_clause_1": "1. TORITORA may revise or change these Terms or the Service content at any time. In cases where the change is disadvantageous to members (excluding minor changes), TORITORA shall notify members or post the change on its website. The revised Terms shall take effect when posted.",
                 "terms_change_clause_2": "2. If a member continues to use the Service after such notification, or does not cancel their registration within the period set by TORITORA (30 days if unspecified), they shall be deemed to have agreed to the changes.",
                 "terms_change_clause_3": "3. Unless TORITORA is at fault, it shall not be liable for any damages incurred by a member due to cancellation of registration resulting from changes to these Terms.",
-
                 "notification_heading": "(Communication and Notifications)",
                 "notification_clause_1": "1. Inquiries or notifications from members to TORITORA, and vice versa, shall be conducted by the method specified by TORITORA.",
                 "notification_clause_2": "2. If TORITORA sends a notification to the contact address provided by the member, it shall be deemed delivered at the expected time of arrival, regardless of whether the member actually received it.",
                 "notification_clause_3": "3. TORITORA shall not be liable for any damages caused by non-delivery or delay of notifications, unless due to TORITORA’s own fault.",
                 "notification_clause_4": "4. Members shall use the inquiry form provided on TORITORA’s website for any required communication, unless otherwise specified.",
                 "notification_clause_5": "5. TORITORA may verify the identity of the member as needed, and may choose the method of response (email, mail, phone, etc.), which the member cannot specify.",
-
                 "service_transfer_heading": "(Transfer of TORITORA Service)",
                 "service_transfer_clause": "If TORITORA transfers its business to a third party, it may transfer its position as operator of the Service, its rights and obligations under these Terms, and all member information to the transferee. Members hereby agree in advance to such transfer. This includes not only typical business transfers but also company splits or any type of business succession.",
-
                 "severability_heading": "(Severability)",
                 "severability_clause": "Even if any provision or part of a provision of these Terms is determined to be invalid or unenforceable, the remaining provisions and the rest of the affected provision shall remain fully effective.",
-
                 "entire_agreement_heading": "(Entire Agreement)",
                 "entire_agreement_clause": "These Terms constitute the entire agreement between TORITORA and the member regarding the matters contained herein, and take precedence over any prior agreements or understandings, whether oral or written.",
-
                 "governing_law_jurisdiction_heading": "(Governing Law and Jurisdiction)",
                 "governing_law_jurisdiction_clause": "These Terms shall be interpreted in accordance with Japanese law, and any disputes arising from or related to these Terms shall be subject to the exclusive jurisdiction of the Tokyo District Court as the court of first instance.",
-
                 "language_heading": "(Language)",
                 "language_clause": "These Terms are written in Japanese and the Japanese version shall be the official and binding version. Any translation into other languages is for reference only and shall have no legal effect.",
-
                 "discussion_heading": "(Discussion)",
                 "discussion_clause": "If any matters are not stipulated in these Terms or if there is any doubt regarding interpretation, TORITORA and the member shall discuss in good faith and seek a prompt resolution."
             },
-            "privacyPolicyPage":{
-                "privacy":"Privacy Policy",
-                "privacyPolicyInto":"TORITORA (hereinafter referred to as 'TORITORA') considers the proper protection of personal information, which can identify individuals (including members, photographers, portrait models, and viewers of the following 'website, application, etc.' collectively referred to as 'customers'), to be a significant social responsibility. In accordance with the following Privacy Policy (hereinafter referred to as 'this Privacy Policy'), TORITORA will comply with laws and guidelines regarding personal information protection and will acquire, use, entrust, or provide personal information to third parties. In order to use the website and applications operated by TORITORA (referred to as 'TORITORA' or 'Toritora'), as well as other websites operated by the company (hereinafter collectively referred to as 'this website, etc.'), customers must read and agree to the contents of this Privacy Policy. If you do not agree, you are not permitted to access this website, etc., or use the services provided through it (hereinafter referred to as 'the services').",
-                "policy1":{
-                    "name":"1. Information to be collected",
-                    "d1":"The information collected by TORITORA to achieve the purposes set forth in '3. Purpose of Using Collected Information' includes the following (hereinafter referred to as 'collected information' for (1) and (2) combined).",
-                    "sub1":"(1) About Personal Information",
-                    "sub1d1":"Personal information refers to the information defined in Article 2, Paragraph 1 of the Act on the Protection of Personal Information (Law No. 57 of 2003, hereinafter referred to as the 'Personal Information Protection Law'), and includes the following:",
-                    "sub1d2":"Your name, date of birth, gender, and other information that can identify a specific individual.",
-                    "sub1d3":"Information related to specific personal information, including address, phone number, the name of the company or other organization you belong to, department name, login ID, nickname, email address, password, and other member-related information.",
-                    "sub1d4":"Credit card number, other credit card-related information, and bank account number.",
-                    "sub1d5":"Information related to verifying your identity.",
-                    "sub2":"(2) Other Information Related to the Customer",
-                    "sub2d1":"Our company collects information about the customer's use of this website, etc., regardless of whether it constitutes personal information.",
-                    "sub2d2":"Information related to the content, date and time of use, number of uses, etc., of this website, including URLs used by the customer, browser and mobile phone type, IP address, cookie information, and other usage-related data.",
-                    "sub2d3":"Information related to the payment status associated with the customer's usage."
+            "privacyPolicyPage": {
+                "privacy": "Privacy Policy",
+                "privacyPolicyInto": "TORITORA (hereinafter referred to as 'TORITORA') considers the proper protection of personal information, which can identify individuals (including members, photographers, portrait models, and viewers of the following 'website, application, etc.' collectively referred to as 'customers'), to be a significant social responsibility. In accordance with the following Privacy Policy (hereinafter referred to as 'this Privacy Policy'), TORITORA will comply with laws and guidelines regarding personal information protection and will acquire, use, entrust, or provide personal information to third parties. In order to use the website and applications operated by TORITORA (referred to as 'TORITORA' or 'Toritora'), as well as other websites operated by the company (hereinafter collectively referred to as 'this website, etc.'), customers must read and agree to the contents of this Privacy Policy. If you do not agree, you are not permitted to access this website, etc., or use the services provided through it (hereinafter referred to as 'the services').",
+                "policy1": {
+                    "name": "1. Information to be collected",
+                    "d1": "The information collected by TORITORA to achieve the purposes set forth in '3. Purpose of Using Collected Information' includes the following (hereinafter referred to as 'collected information' for (1) and (2) combined).",
+                    "sub1": "(1) About Personal Information",
+                    "sub1d1": "Personal information refers to the information defined in Article 2, Paragraph 1 of the Act on the Protection of Personal Information (Law No. 57 of 2003, hereinafter referred to as the 'Personal Information Protection Law'), and includes the following:",
+                    "sub1d2": "Your name, date of birth, gender, and other information that can identify a specific individual.",
+                    "sub1d3": "Information related to specific personal information, including address, phone number, the name of the company or other organization you belong to, department name, login ID, nickname, email address, password, and other member-related information.",
+                    "sub1d4": "Credit card number, other credit card-related information, and bank account number.",
+                    "sub1d5": "Information related to verifying your identity.",
+                    "sub2": "(2) Other Information Related to the Customer",
+                    "sub2d1": "Our company collects information about the customer's use of this website, etc., regardless of whether it constitutes personal information.",
+                    "sub2d2": "Information related to the content, date and time of use, number of uses, etc., of this website, including URLs used by the customer, browser and mobile phone type, IP address, cookie information, and other usage-related data.",
+                    "sub2d3": "Information related to the payment status associated with the customer's usage."
                 },
-                "policy2":{
-                    "name":"2. Collection of Collected Information",
-                    "d1":"TORITORA collects customer information from users of this website, etc., through the following methods:",
-                    "d2":"The method where customers directly input information on this website, etc.",
-                    "d3":"The method where customers provide information to TORITORA through email, postal mail, written forms, telephone, etc.",
-                    "d4":"(Our company records phone calls with customers for the purpose of quality improvement, etc.)",
-                    "d5":"The method where information is collected when customers access this website, etc."
+                "policy2": {
+                    "name": "2. Collection of Collected Information",
+                    "d1": "TORITORA collects customer information from users of this website, etc., through the following methods:",
+                    "d2": "The method where customers directly input information on this website, etc.",
+                    "d3": "The method where customers provide information to TORITORA through email, postal mail, written forms, telephone, etc.",
+                    "d4": "(Our company records phone calls with customers for the purpose of quality improvement, etc.)",
+                    "d5": "The method where information is collected when customers access this website, etc."
                 },
-                "policy3":{
-                    "name":"3. Purpose of Use of Collected Information",
-                    "description":"TORITORA uses the collected information for the purposes notified to the customer at the time of collection or for the following purposes. Except in cases described in '4. Entrustment or Provision of Collected Information to Third Parties' or where prior consent is obtained from the customer, the information will not be used for any other purpose. Customers may opt out of receiving information at the time of membership registration or afterward. However, please note that if you decline information essential to the operation of this service, you may not be able to use this website or related services.",
+                "policy3": {
+                    "name": "3. Purpose of Use of Collected Information",
+                    "description": "TORITORA uses the collected information for the purposes notified to the customer at the time of collection or for the following purposes. Except in cases described in '4. Entrustment or Provision of Collected Information to Third Parties' or where prior consent is obtained from the customer, the information will not be used for any other purpose. Customers may opt out of receiving information at the time of membership registration or afterward. However, please note that if you decline information essential to the operation of this service, you may not be able to use this website or related services.",
                     "d1": "To ensure safe and secure transactions on this website, etc., and to notify users of transaction status or important matters via email, etc.",
                     "d2": "To confirm purchases related to transactions (transactions involving the purchase of services between customers on this website, etc.; the same applies hereafter).",
                     "d3": "To handle, execute, and manage transactions conducted directly between the company and customers (hereinafter referred to as 'Direct Transactions') on this website, etc.",
@@ -786,74 +867,74 @@
                     "d19": "To request cooperation in surveys or participation in events and to report the results.",
                     "d20": "To understand the usage of transactions, services, direct transactions, and this website, etc., and deliver information or research from TORITORA and other beneficial companies or organizations."
                 },
-                "policy4":{
-                    "name":"4. Entrustment and Provision of Acquired Information to Third Parties",
-                    "description":"Except in the cases specified below, TORITORA will not entrust or provide acquired information to third parties without obtaining the customer's prior consent.",
-                    "sub1":"When TORITORA deems it necessary to provide the services on this website, etc.",
-                    "sub1d1":"Information disclosed or shared on this website, etc., will only be used for the relevant transaction and will not be disclosed to third parties without the customer's prior consent. In addition, usage history and some publicly available information (nickname, gender, self-introduction, etc.) may be published on the website for a period determined by TORITORA.",
-                    "sub2":"Entrustment and Provision to Business Contractors",
-                    "sub2d1":"To fulfill the purposes outlined in '3. Purpose of Use of Acquired Information', TORITORA may outsource all or part of its operations to trusted companies under confidentiality agreements. In such cases, under strict management, TORITORA may entrust or provide necessary information to these contractors to the minimal extent required. TORITORA will also confirm that these companies properly manage the information.",
-                    "sub3":"Entrustment and Provision to TORITORA’s Partner Companies",
-                    "sub3d1":"To provide the service, TORITORA may enter into partnerships with trusted companies under confidentiality agreements. In such cases, TORITORA may entrust or provide information under strict management and to the minimum extent necessary. TORITORA ensures that the recipients manage the information properly.",
-                    "sub4":"Inquiries to Credit Card Companies and Financial Institutions",
-                    "sub4d1":"When customers use services on this website, TORITORA may inquire with credit card companies or financial institutions for settlement purposes using the card number and customer’s name.",
-                    "sub5":"Provision to Business Transferees in the Event of a Business Transfer",
-                    "sub5d1":"TORITORA may undergo mergers or business transfers. In such cases, information may be provided to the transferee under the condition that they follow policies equivalent to this Privacy Policy.",
-                    "sub6":"Provision Based on Laws and Regulations",
-                    "sub6d1":"TORITORA may provide information when requested by courts, administrative agencies, or other public authorities, unless there are reasonable grounds for refusal.",
-                    "sub7":"Dispute Resolution with Third Parties",
-                    "sub7d1":"TORITORA may provide information when requested by courts, administrative agencies, or other public authorities, unless there are reasonable grounds for refusal.",
-                    "sub8":"Provision to Google Inc.",
-                    "sub8d1":"TORITORA may provide acquired information to Google LLC (California, USA) to deliver appropriate advertisements based on customer attributes and data. Google has measures in place that comply with all eight OECD Privacy Guidelines. For information on personal data protection systems in the U.S. (federal and California), refer to the PDFs on the Personal Information Protection Commission's website."
+                "policy4": {
+                    "name": "4. Entrustment and Provision of Acquired Information to Third Parties",
+                    "description": "Except in the cases specified below, TORITORA will not entrust or provide acquired information to third parties without obtaining the customer's prior consent.",
+                    "sub1": "When TORITORA deems it necessary to provide the services on this website, etc.",
+                    "sub1d1": "Information disclosed or shared on this website, etc., will only be used for the relevant transaction and will not be disclosed to third parties without the customer's prior consent. In addition, usage history and some publicly available information (nickname, gender, self-introduction, etc.) may be published on the website for a period determined by TORITORA.",
+                    "sub2": "Entrustment and Provision to Business Contractors",
+                    "sub2d1": "To fulfill the purposes outlined in '3. Purpose of Use of Acquired Information', TORITORA may outsource all or part of its operations to trusted companies under confidentiality agreements. In such cases, under strict management, TORITORA may entrust or provide necessary information to these contractors to the minimal extent required. TORITORA will also confirm that these companies properly manage the information.",
+                    "sub3": "Entrustment and Provision to TORITORA’s Partner Companies",
+                    "sub3d1": "To provide the service, TORITORA may enter into partnerships with trusted companies under confidentiality agreements. In such cases, TORITORA may entrust or provide information under strict management and to the minimum extent necessary. TORITORA ensures that the recipients manage the information properly.",
+                    "sub4": "Inquiries to Credit Card Companies and Financial Institutions",
+                    "sub4d1": "When customers use services on this website, TORITORA may inquire with credit card companies or financial institutions for settlement purposes using the card number and customer’s name.",
+                    "sub5": "Provision to Business Transferees in the Event of a Business Transfer",
+                    "sub5d1": "TORITORA may undergo mergers or business transfers. In such cases, information may be provided to the transferee under the condition that they follow policies equivalent to this Privacy Policy.",
+                    "sub6": "Provision Based on Laws and Regulations",
+                    "sub6d1": "TORITORA may provide information when requested by courts, administrative agencies, or other public authorities, unless there are reasonable grounds for refusal.",
+                    "sub7": "Dispute Resolution with Third Parties",
+                    "sub7d1": "TORITORA may provide information when requested by courts, administrative agencies, or other public authorities, unless there are reasonable grounds for refusal.",
+                    "sub8": "Provision to Google Inc.",
+                    "sub8d1": "TORITORA may provide acquired information to Google LLC (California, USA) to deliver appropriate advertisements based on customer attributes and data. Google has measures in place that comply with all eight OECD Privacy Guidelines. For information on personal data protection systems in the U.S. (federal and California), refer to the PDFs on the Personal Information Protection Commission's website."
                 },
-                "policy5":{
-                    "name":"5. Use of Cookies",
-                    "description":"This website may send, store, and use text files called 'cookies' on your computer’s storage. Cookies are used to enhance user convenience, such as automatically entering required login information or displaying content in fields of interest. You can set your browser to issue a warning before receiving cookies and choose to refuse them, but doing so may prevent you from using certain functions of this website or services. Additionally, this website uses Google Analytics to improve the website or application, and your information may be used for that purpose. Google Analytics uses cookies to collect your information. For more information on Google Analytics’ Terms of Service and Privacy Policy, please refer to the following links.",
-                    "link1d":"How Google uses data from sites or apps that use our services",
-                    "link1":"https://policies.google.com/technologies/partner-sites",
-                    "link2d":"Google Analytics Opt-out Browser Add-on",
-                    "link2":"https://tools.google.com/dlpage/gaoptout?hl=jp",
-                    "link3d":"About Google Analytics Advertising Features",
-                    "link3":"https://support.google.com/analytics/answer/3450482?hl=ja"
+                "policy5": {
+                    "name": "5. Use of Cookies",
+                    "description": "This website may send, store, and use text files called 'cookies' on your computer’s storage. Cookies are used to enhance user convenience, such as automatically entering required login information or displaying content in fields of interest. You can set your browser to issue a warning before receiving cookies and choose to refuse them, but doing so may prevent you from using certain functions of this website or services. Additionally, this website uses Google Analytics to improve the website or application, and your information may be used for that purpose. Google Analytics uses cookies to collect your information. For more information on Google Analytics’ Terms of Service and Privacy Policy, please refer to the following links.",
+                    "link1d": "How Google uses data from sites or apps that use our services",
+                    "link1": "https://policies.google.com/technologies/partner-sites",
+                    "link2d": "Google Analytics Opt-out Browser Add-on",
+                    "link2": "https://tools.google.com/dlpage/gaoptout?hl=jp",
+                    "link3d": "About Google Analytics Advertising Features",
+                    "link3": "https://support.google.com/analytics/answer/3450482?hl=ja"
                 },
-                "policy6":{
-                    "name":"6. Correction of Acquired Information by TORITORA",
-                    "description":"If there are changes in registered information such as municipality names, postal codes, financial institution names, or credit card expiration dates that may hinder billing procedures, TORITORA may modify the registered information accordingly."
+                "policy6": {
+                    "name": "6. Correction of Acquired Information by TORITORA",
+                    "description": "If there are changes in registered information such as municipality names, postal codes, financial institution names, or credit card expiration dates that may hinder billing procedures, TORITORA may modify the registered information accordingly."
                 },
-                "policy7":{
-                    "name":"7. Management and Security of Acquired Information",
-                    "description":"TORITORA securely stores the acquired information on servers protected by firewalls, in environments inaccessible to general users. Appropriate and necessary security measures are taken to prevent unauthorized access, loss, destruction, alteration, or leakage, and to ensure the safe management of personal data. TORITORA may outsource the handling of personal information to companies that are deemed trustworthy and have signed confidentiality agreements. In such cases, the acquired information will continue to be protected under this privacy policy."
+                "policy7": {
+                    "name": "7. Management and Security of Acquired Information",
+                    "description": "TORITORA securely stores the acquired information on servers protected by firewalls, in environments inaccessible to general users. Appropriate and necessary security measures are taken to prevent unauthorized access, loss, destruction, alteration, or leakage, and to ensure the safe management of personal data. TORITORA may outsource the handling of personal information to companies that are deemed trustworthy and have signed confidentiality agreements. In such cases, the acquired information will continue to be protected under this privacy policy."
                 },
-                "policy8":{
-                    "name":"8. Disclaimer and Notes",
-                    "description":"TORITORA is not responsible for the protection of your personal information on websites operated by other businesses or individuals linked from this website. Please carefully review the content of such websites before browsing or using them.",
-                    "d1":"To protect your personal information from unauthorized access, TORITORA uses SSL (Secure Socket Layer), an industry-standard encryption method, for data transmission when deemed necessary. If you register, apply, or order on this website using a browser that does not support SSL, or provide information via email or postal mail, there is a higher risk that third parties outside of TORITORA’s control may view or steal your information. Please use these methods understanding these risks.",
-                    "d2":"In the unlikely event that damages occur to you or third parties due to unauthorized actions such as hacking despite TORITORA’s security measures, TORITORA cannot be held responsible. Please strictly manage any information used to verify your identity to prevent loss, forgetting, or unauthorized disclosure to third parties."
+                "policy8": {
+                    "name": "8. Disclaimer and Notes",
+                    "description": "TORITORA is not responsible for the protection of your personal information on websites operated by other businesses or individuals linked from this website. Please carefully review the content of such websites before browsing or using them.",
+                    "d1": "To protect your personal information from unauthorized access, TORITORA uses SSL (Secure Socket Layer), an industry-standard encryption method, for data transmission when deemed necessary. If you register, apply, or order on this website using a browser that does not support SSL, or provide information via email or postal mail, there is a higher risk that third parties outside of TORITORA’s control may view or steal your information. Please use these methods understanding these risks.",
+                    "d2": "In the unlikely event that damages occur to you or third parties due to unauthorized actions such as hacking despite TORITORA’s security measures, TORITORA cannot be held responsible. Please strictly manage any information used to verify your identity to prevent loss, forgetting, or unauthorized disclosure to third parties."
                 },
-                "policy9":{
-                    "name":"9. Access from Outside Japan",
-                    "description":"Access to this website from countries or regions where the use, management, operation, or posted content of this website is illegal or inappropriate is prohibited."
+                "policy9": {
+                    "name": "9. Access from Outside Japan",
+                    "description": "Access to this website from countries or regions where the use, management, operation, or posted content of this website is illegal or inappropriate is prohibited."
                 },
-                "policy10":{
-                    "name":"10.Improvements to and Confirmation of the Latest Privacy Policy",
-                    "description":"TORITORA strives to improve this privacy policy as necessary. The latest version of the privacy policy can be viewed on TORITORA’s website. Please be sure to review the latest privacy policy before accessing this website or using TORITORA’s services. By accessing this website or using TORITORA’s services, you are deemed to have agreed to the latest privacy policy."
+                "policy10": {
+                    "name": "10.Improvements to and Confirmation of the Latest Privacy Policy",
+                    "description": "TORITORA strives to improve this privacy policy as necessary. The latest version of the privacy policy can be viewed on TORITORA’s website. Please be sure to review the latest privacy policy before accessing this website or using TORITORA’s services. By accessing this website or using TORITORA’s services, you are deemed to have agreed to the latest privacy policy."
                 },
-                "policy11":{
-                    "name":"11. Procedures for Disclosure, Correction, and Suspension of Use of Acquired Information",
-                    "description":"When requested by the customer for correction, addition, deletion, or confirmation of third-party provision records of acquired information for reasons stipulated by laws and regulations, TORITORA will promptly investigate within the scope necessary to achieve the purpose of use, except when special procedures are stipulated by other laws. Based on the results, TORITORA will take legally required measures such as correction, addition, or deletion of the acquired information and notify the customer accordingly."
+                "policy11": {
+                    "name": "11. Procedures for Disclosure, Correction, and Suspension of Use of Acquired Information",
+                    "description": "When requested by the customer for correction, addition, deletion, or confirmation of third-party provision records of acquired information for reasons stipulated by laws and regulations, TORITORA will promptly investigate within the scope necessary to achieve the purpose of use, except when special procedures are stipulated by other laws. Based on the results, TORITORA will take legally required measures such as correction, addition, or deletion of the acquired information and notify the customer accordingly."
                 },
-                "policy12":{
-                    "name":"12. Contact Information",
-                    "description":"For inquiries regarding this privacy policy, please contact info@toritora.co.jp."
+                "policy12": {
+                    "name": "12. Contact Information",
+                    "description": "For inquiries regarding this privacy policy, please contact info@toritora.co.jp."
                 }
             },
-            "shootingSettingsPage":{
-                "shootingSettings":"Shooting Settings",
-                "comingSoon":"Coming Soon"
+            "shootingSettingsPage": {
+                "shootingSettings": "Shooting Settings",
+                "comingSoon": "Coming Soon"
             },
-            "notificationSettingsPage":{
-                "notificationSettings":"Notification Settings",
-                "comingSoon":"Coming Soon"
+            "notificationSettingsPage": {
+                "notificationSettings": "Notification Settings",
+                "comingSoon": "Coming Soon"
             }
         },
         "shooting": {
@@ -861,112 +942,143 @@
             "requestList": {},
             "kikaku": {}
         },
-        "helpPage":{
-            "help":"Help / How to use Toritora",
-            "help1":"What is 'Toritai / Toraretai?'",
-            "help1_description":"'Toritai / Toraretai' is a feature that allows you to express your desire to either take photos or be photographed in advance. You can only send it once to the same user, so please think carefully and send a thoughtful message.",
-            "help2":"Contact",
-            "help2_description":"Please note that it may take several days for us to respond to your inquiry."
+        "helpPage": {
+            "help": "Help / How to use Toritora",
+            "help1": "What is 'Toritai / Toraretai?'",
+            "help1_description": "'Toritai / Toraretai' is a feature that allows you to express your desire to either take photos or be photographed in advance. You can only send it once to the same user, so please think carefully and send a thoughtful message.",
+            "help2": "Contact",
+            "help2_description": "Please note that it may take several days for us to respond to your inquiry."
         },
-        "shootingRequestListPage":{
-            "shootingRequestList":"Shooting request list",
-            "requestSent":"Request sent",
-            "requestRecieved":"Request Received",
-            "showDetails":"Show details",
-            "hideDetails":"Hide Details",
-            "accepted":"Accepted",
-            "rejected":"Rejected",
-            "cancelled":"Cancelled",
-            "normalOccasion":"Normal Occasion",
-            "rainyOccasion":"Rainy Occasion",
-            "shootingPlace":"Shooting Place",
-            "shootingLocation":"Shooting Location",
-            "meetingPoint":"Meeting Point",
-            "shootingConcept":"Shooting Concept",
-            "clothingType":"Clothing Type",
-            "shoesType":"Shoes Type",
-            "itemsType":"Items Type",
-            "makeupType":"Makeup Type",
-            "noReceivedRequests":"No received requests.",
-            "noSentRequests":"No sent requests.",
-            "success":"Success",
-            "error":"Error",
-            "serverInternalError":"Server Internal Error",
-            "errorFetchingRequests":"Error fetching booking requests"
+        "shootingRequestListPage": {
+            "shootingRequestList": "Shooting request list",
+            "requestSent": "Request sent",
+            "requestRecieved": "Request Received",
+            "showDetails": "Show details",
+            "hideDetails": "Hide Details",
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "cancelled": "Cancelled",
+            "normalOccasion": "Normal Occasion",
+            "rainyOccasion": "Rainy Occasion",
+            "shootingPlace": "Shooting Place",
+            "shootingLocation": "Shooting Location",
+            "meetingPoint": "Meeting Point",
+            "shootingConcept": "Shooting Concept",
+            "clothingType": "Clothing Type",
+            "shoesType": "Shoes Type",
+            "itemsType": "Items Type",
+            "makeupType": "Makeup Type",
+            "noReceivedRequests": "No received requests.",
+            "noSentRequests": "No sent requests.",
+            "success": "Success",
+            "error": "Error",
+            "serverInternalError": "Server Internal Error",
+            "errorFetchingRequests": "Error fetching booking requests"
         },
-        "toritaiToraretaiPage":{
-            "toritaiToraretai":"Toritai Toraretai",
-            "toritai":"Toritai",
-            "toraretai":"Toraretai",
-            "gaveThanks":"gave you TORITAI",
-            "thanks":"Thanks",
-            "youSentToraretai":"You sent TORARETAI",
-            "error":"Error",
-            "serverInternalError":"Server Internal Error",
-            "unauthorizedRequest":"Unauthorized Request"
+        "toritaiToraretaiPage": {
+            "toritaiToraretai": "Toritai Toraretai",
+            "toritai": "Toritai",
+            "toraretai": "Toraretai",
+            "gaveThanks": "gave you TORITAI",
+            "thanks": "Thanks",
+            "youSentToraretai": "You sent TORARETAI",
+            "error": "Error",
+            "serverInternalError": "Server Internal Error",
+            "unauthorizedRequest": "Unauthorized Request"
         },
-        "myFavouritesPage":{
-            "favourites":"Favourites",
-            "loadMore":"Load more",
-            "showing":"Showing",
-            "error":"Error",
-            "serverInternalError":"Server Internal Error",
-            "unauthorizedRequest":"Unauthorized Request"
+        "myFavouritesPage": {
+            "favourites": "Favourites",
+            "loadMore": "Load more",
+            "showing": "Showing",
+            "error": "Error",
+            "serverInternalError": "Server Internal Error",
+            "unauthorizedRequest": "Unauthorized Request"
         },
-        "toritoraCollegePage":{
-
+        "shootingRequestListPage1": {
+            "shootingRequestList": "Shooting request list",
+            "requestSent": "Request sent",
+            "requestRecieved": "Request Received",
+            "showDetails": "Show details",
+            "hideDetails": "Hide Details",
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "cancelled": "Cancelled",
+            "normalOccasion": "Normal Occasion",
+            "rainyOccasion": "Rainy Occasion",
+            "shootingPlace": "Shooting Place",
+            "shootingLocation": "Shooting Location",
+            "meetingPoint": "Meeting Point",
+            "shootingConcept": "Shooting Concept",
+            "clothingType": "Clothing Type",
+            "shoesType": "Shoes Type",
+            "itemsType": "Items Type",
+            "makeupType": "Makeup Type",
+            "noReceivedRequests": "No received requests.",
+            "noSentRequests": "No sent requests."
         },
-        "manageKikakuPage":{
-
+        "toritaiToraretaiPage1": {
+            "toritaiToraretai": "Toritai Toraretai",
+            "toritai": "Toritai",
+            "toraretai": "Toraretai",
+            "gaveThanks": "gave you TORITAI",
+            "thanks": "Thanks",
+            "youSentToraretai": "You sent TORARETAI"
         },
-        "financePage":{
-            "finance":"Finance",
-            "availableFunds":"Available funds",
-            "myWallet":"My Wallet",
-            "statistics":"Statistics",
-            "sendRequest":"Send Request",
-            "recent":"Recent",
-            "viewAll":"View All",
-            "amountTransfered":"Amount Transfered",
-            "transferMoneyToBank":"Transfer money to bank",
-            "walletPage":{
-                "myWallet":"My Wallet",
-                "availableFunds":"Available funds",
-                "transfered":"Transfered",
-                "total":"Total",
-                "history":"History",
-                "viewAll":"View All",
-                "amountTransfered":"Amount Transfered",
-                "transferMoneyToBank":"Transfer money to bank"
+        "myFavouritesPage1": {
+            "favourites": "Favourites",
+            "loadMore": "Load more",
+            "showing": "Showing"
+        },
+        "toritoraCollegePage": {},
+        "manageKikakuPage": {},
+        "financePage": {
+            "finance": "Finance",
+            "availableFunds": "Available funds",
+            "myWallet": "My Wallet",
+            "statistics": "Statistics",
+            "sendRequest": "Send Request",
+            "recent": "Recent",
+            "viewAll": "View All",
+            "amountTransfered": "Amount Transfered",
+            "transferMoneyToBank": "Transfer money to bank",
+            "walletPage": {
+                "myWallet": "My Wallet",
+                "availableFunds": "Available funds",
+                "transfered": "Transfered",
+                "total": "Total",
+                "history": "History",
+                "viewAll": "View All",
+                "amountTransfered": "Amount Transfered",
+                "transferMoneyToBank": "Transfer money to bank"
             },
-            "transferHistoryPage":{
-                "transferHistory":"Transfer History",
-                "history":"History",
-                "amountTransfered":"Amount Transfered",
-                "transferMoneyToBank":"Transfer money to bank",
-                "loadMore":"Load more"
+            "transferHistoryPage": {
+                "transferHistory": "Transfer History",
+                "history": "History",
+                "amountTransfered": "Amount Transfered",
+                "transferMoneyToBank": "Transfer money to bank",
+                "loadMore": "Load more"
             },
-            "sendRequestPage":{
-                "sendRequest":"Send Request",
-                "warn":"Please read before proceeding",
-                "warn1":"One more free time is available for this month.",
-                "warn2":"You will be responsible for the transfer fee.",
-                "availableBalance":"Available Balance",
-                "transferAmount":"Transfer Amount",
-                "transferWarn":"Up to 1,000,000 yen can be transferred.",
-                "remittanceRequest":"Remittance Request",
-                "confirmSendRequest":"Do you want to send request?",
-                "cancelSendRequest":"If not, please click on &quot;NO&quot; button.",
-                "no":"NO",
-                "yes":"YES",
-                "requestSentSuccess":"Request sent successfully",
-                "requestSentMessage":"Your request was sent to Toritora Management",
-                "paymentInfo":"You will receive the payment within 14 business days."
+            "sendRequestPage": {
+                "sendRequest": "Send Request",
+                "warn": "Please read before proceeding",
+                "warn1": "One more free time is available for this month.",
+                "warn2": "You will be responsible for the transfer fee.",
+                "availableBalance": "Available Balance",
+                "transferAmount": "Transfer Amount",
+                "transferWarn": "Up to 1,000,000 yen can be transferred.",
+                "remittanceRequest": "Remittance Request",
+                "confirmSendRequest": "Do you want to send request?",
+                "cancelSendRequest": "If not, please click on &quot;NO&quot; button.",
+                "no": "NO",
+                "yes": "YES",
+                "requestSentSuccess": "Request sent successfully",
+                "requestSentMessage": "Your request was sent to Toritora Management",
+                "paymentInfo": "You will receive the payment within 14 business days."
             },
-            "statisticsPage":{
-                "statistics":"Statistics",
-                "graphicalRepresentaion":"Graphical Representation",
-                "totalEarnings":"Total Earnings"
+            "statisticsPage": {
+                "statistics": "Statistics",
+                "graphicalRepresentaion": "Graphical Representation",
+                "totalEarnings": "Total Earnings"
             }
         }
     }

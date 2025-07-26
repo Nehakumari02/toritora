@@ -181,7 +181,7 @@ function RegistrationInfo() {
       // Handle the response from the server
       if (res.status === 200) {
         toast({
-          title: "Success",
+          title: "",
           description: t("success_update"),
           variant: "success",
         });
@@ -513,6 +513,19 @@ function RegistrationInfo() {
         </div>
         {infoStep === 1 &&
           <div className='flex-1 space-y-4 w-full p-6'>
+            {/* Last Name */}
+            <label className='block text-sm'>{t("lastName")} <span className="text-red-500">*</span></label>
+            <div className="flex items-center border rounded p-2">
+              <Image src={user} alt='user' width={20} height={20} className="text-gray-500 mr-2" />
+              <input
+                type='text'
+                name='lastName'
+                placeholder={t("lastName")}
+                value={formData.lastName}
+                onChange={handleChange}
+                className='w-full outline-none text-[12px] autofill:bg-white'
+              />
+            </div>
             {/* First Name */}
             <label className='block text-sm'>{t("firstName")} <span className="text-red-500">*</span></label>
             <div className="flex items-center border rounded p-2">
@@ -527,19 +540,7 @@ function RegistrationInfo() {
               />
             </div>
 
-            {/* Last Name */}
-            <label className='block text-sm'>{t("lastName")} <span className="text-red-500">*</span></label>
-            <div className="flex items-center border rounded p-2">
-              <Image src={user} alt='user' width={20} height={20} className="text-gray-500 mr-2" />
-              <input
-                type='text'
-                name='lastName'
-                placeholder={t("lastName")}
-                value={formData.lastName}
-                onChange={handleChange}
-                className='w-full outline-none text-[12px] autofill:bg-white'
-              />
-            </div>
+
 
             {/* Date of Birth */}
             <label className='block text-sm'>{t("dateOfBirth")} <span className="text-red-500 hidden">*</span></label>
@@ -567,7 +568,7 @@ function RegistrationInfo() {
               <input
                 type='number'
                 name='age'
-                placeholder='Age'
+                placeholder={t("age")}
                 value={formData.age}
                 onChange={handleChange}
                 className='w-full outline-none text-[12px]'
@@ -575,26 +576,36 @@ function RegistrationInfo() {
             </div>
 
             {/* Gender */}
-            <label className='block text-sm'>{t("gender")} <span className="text-red-500 hidden">*</span></label>
+            <label className="block text-sm">
+              {t("gender")} <span className="text-red-500 hidden">*</span>
+            </label>
+
             <div className="flex gap-4">
-              {['Male', 'Female'].map((gender) => (
-                <label key={gender} className="text-sm flex items-center cursor-pointer">
+              {[
+                { label: t("male"), value: "male" },
+                { label: t("female"), value: "female" },
+              ].map(({ label, value }) => (
+                <label key={value} className="text-sm flex items-center cursor-pointer">
                   <input
                     type="radio"
                     name="gender"
-                    value={gender}
-                    checked={formData.gender === gender}
+                    value={value}
+                    checked={formData.gender === value}
                     onChange={handleChange}
                     className="hidden peer"
                   />
                   <div className="w-4 h-4 mr-1 rounded-full border-2 border-black-600 relative">
                     {/* Inner dot for selected state */}
-                    <div className={`w-2 h-2 bg-[#2EC4B6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formData.gender === gender ? 'block' : 'hidden'}`}></div>
+                    <div
+                      className={`w-2 h-2 bg-[#2EC4B6] rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${formData.gender === value ? "block" : "hidden"
+                        }`}
+                    ></div>
                   </div>
-                  {gender==="Male"?t("male"):t("female")}
+                  {label}
                 </label>
               ))}
             </div>
+
 
 
 
@@ -661,7 +672,7 @@ function RegistrationInfo() {
               <Image src={location} alt='location' width={20} height={20} className="h-[20px] w-[20px] text-gray-500 mr-2" />
               <Select value={formData.location} onValueChange={handleSelectChange}>
                 <SelectTrigger className="w-full h-[18px] border-none outline-none focus:ring-0 shadow-none p-0">
-                  <SelectValue placeholder="Select location" />
+                  <SelectValue placeholder={t("selectLocation")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -683,7 +694,7 @@ function RegistrationInfo() {
               <input
                 type='text'
                 name='address'
-                placeholder='Address'
+                placeholder={t("address1")}
                 value={formData.address}
                 onChange={handleChange}
                 className='w-full outline-none text-[12px]'
@@ -804,7 +815,8 @@ function RegistrationInfo() {
                 <div key={index} className="flex items-center gap-2 mb-2">
                   <input
                     type="text"
-                    placeholder={`Achievement ${index + 1}`}
+                    placeholder={`${t("pAchievement")} ${index + 1}`}
+
                     value={achievement}
                     onChange={(e) => handleChangeAch(index, e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
@@ -1009,7 +1021,7 @@ function RegistrationInfo() {
                 <div key={index} className="flex items-center gap-2 mb-2">
                   <input
                     type="text"
-                    placeholder={`Achievement ${index + 1}`}
+                    placeholder={`${t("mAchievement")} ${index + 1}`}
                     value={achievement}
                     onChange={(e) => handleChangeAch(index, e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
@@ -1261,45 +1273,45 @@ function RegistrationInfo() {
           <div className="flex-1 space-y-4 w-full p-6">
 
             {/* Question 1 */}
-            <label className="block text-sm">{t("importantThing")}</label>
+            <label className="block text-sm">{t("pquestion1")}</label>
             <textarea
               name="importantThing"
               value={feedback.importantThing}
               onChange={handleChangeFeedback}
-              placeholder={t("placeholder")}
+              placeholder={t("pplaceholder1")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 2 */}
-            <label className="block text-sm">{t("stress")}</label>
+            <label className="block text-sm">{t("pquestion2")}</label>
             <textarea
               name="stress"
               value={feedback.stress}
               onChange={handleChangeFeedback}
-              placeholder={t("placeholder")}
+              placeholder={t("pplaceholder2")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 3 */}
-            <label className="block text-sm">{t("importantThing")}</label>
+            <label className="block text-sm">{t("pquestion3")}</label>
             <textarea
               name="assistanceWithModels"
               value={feedback.assistanceWithModels}
               onChange={handleChangeFeedback}
-              placeholder={t("placeholder")}
+              placeholder={t("pplaceholder3")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
 
             {/* Question 4 */}
-            <label className="block text-sm">{t("hobbies")}</label>
+            <label className="block text-sm">{t("pquestion4")}</label>
             <textarea
               name="hobbies"
               value={feedback.hobbies}
               onChange={handleChangeFeedback}
-              placeholder={t("placeholder")}
+              placeholder={t("pplaceholder4")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>
@@ -1326,7 +1338,7 @@ function RegistrationInfo() {
               name="stress"
               value={feedback.stress}
               onChange={handleChangeFeedback}
-              placeholder="Write your answer here..."
+              placeholder={t("placeholder")}
               className="w-full p-2 border border-gray-300 rounded text-[12px] focus:border-orange-500 focus:outline-none transition"
               rows={4}
             ></textarea>

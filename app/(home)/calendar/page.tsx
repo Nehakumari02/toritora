@@ -441,13 +441,13 @@ export default function Calendar() {
                 </button>
               </div>
               <div className="grid grid-cols-7 mt-10 font-semibold text-center text-[15px] leading-[25px] text-[#111111]">
-                <div>Su</div>
-                <div>Mo</div>
-                <div>Tu</div>
-                <div>We</div>
-                <div>Th</div>
-                <div>Fr</div>
-                <div>Sat</div>
+                <div>{t("Su")}</div>
+                <div>{t("Mo")}</div>
+                <div>{t("Tu")}</div>
+                <div>{t("We")}</div>
+                <div>{t("Th")}</div>
+                <div>{t("Fr")}</div>
+                <div>{t("Sa")}</div>
               </div>
               <div className="grid grid-cols-7 mt-2 text-sm">
                 {days.map((day, dayIdx) => (
@@ -514,7 +514,7 @@ export default function Calendar() {
             <div className=''>
               <section className="mt-6 md:mt-0 md:pl-4">
                 <h2 className="font-semibold text-gray-900 pl-4">
-                  Schedule for{' '}
+                  {t("scheduleFor")}{' '}
                   <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
                     {format(selectedDay, 'MMM dd, yyy')}
                   </time>
@@ -578,7 +578,7 @@ export default function Calendar() {
                 {showEndTimePicker && <WheelPicker setDate={setEndTime} isEndTime={true} time={endTime} />}
                 <div className='pt-8 max-w-[800px] mx-auto w-full'>
                   {isEditPopUp ?
-                    <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_lot")}</button>
+                    <button onClick={() => handleUpdateSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("update_slot")}</button>
                     :
                     <button onClick={() => handleAddSlot()} className='w-[90%] mx-auto h-[54px] text-[16px] leading-[24px] font-bold text-center bg-[#FF9F1C] flex items-center justify-center text-white rounded-md'>{slotSaveLoading ? <Loader2 className='animate-spin' /> : t("add_to_calendar")}</button>
                   }

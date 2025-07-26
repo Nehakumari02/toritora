@@ -18,9 +18,6 @@ import { useToast } from '@/hooks/use-toast'
 import TileSkeleton from '@/components/common/tileSkeleton'
 import { formatDate } from 'date-fns'
 
-
-
-
 const modelCarouselList = [
   {
     name: "Minami",
@@ -482,7 +479,7 @@ function Home() {
           className='bg-[#EEF2F5] h-[42px] w-full pl-[8px] md:pl-[20px] pr-[40px] text-[14px] md:text-[16px] leading-[20px] rounded-md outline-none text-gray-400 text-left'
           onClick={() => handleGoToLink("/search")}
         >
-          {t("favouriteText")} {profession !== "modelling" ? "Photographers" : "Models"}
+          {t("favouriteText")}
         </button>
         <div className='absolute top-[50%] translate-y-[-50%] right-4 md:right-[34px]'>
           {searchIcon}
@@ -535,7 +532,7 @@ function Home() {
         {selectedMode === 0 &&
           <div className='max-w-[800px] mx-auto px-[8px] md:px-[24px] space-y-2 pt-[24px]'>
             <div className='flex items-center justify-between'>
-              <span className='text-[16px] font-medium leading-[24px]'>{t("new")} {profession === "modelling" ? "Photographers" : profession === "photographer" ? "Models" : "Users"}</span>
+              <span className='text-[16px] font-medium leading-[24px]'>{t("new")} {profession === "modelling" ? t("photographer") : profession === "photographer" ? t("model") : t("user")}</span>
               <button onClick={() => handleGoToLink("/new-users")} className='text-[13px] leading-[20px] text-right text-[#999999]'>{t("viewAll")}</button>
             </div>
 
@@ -544,7 +541,7 @@ function Home() {
                 <UserTile key={index} user={item} />
               ))}
               {
-                !loading && !modelsNew.length && <span className='text-sm font-semibold text-[#999999]'>{t("noNew")} {profession === "modelling" ? "Photographers" : profession === "photographer" ? "Models" : "Users"}</span>
+                !loading && !modelsNew.length && <span className='text-sm font-semibold text-[#999999]'>{profession === "modelling" ? t("photographer") : profession === "photographer" ? t("model") : t("user")} {t("noNew")} </span>
               }
             </div>
 

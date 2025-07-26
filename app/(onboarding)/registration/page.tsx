@@ -237,7 +237,7 @@ function Register() {
           router.push('/registerProfile');
           toast({
             title: t("signupSuccess"),
-            description: t("registerSucess"),
+            description: t("signupSuccess"),
             variant: 'success',
           });
         }
@@ -275,7 +275,7 @@ function Register() {
     <div className='h-[100dvh] flex flex-col'>
       <header className='w-full h-[72px] flex-shrink-0 z-10 sticky top-0 bg-white flex items-center justify-center shadow-lg'>
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className='text-[16px] leading-[24px] text-center font-semibold'>{verificationCodeSent ? "Verification" : "Register"}</span>
+        <span className='text-[16px] leading-[24px] text-center font-semibold'>{verificationCodeSent ? t("verification") : t("register1")}</span>
       </header>
 
       {!verificationCodeSent &&
@@ -362,7 +362,7 @@ function Register() {
           </div>
 
           <div className='py-4 w-full flex-col flex items-center justify-center'>
-            <button onClick={handleVerifyCode} className='w-[80%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingValidateCode ? <Loader2 className='animate-spin' /> : "Verify Code"}</button>
+            <button onClick={handleVerifyCode} className='w-[80%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{loadingValidateCode ? <Loader2 className='animate-spin' /> : t("verifyCode")}</button>
           </div>
 
           <div className='flex flex-row items-center justify-between'>

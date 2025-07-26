@@ -304,14 +304,14 @@ function UserDetails() {
     <div className='no-scrollbar flex flex-col h-full'>
       <header className="sticky top-0 z-10 w-full h-[72px] flex items-center justify-center bg-white shadow-lg">
         <button onClick={handleGoBack} className='absolute top-[50%] translate-y-[-50%] left-4'>{backIcon}</button>
-        <span className="text-[16px] leading-[24px] text-center font-semibold">{profession === "modelling" ? "Model Details" : "Photographer Details"}</span>
+        <span className="text-[16px] leading-[24px] text-center font-semibold">{profession === "modelling" ? t("modelDetails") : "Photographer Details"}</span>
         <button onClick={() => { setIsOptionMenuOpen(!isOptionMenuOpen) }} className='absolute top-[50%] translate-y-[-50%] right-4'>{threeDotsIcon}</button>
       </header>
 
       <div className='bg-primary-foreground my-4'>
         <div className='max-w-[800px] mx-auto min-h-[52px] py-2 w-full flex flex-wrap items-center justify-center gap-[8px] transition-all duration-300'>
-          <button onClick={() => setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Profile</button>
-          <button onClick={() => setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>Calendar</button>
+          <button onClick={() => setSelectedMode(0)} className={`${selectedMode === 0 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{t("profile")}</button>
+          <button onClick={() => setSelectedMode(1)} className={`${selectedMode === 1 ? "bg-primary text-white rounded-md" : ""} h-[40px] min-w-32 text-center font-semibold text-[14px] leading-[21px] w-[40%] transition-all duration-300`}>{t("calendar")}</button>
         </div>
       </div>
 
@@ -336,7 +336,7 @@ function UserDetails() {
 
               <div className='md:w-[50%] md:h-[380px] md:p-4 p-2 flex items-center justify-between'>
                 <div className={`${loading ? "animate-pulse" : ""} bg-primary px-6 py-2 rounded-full`}>
-                  {loading ? <div className='h-6 w-20'></div> : <span className='h-6 w-20 flex items-center justify-center gap-2 font-medium text-[14px] leading-[25px] text-white'>{badgeIcon} Visitor</span>}
+                  {loading ? <div className='h-6 w-20'></div> : <span className='h-6 w-20 flex items-center justify-center gap-2 font-medium text-[14px] leading-[25px] text-white'>{badgeIcon} {t("visitor")}</span>}
                 </div>
                 <div className='flex flex-col items-end justify-center md:space-y-2'>
                   {loading ? <>
@@ -485,7 +485,7 @@ function UserDetails() {
             {/* Gallery */}
             <div className='mt-8 mb-4'>
               <div className='max-w-[800px] mx-auto'>
-                <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>Gallery</span>
+                <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>{t("gallery")}</span>
               </div>
             </div>
             <div>
@@ -511,7 +511,7 @@ function UserDetails() {
 
               <div className='md:w-[50%] md:h-[380px] p-4 flex items-center justify-between'>
                 <div className={`${loading ? "animate-pulse" : ""} bg-primary px-6 py-2 rounded-full`}>
-                  {loading ? <div className='h-6 w-20'></div> : <span className='h-6 w-20 flex items-center justify-center gap-2 font-medium text-[14px] leading-[25px] text-white'>{badgeIcon} Visitor</span>}
+                  {loading ? <div className='h-6 w-20'></div> : <span className='h-6 w-20 flex items-center justify-center gap-2 font-medium text-[14px] leading-[25px] text-white'>{badgeIcon} {t("visitor")}</span>}
                 </div>
                 <div className='flex flex-col items-end justify-center space-y-2'>
                   {loading ? <>
@@ -672,7 +672,7 @@ function UserDetails() {
             {/* Gallery */}
             <div className='mt-8 mb-4'>
               <div className='max-w-[800px] mx-auto'>
-                <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>Gallery</span>
+                <span className='text-[14px] leading-[20px] font-semibold text-[#111111]'>{t("gallery")}</span>
               </div>
             </div>
             <div>
@@ -812,8 +812,8 @@ function UserDetails() {
 
       <div className='flex items-center justify-center gap-6 md:max-w-[800px] w-full md:mx-auto py-4 px-2 shadow-[0_4px_20px_rgba(0,0,0,0.15)] '>
         {/* Change disabled to isToritaiSent to handle toritai set value of disabled = isToritaiSent */}
-        <button onClick={() => handleGoToLink(`/userDetails/toritai?fullName=${user?.firstName + " " + user?.lastName}&profileImage=${user?.profilePicture}&userId=${userIdRef.current}`)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center border bg-white flex items-center justify-center text-secondary rounded-md'>Toritai</button>
-        <button onClick={() => setSelectedMode(1)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>Book Now</button>
+        <button onClick={() => handleGoToLink(`/userDetails/toritai?fullName=${user?.firstName + " " + user?.lastName}&profileImage=${user?.profilePicture}&userId=${userIdRef.current}`)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center border bg-white flex items-center justify-center text-secondary rounded-md'>{t("toritai")}</button>
+        <button onClick={() => setSelectedMode(1)} className='w-[50%] h-[54px] text-[16px] leading-[24px] font-bold text-center bg-secondary flex items-center justify-center text-white rounded-md'>{t("bookNow")}</button>
       </div>
 
       <Drawer open={isOptionMenuOpen} onOpenChange={setIsOptionMenuOpen}>

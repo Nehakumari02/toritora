@@ -33,16 +33,16 @@ function Feedback() {
     try {
       if (!feedbackText.trim()) {
         toast({
-          title: "Feedback Required",
-          description: "Please write something before submitting.",
+          title: t("error1"),
+          description: t("edesc1"),
           variant: "destructive"
         });
         return;
       }
       if (!rating) {
         toast({
-          title: "Rating Required",
-          description: "Please select an emoji rating before submitting.",
+          title: t("ratingRequired"),
+          description: t("edesc4"),
           variant: "destructive",
         });
         return;
@@ -61,28 +61,28 @@ function Feedback() {
 
       if (res.status === 201) {
         toast({
-          title: "Success",
-          description: data.message || "Feedback has been sent successfully.",
+          title: t("success"),
+          description: t("successMessage"),
           variant: "success"
         });
         setFeedbackSent(true); // ✅ ONLY here
       } else if (res.status === 401) {
         toast({
-          title: "Error",
+          title: t("error2"),
           description: `${data.message}: ${data?.error}`,
           variant: "destructive"
         });
       } else {
         toast({
-          title: "Error",
-          description: data.message || "Server internal error, please try again later.",
+          title: t("error2"),
+          description: ("serverError"),
           variant: "destructive"
         });
       }
     } catch (error: any) {
       toast({
-        title: "Unexpected Error",
-        description: error.message || "An unexpected error occurred.",
+        title: t("error23"),
+        description: t("edesc3"),
         variant: "destructive"
       });
     }

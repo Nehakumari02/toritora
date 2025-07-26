@@ -5,6 +5,14 @@
         "shooting": "Shooting",
         "mypage": "My page"
     },
+    "Notification": {
+        "notification": "Notification",
+        "comingSoon": "Coming Soon"
+    },
+    "Chat": {
+        "chat": "Chat",
+        "comingSoon": "Coming Soon"
+    },
     "HomePage": {
         "toritora": "Toritora",
         "kikaku": "Kikaku / Satueikai",
@@ -496,7 +504,11 @@
             "gallery": "Gallery",
             "noPhotos": "No Photos to show",
             "bookNow": "Book Now",
-            "toritai": "Toritai"
+            "toritai": "Toritai",
+            "modelDetails": "Model Details",
+            "profile": "Profile",
+            "calendar": "Calendar",
+            "visitor": "Visitor"
         },
         "profile": {
             "profile": "My Profile",
@@ -530,6 +542,13 @@
             "giveFeedback": "Give Feedback",
             "logout": "Logout",
             "feedback": {
+                "success": "Success",
+                "error1": "Feedback Required",
+                "edesc1": "Please write something before submitting.",
+                "error2": "error",
+                "edesc2": "Something went wrong.",
+                "error3": "Unexpected Error",
+                "edesc3": "An unexpected error occurred.",
                 "giveFeedback": "Give Feedback",
                 "successMessage": "Your feedback is sent successfully.",
                 "thankYouMessage": "Thank you for giving time for Toritora.",
@@ -537,7 +556,10 @@
                 "rateExperience": "Please rate your experience",
                 "additionalComments": "Additional Comments",
                 "feedbackPlaceholder": "Enter characters up to 0 to 100 words",
-                "send": "SEND"
+                "send": "SEND",
+                "ratingRequired": "Rating Required",
+                "edesc4": "Please select an emoji rating before submitting.",
+                "serverError": "Server internal error, please try again later."
             },
             "aboutToritoraPage": {
                 "aboutUs": "About Us",
